@@ -1,0 +1,16 @@
+<view class="list-box">
+  <view wx:for="{{list}}" class="list-item">
+    <!-- 封面 -->
+    <image class="list-item-cover" src="{{ item.url || 'http://img1.imgtn.bdimg.com/it/u=1483917017,752494682&fm=26&gp=0.jpg'}}"></image>
+    <!-- 歌单名 + 歌曲数量 -->
+    <view class="list-item-content">
+      <view class="list-item-content__name">{{item.name}}</view>
+      <view class="list-item-content__count">
+        {{item.counts}}
+        <text class="list-item-content__author" wx:if="{{type}}">by     Ertsul</text>
+      </view>
+    </view>
+    <!-- 引导点击箭头 -->
+    <view class="list-item-arrow">></view>
+  </view>
+</view>

@@ -1,0 +1,41 @@
+<!-- #EBF6F7 -->
+<view class="home-page">
+  <!-- 顶部 -->
+  <view class="header">
+    <view class="header__user-info">
+      <view class="header__avatar">
+        <image wx:if="{{userInfo.avatarUrl}}" src="{{userInfo.avatarUrl}}"></image>
+      </view>
+      <view class="header__nickname">{{userInfo.nickName}}</view>
+    </view>
+    <view class="header__bottom">
+      <view class="header__bottom-item header__like">
+        喜欢
+      </view>
+      <view class="header__bottom-item header__collection">
+        最近
+      </view>
+    </view>
+  </view>
+  <!-- 底部 -->
+  <view class="footer">
+    <view class="footer__tab">
+      <view class="footer__tab-item footer__self-build-list {{currentActiveTab == 0 ? 'footer__tab-item-active' : ''}}"
+        data-index="0" bindtap="changeTab">自建歌单</view>
+      <view class="footer__tab-item footer__collect-list {{currentActiveTab == 1 ? 'footer__tab-item-active' : ''}}"
+        data-index="1" bindtap="changeTab">收藏歌单</view>
+    </view>
+  </view>
+  <!-- tab0 自建歌单 -->
+  <view class="tab-content-container" wx:if="{{currentActiveTab == 0}}">
+    <list list="{{selfBuildList}}" type="{{currentActiveTab}}"></list>
+  </view>
+  <!-- tab1 收藏歌单 -->
+  <view class="tab-content-container" wx:if="{{currentActiveTab == 1}}">
+    <list list="{{collectList}}" type="{{currentActiveTab}}"></list>
+  </view>
+  <!-- 底部播放控制器 -->
+  <view class="player-controller-wrapper">
+    <play-controller-bar></play-controller-bar>
+  </view>
+</view>

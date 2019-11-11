@@ -1,0 +1,36 @@
+<view class="share-mask" wx:if="{{hidden}}" catchtap="hideShareMask">
+  <!-- 底部分享选项 -->
+  <view class="share-mask-content" catchtap="catchtapHandler">
+    <view class="share-mask-content__header">分享</view>
+    <view class="share-mask-content__bottom">
+      <view class="share-mask-content__item" data-sharetype="1" catchtap="shareHandler">
+        <view class="share-mask-content__img">
+          <image src="http://img1.imgtn.bdimg.com/it/u=4162117326,2141295593&fm=26&gp=0.jpg" />
+        </view>
+        <view class="share-mask-content__txt">微信好友</view>
+      </view>
+      <view class="share-mask-content__item" data-sharetype="2" catchtap="shareHandler">
+        <view class="share-mask-content__img">
+          <image src="http://img1.imgtn.bdimg.com/it/u=4162117326,2141295593&fm=26&gp=0.jpg" />
+        </view>
+        <view class="share-mask-content__txt">朋友圈</view>
+      </view>
+    </view>
+  </view>
+  <!-- 分享朋友圈弹框 -->
+  <view class="friend-circle-wrapper" catchtap="catchtapHandler" wx:if="{{ifShowShareCircle}}">
+    <view class="friend-circle-card">
+      <image class="friend-circle-cover" src="http://img1.imgtn.bdimg.com/it/u=4162117326,2141295593&fm=26&gp=0.jpg" />
+      <view class="friend-circle-song text-oneline">说好不哭（with 五月天）</view>
+      <view class="friend-circle-singer text-oneline">周杰伦</view>
+      <!-- 小程序码 -->
+      <image class="friend-circle-code" src="http://img1.imgtn.bdimg.com/it/u=1483917017,752494682&fm=26&gp=0.jpg" />
+      <view class="minapp-logo">
+        <image src="http://img1.imgtn.bdimg.com/it/u=1483917017,752494682&fm=26&gp=0.jpg" />
+        <view>光音MUSIC</view>
+      </view>
+      <!-- 关闭 -->
+      <view class="close-icon" catchtap="closeCircleShare">+</view>
+    </view>
+  </view>
+</view>

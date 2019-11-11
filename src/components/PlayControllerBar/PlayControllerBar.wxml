@@ -1,0 +1,15 @@
+<view class="play-controller-box">
+  <!-- 封面 -->
+  <image class="play-controller-cover" src="http://img1.imgtn.bdimg.com/it/u=1483917017,752494682&fm=26&gp=0.jpg">
+  </image>
+  <!-- 歌曲名 + 歌手名称 -->
+  <view class="play-controller-content">
+    <view class="play-controller-content__song">歌曲名</view>
+    <view class="play-controller-content__singer">歌手名</view>
+  </view>
+  <!-- 播放控制图标 + 显示列表图标按钮 -->
+  <view class="play-controller-btns">
+    <view>btn1</view>
+    <view>btn2</view>
+  </view>
+</view>

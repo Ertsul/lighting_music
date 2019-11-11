@@ -1,0 +1,36 @@
+{
+  "pages": [
+    "pages/recommend/recommend",
+    "pages/index/index",
+    "pages/rank/rank",
+    "pages/player/player"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "WeChat",
+    "navigationBarTextStyle": "black",
+    "navigationStyle": "custom"
+  },
+  "tabBar": {
+    "custom": false,
+    "color": "#CECECE",
+    "selectedColor": "#A9C6DE",
+    "backgroundColor": "#FFFFFF",
+    "list": [
+      {
+        "pagePath": "pages/recommend/recommend",
+        "text": "推荐"
+      },
+      {
+        "pagePath": "pages/rank/rank",
+        "text": "排行"
+      },
+      {
+        "pagePath": "pages/index/index",
+        "text": "我的"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json"
+}

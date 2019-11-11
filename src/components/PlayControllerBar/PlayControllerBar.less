@@ -1,0 +1,54 @@
+.play-controller-box {
+  width: 750rpx;
+  height: 96rpx;
+  box-sizing: border-box;
+  box-shadow: 0 0 1rpx rgba(0, 0, 0, .1);
+  background-color: #fff;
+  padding: 6rpx 30rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.play-controller-cover {
+  width: 78rpx;
+  height: 78rpx;
+  border-radius: 100%;
+  box-shadow: 0 0 2rpx rgba(0, 0, 0, .5);
+}
+
+.play-controller-content {
+  width: 450rpx;
+  height: 78rpx;
+  box-sizing: border-box;
+  padding-left: 20rpx;
+  padding-top: 8rpx;
+
+  view {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  &__song {
+    font-size: 26rpx;
+  }
+
+  &__singer {
+    font-size: 22rpx;
+    color: silver;
+  }
+}
+
+.play-controller-btns {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 160rpx;
+  height: 78rpx;
+
+  view {
+    width: 60rpx;
+    height: 60rpx;
+  }
+}

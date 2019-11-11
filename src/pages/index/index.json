@@ -1,0 +1,11 @@
+{
+  "navigationBarBackgroundColor": "#ffffff",
+  "navigationBarTextStyle": "black",
+  "navigationBarTitleText": "光音MUSIC",
+  "backgroundColor": "#eeeeee",
+  "backgroundTextStyle": "light",
+  "usingComponents": {
+    "list": "../../components/List/List",
+    "play-controller-bar": "../../components/PlayControllerBar/PlayControllerBar"
+  }
+}

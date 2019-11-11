@@ -1,0 +1,93 @@
+.home-page {
+  width: 750rpx;
+  height: 100vh;
+}
+
+.header {
+  width: 750rpx;
+  height: 490rpx;
+  background-color: #EBF6F7;
+
+  &__user-info {
+    width: 100%;
+    height: 340rpx;
+    border-bottom: 1rpx solid #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__avatar {
+    margin-top: 120rpx;
+    width: 122rpx;
+    height: 122rpx;
+    background-color: #A9C6DE;
+    border-radius: 100%;
+
+    image {
+      width: 100%;
+      height: 100%;
+      border-radius: 100%;
+    }
+  }
+
+  &__bottom {
+    width: 100%;
+    height: 150rpx;
+    display: flex;
+
+    &-item {
+      width: 50%;
+      height: 100%;
+      font-size: 32rpx;
+      color: #A9C6DE;
+      line-height: 100rpx;
+      text-align: center;
+    }
+  }
+}
+
+.footer {
+  width: 750rpx;
+  background-color: #fff;
+  margin-top: -40rpx;
+  border-top-right-radius: 44rpx;
+  border-top-left-radius: 44rpx;
+  overflow: hidden;
+
+  &__tab {
+    width: 100%;
+    height: 114rpx;
+    display: flex;
+    border-bottom: 1rpx solid rgba(121, 121, 121, .1);
+
+    &-item {
+      width: 50%;
+      height: 100%;
+      font-size: 32rpx;
+      color: #000;
+      line-height: 114rpx;
+      text-align: center;
+      position: relative;
+
+      &-active::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 0;
+        width: 80rpx;
+        height: 8rpx;
+        background-color: #A9C6DE;
+        border-radius: 4rpx;
+      }
+    }
+  }
+}
+
+.player-controller-wrapper {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+}

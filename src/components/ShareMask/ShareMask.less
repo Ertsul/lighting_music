@@ -1,0 +1,171 @@
+.share-mask {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 9;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, .4);
+}
+
+.share-mask-content {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 10;
+  width: 750rpx;
+  height: 362rpx;
+  background-color: #fff;
+  border-top-left-radius: 30rpx;
+  border-top-right-radius: 30rpx;
+  overflow: hidden;
+
+  &__header {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100rpx;
+    border-bottom: 1rpx solid rgba(0, 0, 0, .1);
+    box-sizing: border-box;
+    padding-left: 30rpx;
+    line-height: 100rpx;
+    font-size: 32rpx;
+  }
+
+  &__bottom {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 261rpx;
+    box-sizing: border-box;
+    padding-left: 30rpx;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  &__item {
+    box-sizing: border-box;
+    margin-right: 66rpx;
+    padding-bottom: 20rpx;
+    text-align: center;
+    font-size: 24rpx;
+
+    image {
+      width: 70rpx;
+      height: 70rpx;
+      border-radius: 100%;
+      margin-top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+
+  &__img {
+    width: 110rpx;
+    height: 110rpx;
+    border-radius: 100%;
+    background-color: #ECECEC;
+    box-sizing: border-box;
+    margin-bottom: 16rpx;
+  }
+}
+
+.friend-circle {
+  &-wrapper {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 11;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, .6);
+    box-sizing: border-box;
+    padding-top: 104rpx;
+  }
+
+  &-card {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    width: 638rpx;
+    height: 978rpx;
+    background-color: #A9C8DD;
+    z-index: 12;
+    box-sizing: border-box;
+    padding: 40rpx;
+
+    &:after {
+      content: '图片已保存到相册，去朋友圈分享吧。';
+      position: absolute;
+      left: 60%;
+      bottom: -50rpx;
+      transform: translateX(-50%);
+      width: 576rpx;
+      font-size: 28rpx;
+      color: white;
+    }
+  }
+
+  &-cover {
+    width: 558rpx;
+    height: 558rpx;
+  }
+
+  &-song {
+    margin-top: 27rpx;
+    font-size: 52rpx;
+    color: white;
+  }
+
+  &-singer {
+    margin-top: 14rpx;
+    color: white;
+  }
+
+  &-code {
+    position: absolute;
+    right: 40rpx;
+    bottom: 40rpx;
+    width: 144rpx;
+    height: 144rpx;
+    border-radius: 100%;
+  }
+
+}
+
+.close-icon {
+  position: absolute;
+  left: 45%;
+  bottom: -150rpx;
+  font-size: 80rpx;
+  transform: rotateZ(45deg);
+  color: white;
+}
+
+.minapp-logo {
+  position: absolute;
+  left: 40rpx;
+  bottom: 40rpx;
+  display: flex;
+  align-items: center;
+
+  image {
+    width: 48rpx;
+    height: 48rpx;
+    border-radius: 100%;
+  }
+
+  view {
+    color: white;
+    margin-left: 16rpx;
+  }
+}
+
+.text-oneline {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

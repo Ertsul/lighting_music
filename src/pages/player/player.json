@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "share-mask": "../../components/ShareMask/ShareMask"
+  }
+}

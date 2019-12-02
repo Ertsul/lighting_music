@@ -4,6 +4,7 @@
   "navigationBarTitleText": "光音MUSIC",
   "backgroundColor": "#eeeeee",
   "backgroundTextStyle": "light",
+  "enablePullDownRefresh": false,
   "usingComponents": {
     "list": "../../components/List/List",
     "play-controller-bar": "../../components/PlayControllerBar/PlayControllerBar"

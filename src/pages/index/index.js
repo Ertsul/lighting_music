@@ -4,8 +4,8 @@ Page({
   data: {
     txt: 'txt',
     userInfo: {
-      avatarUrl: "https://avatars0.githubusercontent.com/u/17139306?s=460&v=4",
-      nickName: "Ertsul"
+      avatarUrl: "http://134.175.150.88:4001/images/2.jpg",
+      nickName: "Ynnus"
       // avatarUrl: "",
       // nickName: "",
     },
@@ -74,9 +74,28 @@ Page({
         counts: 9999
       },
     ],
+    i: 0,
+    imgsArr: [
+      'http://img0.imgtn.bdimg.com/it/u=1563847232,2166245740&fm=26&gp=0.jpg',
+      'http://img4.imgtn.bdimg.com/it/u=2958967064,2714608608&fm=26&gp=0.jpg',
+      'http://img4.imgtn.bdimg.com/it/u=4013814910,1099586848&fm=26&gp=0.jpg',
+      'http://img5.imgtn.bdimg.com/it/u=441837680,1650038187&fm=26&gp=0.jpg'
+    ]
   },
   onLoad() {
     console.log("index onLoad");
+    // setInterval(() => {
+    //   let index = this.data.i;
+    //   if (index == this.data.imgsArr.length) {
+    //     index = 0;
+    //   }
+    //   const currentImg = this.data.imgsArr[index];
+    //   const img = 'userInfo.avatarUrl';
+    //   this.setData({
+    //     [img]: currentImg,
+    //     i: ++index
+    //   })
+    // }, 1500)
   },
   async onShow() {
     try {
@@ -84,6 +103,14 @@ Page({
       const b = 2;
       const c = 10;
       const d = 200;
+      // let imgsArr = [
+      //   'http://img0.imgtn.bdimg.com/it/u=1563847232,2166245740&fm=26&gp=0.jpg',
+      //   'http://img4.imgtn.bdimg.com/it/u=2958967064,2714608608&fm=26&gp=0.jpg',
+      //   'http://img4.imgtn.bdimg.com/it/u=4013814910,1099586848&fm=26&gp=0.jpg',
+      //   'http://img5.imgtn.bdimg.com/it/u=441837680,1650038187&fm=26&gp=0.jpg'
+      // ];
+      // let i = 0;
+      
     } catch (error) {
 
     }

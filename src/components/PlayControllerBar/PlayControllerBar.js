@@ -11,7 +11,8 @@ Component({
   },
   data: {
     // 这里是一些组件内部数据
-    someData: {}
+    someData: {},
+    isPlay: true // 歌曲是否正在播放标志
   },
   methods: {
     /**
@@ -20,6 +21,14 @@ Component({
      */
     observerHander(newVal) {
       console.log("newVal", newVal);
+    },
+    /**
+     * 切换音乐播放状态
+     */
+    changePlayStatus() {
+      this.setData({
+        isPlay: !this.data.isPlay
+      })
     }
   }
 })

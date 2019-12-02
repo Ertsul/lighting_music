@@ -2,6 +2,7 @@
 <view class="home-page">
   <!-- 顶部 -->
   <view class="header">
+    <view class="header__bg" style="background: url({{userInfo.avatarUrl}}) no-repeat center;"></view>
     <view class="header__user-info">
       <view class="header__avatar">
         <image wx:if="{{userInfo.avatarUrl}}" src="{{userInfo.avatarUrl}}"></image>
@@ -10,10 +11,12 @@
     </view>
     <view class="header__bottom">
       <view class="header__bottom-item header__like">
-        喜欢
+        <image class="header__bottom-item-icon" src="http://134.175.150.88:4001/icons/my_page/like.png" />
+        <text>喜欢</text>
       </view>
       <view class="header__bottom-item header__collection">
-        最近
+        <image class="header__bottom-item-icon" src="http://134.175.150.88:4001/icons/my_page/recently_play.png" />
+        <text>最近</text>
       </view>
     </view>
   </view>

@@ -4,7 +4,7 @@ Page({
   data: {
     txt: 'txt',
     userInfo: {
-      avatarUrl: "http://img1.imgtn.bdimg.com/it/u=4162117326,2141295593&fm=26&gp=0.jpg",
+      avatarUrl: "https://avatars0.githubusercontent.com/u/17139306?s=460&v=4",
       nickName: "Ertsul"
       // avatarUrl: "",
       // nickName: "",

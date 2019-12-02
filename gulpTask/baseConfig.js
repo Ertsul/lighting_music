@@ -37,6 +37,10 @@ module.exports = {
   lessImportPath: [
     `${srcPath}/common/less/*.less`
   ],
+  staticPath: [
+    `${srcPath}/static/**/*.jpg`,
+    `${srcPath}/static/**/*.png`
+  ],
   iconPath: [
     `${srcPath}/static/icons/*.jpg`,
     `${srcPath}/static/icons/*.png`

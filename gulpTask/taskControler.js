@@ -172,7 +172,7 @@ class TaskControler {
     task("minify:image", async done => {
       // console.log(":::: minify:image");
 
-      src(baseConfig.imagePath, {
+      src(baseConfig.staticPath, {
           base: "src"
         })
         .pipe(imagemin([imagemin.optipng(), imagemin.gifsicle(), imagemin.jpegtran()]))

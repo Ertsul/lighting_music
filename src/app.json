@@ -19,14 +19,20 @@
     "backgroundColor": "#FFFFFF",
     "list": [
       {
+        "iconPath": "static/icons/music01.png",
+        "selectedIconPath": "static/icons/music02.png",
         "pagePath": "pages/recommend/recommend",
         "text": "推荐"
       },
       {
+        "iconPath": "static/icons/rank01.png",
+        "selectedIconPath": "static/icons/rank02.png",
         "pagePath": "pages/rank/rank",
         "text": "排行"
       },
       {
+        "iconPath": "static/icons/my01.png",
+        "selectedIconPath": "static/icons/my02.png",
         "pagePath": "pages/index/index",
         "text": "我的"
       }

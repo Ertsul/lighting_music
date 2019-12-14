@@ -3,7 +3,8 @@
     "pages/recommend/recommend",
     "pages/index/index",
     "pages/rank/rank",
-    "pages/player/player"
+    "pages/player/player",
+    "pages/recentPlay/recentPlay"
   ],
   "window": {
     "backgroundTextStyle": "light",

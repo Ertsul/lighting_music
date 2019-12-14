@@ -4,75 +4,15 @@ Page({
   data: {
     txt: 'txt',
     userInfo: {
-      avatarUrl: "http://134.175.150.88:4001/images/2.jpg",
-      nickName: "Ynnus"
+      // avatarUrl: "http://134.175.150.88:4001/images/2.jpg",
+      // nickName: "Ynnus"
       // avatarUrl: "",
       // nickName: "",
     },
     currentActiveTab: 0,
     selfBuildList: [ // 自建歌单
-      {
-        name: "自建歌单名",
-        url: "",
-        counts: 1010
-      },
-      {
-        name: "自建歌单名",
-        url: "",
-        counts: 1010
-      },
-      {
-        name: "自建歌单名",
-        url: "",
-        counts: 1010
-      },
-      {
-        name: "自建歌单名",
-        url: "",
-        counts: 1010
-      },
-      {
-        name: "自建歌单名",
-        url: "",
-        counts: 1010
-      },
-      {
-        name: "自建歌单名",
-        url: "",
-        counts: 1010
-      },
     ],
     collectList: [ // 收藏歌单
-      {
-        name: "收藏歌单名",
-        url: "",
-        counts: 9999
-      },
-      {
-        name: "收藏歌单名",
-        url: "",
-        counts: 9999
-      },
-      {
-        name: "收藏歌单名",
-        url: "",
-        counts: 9999
-      },
-      {
-        name: "收藏歌单名",
-        url: "",
-        counts: 9999
-      },
-      {
-        name: "收藏歌单名",
-        url: "",
-        counts: 9999
-      },
-      {
-        name: "收藏歌单名",
-        url: "",
-        counts: 9999
-      },
     ],
     i: 0,
     imgsArr: [

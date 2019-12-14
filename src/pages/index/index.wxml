@@ -2,12 +2,21 @@
 <view class="home-page">
   <!-- 顶部 -->
   <view class="header">
-    <view class="header__bg" style="background: url({{userInfo.avatarUrl}}) no-repeat center;"></view>
-    <view class="header__user-info">
-      <view class="header__avatar">
-        <image wx:if="{{userInfo.avatarUrl}}" src="{{userInfo.avatarUrl}}"></image>
+    <view wx:if="{{userInfo.avatarUrl}}">
+      <view class="header__bg" style="background: url({{userInfo.avatarUrl}}) no-repeat center;"></view>
+      <view class="header__user-info">
+        <view class="header__avatar">
+          <image wx:if="{{userInfo.avatarUrl}}" src="{{userInfo.avatarUrl}}"></image>
+        </view>
+        <view class="header__nickname">{{userInfo.nickName}}</view>
       </view>
-      <view class="header__nickname">{{userInfo.nickName}}</view>
+    </view>
+    <view wx:else>
+      <view class="header__bg" style="background-color: #EBF6F7;"></view>
+      <view class="header__user-info authorize">
+        <button class="authorize-btn">登录网易云账号</button>
+        <!-- <view class=" authorize-txt">授权登录网易云账号</view> -->
+      </view>
     </view>
     <view class="header__bottom">
       <view class="header__bottom-item header__like">
@@ -23,10 +32,12 @@
   <!-- 底部 -->
   <view class="footer">
     <view class="footer__tab">
-      <view class="footer__tab-item footer__self-build-list {{currentActiveTab == 0 ? 'footer__tab-item-active' : ''}}"
-        data-index="0" bindtap="changeTab">自建歌单</view>
-      <view class="footer__tab-item footer__collect-list {{currentActiveTab == 1 ? 'footer__tab-item-active' : ''}}"
-        data-index="1" bindtap="changeTab">收藏歌单</view>
+      <view class="footer__tab-item footer__self-build-list {{currentActiveTab == 0 ? 'footer__tab-item-active' : ''}}" data-index="0" bindtap="changeTab">
+        自建歌单
+      </view>
+      <view class="footer__tab-item footer__collect-list {{currentActiveTab == 1 ? 'footer__tab-item-active' : ''}}" data-index="1" bindtap="changeTab">
+        收藏歌单
+      </view>
     </view>
   </view>
   <!-- tab0 自建歌单 -->

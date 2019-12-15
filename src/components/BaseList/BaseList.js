@@ -69,6 +69,22 @@ Component({
       this.setData({
         lists
       })
+    },
+    /**
+     * 清空
+     */
+    clearAll() {
+      wx.showModal({
+        title: '',
+        content: '清空所有最近播放歌曲？',
+        success(res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
     }
   },
 })

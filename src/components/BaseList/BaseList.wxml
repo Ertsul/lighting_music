@@ -9,8 +9,8 @@
   </view>
   <!-- 列表 -->
   <view class="body">
-    <view class="list-item" wx:for="{{10}}" wx:key="index">
-      <SlideView buttons="{{slideButtons}}" icon="{{true}}" bindbuttontap="slideButtonTap">
+    <view class="list-item" wx:for="{{lists}}" wx:key="index">
+      <SlideView buttons="{{slideButtons}}" icon="{{true}}" show="{{item.showRight}}" data-index="{{index}}" bindshow="scrollShowHandle" bindbuttontap="slideButtonTap">
         <view class="list-item__info d-flex">
           <view class="list-item__info-left d-flex">
             <view class="list-item__info-singer">知足</view>

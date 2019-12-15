@@ -9,6 +9,22 @@ Component({
     count: { // 列表数量
       type: Number,
       value: 0
+    },
+    lists: { // 列表
+      type: Array,
+      value: [{
+        showRight: false
+      }, {
+        showRight: false
+      }, {
+        showRight: false
+      }, {
+        showRight: false
+      }, {
+        showRight: false
+      }, {
+        showRight: false
+      }]
     }
   },
   data: {
@@ -30,54 +46,29 @@ Component({
     }],
   },
   lifetimes: {
-    attached: function() {
+    attached: function () {
       console.log("slideButtons", this.data.slideButtons);
-      
-      // this.setData({
-      //   slideButtons: [{
-      //     text: '普通',
-      //     src: 'http://134.175.150.88:4001/icons/recent_play/multi_select.png', // icon的路径
-      //   }, {
-      //     text: '普通',
-      //     extClass: 'test',
-      //     src: 'http://134.175.150.88:4001/icons/recent_play/multi_select.png', // icon的路径
-      //   }, {
-      //     type: 'warn',
-      //     text: '警示',
-      //     extClass: 'test',
-      //     src: 'http://134.175.150.88:4001/icons/recent_play/multi_select.png', // icon的路径
-      //   }],
-      // });
       // 在组件实例进入页面节点树时执行
     },
-    detached: function() {
+    detached: function () {
       // 在组件实例被从页面节点树移除时执行
     },
   },
   methods: {
-    scrollHandle() {
-      const scrollTarget = this.data.scrollTarget === 'scroll-item-1' ? 'scroll-item-2' : 'scroll-item-1';
-      this.setData({
-        scrollTarget
+    /**
+     * 只打开当前右滑块，关闭其他右滑块
+     * @param {*} e 
+     */
+    scrollShowHandle(e) {
+      const { index: currentIndex } = e.currentTarget.dataset;
+      let lists = this.data.lists;
+      lists = lists.map((item, index) => {
+        item.showRight = currentIndex === index;
+        return item;
       })
-    },
-    changeHandle(e) {
-      console.log("changeHandle", e.detail);
-
-    },
-    transitionHandle(e) {
-      console.log("transitionHandle", e.detail);
-      const {
-        dx, dy
-      } = e.detail;
-      if (dy == 0 && dx == 100) {
-        this.setData({
-          nextMargin: "100rpx"
-        })
-      }
-      if (dx > 100) {
-        return
-      }
+      this.setData({
+        lists
+      })
     }
   },
 })

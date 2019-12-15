@@ -13,24 +13,41 @@ Component({
     lists: { // 列表
       type: Array,
       value: [{
-        showRight: false
+        name: "知足",
+        singer: "五月天",
+        showRight: false,
+        ckecked: false
       }, {
-        showRight: false
+        name: "突然好想你",
+        singer: "五月天",
+        showRight: false,
+        ckecked: false
       }, {
-        showRight: false
+        name: "后青春的诗",
+        singer: "五月天",
+        showRight: false,
+        ckecked: false
       }, {
-        showRight: false
+        name: "伤心的人不听慢歌",
+        singer: "五月天",
+        showRight: false,
+        ckecked: false
       }, {
-        showRight: false
+        name: "知足1",
+        singer: "五月天",
+        showRight: false,
+        ckecked: false
       }, {
-        showRight: false
-      }]
+        name: "知足2",
+        singer: "五月天",
+        showRight: false,
+        ckecked: false
+      }],
     }
   },
   data: {
-    scrollX: true,
-    scrollTarget: 'scroll-item-1',
-    nextMargin: '0px',
+    ifSelectedAll: false, // 是否全选
+    showCheckbox: false, // 是否显示 checkbox
     slideButtons: [{
       text: '下一首播放',
       src: 'http://134.175.150.88:4001/icons/recent_play/next.png', // icon的路径
@@ -71,7 +88,20 @@ Component({
       })
     },
     /**
-     * 清空
+     * 隐藏所有的右滑快
+     */
+    hideAllRightSlide() {
+      let lists = this.data.lists;
+      lists = lists.map((item, index) => {
+        item.showRight = false;
+        return item;
+      })
+      this.setData({
+        lists
+      })
+    },
+    /**
+     * 清空列表
      */
     clearAll() {
       wx.showModal({
@@ -85,6 +115,43 @@ Component({
           }
         }
       })
+    },
+    /**
+     * 显示 checkbox
+     */
+    toggleCheckboxs() {
+      let vmData = {};
+      if (this.data.showCheckbox) { // 关闭时候，取消所有的选择
+        let { lists, ifSelectedAll } = this.data;
+        lists = lists.map((item, index) => {
+          item.checked = false;
+          return item;
+        })
+        vmData = {
+          lists,
+          ifSelectedAll: false
+        }
+      }
+      vmData.showCheckbox = !this.data.showCheckbox;
+      this.setData(vmData)
+    },
+    /**
+     * 全选
+     */
+    selectAll(e) {
+      console.log("e", e);
+      let { lists, ifSelectedAll } = this.data;
+      lists = lists.map((item, index) => {
+        item.checked = !ifSelectedAll;
+        return item;
+      })
+      this.setData({
+        lists,
+        ifSelectedAll: !ifSelectedAll
+      })
+    },
+    checkboxChange(e) {
+      console.log("checkboxChange", e);
     }
   },
 })

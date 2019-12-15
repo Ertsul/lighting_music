@@ -2,6 +2,7 @@
   "navigationBarTitleText": "最近播放",
   "navigationStyle": "default",
   "usingComponents": {
-    "BaseList": "../../components/BaseList/BaseList"
+    "BaseList": "../../components/BaseList/BaseList",
+    "PlayControllerBar": "../../components/PlayControllerBar/PlayControllerBar"
   }
 }

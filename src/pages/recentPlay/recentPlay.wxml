@@ -1,3 +1,9 @@
 <view class="recent-play-page">
-  <BaseList></BaseList>
+  <view class="top">
+    <BaseList></BaseList>
+  </view>
+  <!-- 底部播放控制组件 -->
+  <view class="footer">
+    <PlayControllerBar></PlayControllerBar>
+  </view>
 </view>

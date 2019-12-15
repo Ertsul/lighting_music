@@ -1,4 +1,5 @@
 <view class="base-list">
+  <!-- 顶部播放 -->
   <view class="header d-flex">
     <image class="header__play-icon" src="http://134.175.150.88:4001/icons/my_page/play.png" />
     <view class="header__counts">播放全部</view>
@@ -6,6 +7,7 @@
     <view class="header__clear">清空</view>
     <image class="header__select-icon" src="http://134.175.150.88:4001/icons/recent_play/multi_select.png"></image>
   </view>
+  <!-- 列表 -->
   <view class="body">
     <view class="list-item" wx:for="{{10}}" wx:key="index">
       <SlideView buttons="{{slideButtons}}" icon="{{true}}" bindbuttontap="slideButtonTap">

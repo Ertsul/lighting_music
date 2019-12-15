@@ -13,6 +13,7 @@ module.exports = {
   ],
   otherPath: [
     srcPath,
+    `${srcPath}/**/**/*`,
     `!${srcPath}/**/**/*.less`,
     `!${srcPath}/**/**/*.wxml`,
     `!${srcPath}/**/**/*.json`,

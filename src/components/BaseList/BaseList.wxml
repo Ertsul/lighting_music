@@ -1,0 +1,22 @@
+<view class="base-list">
+  <view class="header d-flex">
+    <image class="header__play-icon" src="http://134.175.150.88:4001/icons/my_page/play.png" />
+    <view class="header__counts">播放全部</view>
+    <view class="header__counts-txt">(共{{count}}首)</view>
+    <view class="header__clear">清空</view>
+    <image class="header__select-icon" src="http://134.175.150.88:4001/icons/recent_play/multi_select.png"></image>
+  </view>
+  <view class="body">
+    <view class="list-item" wx:for="{{10}}" wx:key="index">
+      <SlideView buttons="{{slideButtons}}" icon="{{true}}" bindbuttontap="slideButtonTap">
+        <view class="list-item__info d-flex">
+          <view class="list-item__info-left d-flex">
+            <view class="list-item__info-singer">知足</view>
+            <view class="list-item__info-song">五月天</view>
+          </view>
+          <image class="list-item__info-right" src="http://134.175.150.88:4001/icons/recent_play/more_read.png"></image>
+        </view>
+      </SlideView>
+    </view>
+  </view>
+</view>

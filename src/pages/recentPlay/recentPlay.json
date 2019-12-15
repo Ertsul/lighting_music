@@ -1,4 +1,7 @@
 {
   "navigationBarTitleText": "最近播放",
-  "navigationStyle": "default"
+  "navigationStyle": "default",
+  "usingComponents": {
+    "BaseList": "../../components/BaseList/BaseList"
+  }
 }

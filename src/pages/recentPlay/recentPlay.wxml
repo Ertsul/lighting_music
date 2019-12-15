@@ -1,1 +1,3 @@
-<view class="recent-play-page">123</view>
+<view class="recent-play-page">
+  <BaseList></BaseList>
+</view>

@@ -1,12 +1,12 @@
 <view class="base-list">
   <!-- 顶部播放 -->
   <view class="header d-flex" bindtap="hideAllRightSlide">
-    <image class="header__play-icon" src="http://134.175.150.88:4001/icons/my_page/play.png" />
+    <image class="header__play-icon" src="../../static/icons/my_page/play.png" />
     <view class="header__counts">播放全部</view>
     <view class="header__counts-txt">(共{{lists.length}}首)</view>
     <block wx:if="{{!showCheckbox}}">
       <view class="header__right-txt" bindtap="clearAll">清空</view>
-      <image class="header__select-icon m-left-17" src="http://134.175.150.88:4001/icons/recent_play/multi_select.png" bindtap="toggleCheckboxs"></image>
+      <image class="header__select-icon m-left-17" src="../../static/icons/recent_play/multi_select.png" bindtap="toggleCheckboxs"></image>
     </block>
     <block wx:else>
       <view class="header__right-txt" bindtap="toggleCheckboxs">关闭</view>
@@ -23,7 +23,7 @@
             <view class="list-item__info-singer">{{item.name}}</view>
             <view class="list-item__info-song">{{item.singer}}</view>
           </view>
-          <image class="list-item__info-right" wx:if="{{!showCheckbox}}" src="http://134.175.150.88:4001/icons/recent_play/more_read.png"></image>
+          <image class="list-item__info-right" wx:if="{{!showCheckbox}}" src="../../static/icons/recent_play/more_read.png"></image>
           <checkbox value="{{item.name}}" wx:if="{{showCheckbox}}" checked="{{item.checked}}" />
         </view>
       </SlideView>

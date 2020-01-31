@@ -50,16 +50,16 @@ Component({
     showCheckbox: false, // 是否显示 checkbox
     slideButtons: [{
       text: '下一首播放',
-      src: 'http://134.175.150.88:4001/icons/recent_play/next.png', // icon的路径
+      src: '../../static/icons/recent_play/next.png', // icon的路径
     }, {
       text: '普通',
       extClass: 'test',
-      src: 'http://134.175.150.88:4001/icons/recent_play/like.png', // icon的路径
+      src: '../../static/icons/recent_play/like.png', // icon的路径
     }, {
       type: 'warn',
       text: '警示',
       extClass: 'test',
-      src: 'http://134.175.150.88:4001/icons/recent_play/delete.png', // icon的路径
+      src: '../../static/icons/recent_play/delete.png', // icon的路径
     }],
   },
   lifetimes: {

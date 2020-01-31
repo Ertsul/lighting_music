@@ -8,9 +8,9 @@
   </view>
   <!-- 播放控制图标 + 显示列表图标按钮 -->
   <view class="play-controller-btns">
-    <image wx:if="{{isPlay}}" bindtap="changePlayStatus" src="http://134.175.150.88:4001/icons/my_page/play.png" />
-    <image wx:else bindtap="changePlayStatus" src="http://134.175.150.88:4001/icons/my_page/pause.png" />
+    <image wx:if="{{isPlay}}" bindtap="changePlayStatus" src="../../static/icons/my_page/play.png" />
+    <image wx:else bindtap="changePlayStatus" src="../../static/icons/my_page/pause.png" />
     <!-- 播放列表图标按钮 -->
-    <image src="http://134.175.150.88:4001/icons/my_page/music_list.png" />
+    <image src="../../static/icons/my_page/music_list.png" />
   </view>
 </view>

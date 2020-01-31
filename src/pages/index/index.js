@@ -4,7 +4,7 @@ Page({
   data: {
     txt: 'txt',
     userInfo: {
-      // avatarUrl: "http://134.175.150.88:4001/images/2.jpg",
+      // avatarUrl: "../../static/images/2.jpg",
       // nickName: "Ynnus"
       // avatarUrl: "",
       // nickName: "",

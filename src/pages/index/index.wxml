@@ -20,11 +20,11 @@
     </view>
     <view class="header__bottom">
       <view class="header__bottom-item header__like">
-        <image class="header__bottom-item-icon" src="http://134.175.150.88:4001/icons/my_page/like.png" />
+        <image class="header__bottom-item-icon" src="../../static/icons/my_page/like.png" />
         <text>喜欢</text>
       </view>
       <view class="header__bottom-item header__collection">
-        <image class="header__bottom-item-icon" src="http://134.175.150.88:4001/icons/my_page/recently_play.png" />
+        <image class="header__bottom-item-icon" src="../../static/icons/my_page/recently_play.png" />
         <text>最近</text>
       </view>
     </view>

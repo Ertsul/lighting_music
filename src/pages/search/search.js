@@ -34,10 +34,11 @@ Page({
    */
   cacheSearch(songName) {
     let searchHistory = this.data.searchHistory;
-    if (searchHistory.length === 10) {
+    if (searchHistory.length === 10) { // 最多缓存 10 个搜索记录
       searchHistory.shift();
     }
     searchHistory.push(songName);
+    searchHistory = [...new Set(searchHistory)]; // 去重
     this.setData({
       searchHistory
     })

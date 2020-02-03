@@ -2,9 +2,9 @@
   <view class="search-wrap">
     <image class="icon search-wrap__search-icon" src="../../static/icons/search/search.png" />
     <view class="search-wrap__input-wrap">
-      <input class="search-wrap__input" placeholder="搜索" bindconfirm="confirmHandler" />
+      <input class="search-wrap__input" placeholder="搜索" value="{{searchValue}}" bindblur="blurHandler" bindconfirm="confirmHandler" />
     </view>
-    <view class="search-wrap__clear">✕</view>
+    <view class="search-wrap__clear" bindtap="clearInputValue">✕</view>
   </view>
   <view class="history-record" wx:if="{{searchHistory.length}}">
     <view class="title-wrap">

@@ -1,5 +1,8 @@
+const util = require('../../common/js/util');
+
 Page({
   data: {
+    searchValue: '',
     searchHistory: [],
     hotSearchList: [],
   },
@@ -28,6 +31,16 @@ Page({
       this.searchSong(value); // 调用搜索接口
     }
   },
+  blurHandler(e) {
+    const {
+      value = ''
+    } = e.detail;
+    if (value) {
+      this.setData({
+        searchValue:value
+      })
+    }
+  },
   /**
    * 缓存搜索历史
    * @param {*} songName 
@@ -52,6 +65,16 @@ Page({
     this.setData({
       searchHistory: []
     })
+  },
+  /**
+   * 清除搜索输入 
+   */
+  clearInputValue() {
+    if (this.data.searchValue) {
+      this.setData({
+        searchValue: ""
+      })
+    }
   },
   /**
    * 搜索歌曲

@@ -1,5 +1,5 @@
 <view class="recommend-page">
-  <view class="search-box">
+  <view class="search-box" bindtap="jumpSearchPage">
     <image class="icon" src="../../static/icons/search/search.png" />
     <text>搜索</text>
   </view>
@@ -28,7 +28,7 @@
       <view class="header-operate header-operate-btn">换一批</view>
     </view>
     <view class="recommend-songs__body list d-flex">
-      <view class="recommend-songs__list-item" wx:for="{{recommendSongs}}" wx:key="index">
+      <view class="recommend-songs__list-item" wx:for="{{recommendSongs}}" wx:key="index" bindtap="jumpSongSheetPage">
         <view class="recommend-songs__item-header">
           <image class="recommend-songs__img" src="{{item.img}}" />
           <view class="recommend-songs__counts">

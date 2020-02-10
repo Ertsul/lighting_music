@@ -67,5 +67,21 @@ Page({
         name: '歌单名歌单名歌单名歌单名歌单名歌单名歌单名'
       }
     ]
+  },
+  /**
+   * 跳转搜索页面
+   */
+  jumpSearchPage() {
+    wx.navigateTo({
+      url: '/pages/search/search'
+    });
+  },
+  /**
+   * 跳转推荐歌单详情页面
+   */
+  jumpSongSheetPage() {
+    wx.navigateTo({
+      url: '/pages/songSheet/songSheet'
+    });
   }
 })

@@ -68,5 +68,21 @@ Page({
     } catch (error) {
 
     }
+  },
+  /**
+   * 跳转搜索页面
+   */
+  jumpSearchPage() {
+    wx.navigateTo({
+      url: '/pages/search/search'
+    });
+  },
+  /**
+   * 跳转排行榜详情
+   */
+  jumpRankDetailPage() {
+    wx.navigateTo({
+      url: '/pages/rankDetail/rankDetail'
+    });
   }
 })

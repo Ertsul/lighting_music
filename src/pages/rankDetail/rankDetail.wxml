@@ -1,7 +1,7 @@
 <view class="rank-detail">
   <view class="rank-detail__header">
     <view class="rank-detail__nav d-flex">
-      <image class="icon" src="../../static/icons/play_list/back03.png" />
+      <image class="icon" src="../../static/icons/play_list/back03.png" bindtap="navigateBack" />
     </view>
     <image class="rank-detail__cover" src="http://img0.imgtn.bdimg.com/it/u=1563847232,2166245740&fm=26&gp=0.jpg" />
     <view class="rank-detail__title">榜单名称</view>

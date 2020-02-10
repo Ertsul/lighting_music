@@ -1,7 +1,7 @@
 <view class="song-sheet">
   <view class="song-sheet__header">
     <view class="song-sheet__nav d-flex">
-      <image class="icon" src="../../static/icons/play_list/back03.png" />
+      <image class="icon" src="../../static/icons/play_list/back03.png" bindtap="navigateBack"/>
       <view class="nav-title">歌单</view>
     </view>
     <view class="song-sheet__info d-flex">

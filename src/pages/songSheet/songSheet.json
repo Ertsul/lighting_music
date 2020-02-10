@@ -1,1 +1,5 @@
-{}
+{
+  "usingComponents": {
+    "BaseList": "../../components/BaseList/BaseList"
+  }
+}

@@ -23,7 +23,7 @@
         <image class="header__bottom-item-icon" src="../../static/icons/my_page/like.png" />
         <text>喜欢</text>
       </view>
-      <view class="header__bottom-item header__collection">
+      <view class="header__bottom-item header__collection" bindtap="jumpRecentPlayPage">
         <image class="header__bottom-item-icon" src="../../static/icons/my_page/recently_play.png" />
         <text>最近</text>
       </view>

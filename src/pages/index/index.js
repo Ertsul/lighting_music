@@ -64,5 +64,13 @@ Page({
     this.setData({
       currentActiveTab
     })
+  },
+  /**
+   * 跳转最近播放页面
+   */
+  jumpRecentPlayPage() {
+    wx.navigateTo({
+      url: '/pages/recentPlay/recentPlay'
+    });
   }
 })

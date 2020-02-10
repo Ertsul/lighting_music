@@ -1,6 +1,60 @@
 Page({
   data: {
-    txt: 'txt'
+    txt: 'txt',
+    ranklist: [
+      {
+        cover: 'http://img4.imgtn.bdimg.com/it/u=2958967064,2714608608&fm=26&gp=0.jpg',
+        name: '榜单名',
+        songList: [
+          {
+            songName: '歌名1',
+            singer: '歌手名1'
+          },
+          {
+            songName: '歌名2',
+            singer: '歌手名2'
+          },
+          {
+            songName: '歌名3',
+            singer: '歌手名3'
+          }
+        ]
+      }, {
+        cover: 'http://img4.imgtn.bdimg.com/it/u=2958967064,2714608608&fm=26&gp=0.jpg',
+        name: '榜单名',
+        songList: [
+          {
+            songName: '歌名1',
+            singer: '歌手名1'
+          },
+          {
+            songName: '歌名2',
+            singer: '歌手名2'
+          },
+          {
+            songName: '歌名3',
+            singer: '歌手名3'
+          }
+        ]
+      }, {
+        cover: 'http://img4.imgtn.bdimg.com/it/u=2958967064,2714608608&fm=26&gp=0.jpg',
+        name: '榜单名',
+        songList: [
+          {
+            songName: '歌名1',
+            singer: '歌手名1'
+          },
+          {
+            songName: '歌名2',
+            singer: '歌手名2'
+          },
+          {
+            songName: '歌名3',
+            singer: '歌手名3'
+          }
+        ]
+      }
+    ]
   },
   onLoad() {
     console.log("rank onLoad");

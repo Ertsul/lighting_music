@@ -1,3 +1,18 @@
 <view class="rank-page">
-  rank-page
+  <view class="search-box">
+    <image class="icon" src="../../static/icons/search/search.png" />
+    <text>搜索</text>
+  </view>
+  <view class="rank-title">排行榜</view>
+  <view class="rank-list">
+    <view wx:for="{{ranklist}}" wx:key="index" class="d-flex rank-item">
+      <view class="rank-item__left">
+        <image class="rank-item__left-cover" src="{{item.cover}}"/>
+        <view class="rank-item__left-name">{{item.name}}</view>
+      </view>
+      <view class="d-flex rank-item__right">
+        <view class="rank-item__right-song" wx:for="{{item.songList}}" wx:for-item="songItem" wx:for-index="songIndex" wx:key="songIndex">{{songIndex + 1}}. {{songItem.singer}} - {{songItem.songName}}</view>
+      </view>
+    </view>
+  </view>
 </view>

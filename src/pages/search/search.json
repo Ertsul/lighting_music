@@ -4,5 +4,8 @@
   "navigationBarTextStyle": "black",
   "navigationBarTitleText": "光音MUSIC",
   "backgroundColor": "#eeeeee",
-  "backgroundTextStyle": "light"
+  "backgroundTextStyle": "light",
+  "usingComponents": {
+    "play-controller-bar": "../../components/PlayControllerBar/PlayControllerBar"
+  }
 }

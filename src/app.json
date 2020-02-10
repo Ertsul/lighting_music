@@ -6,7 +6,8 @@
     "pages/player/player",
     "pages/recentPlay/recentPlay",
     "pages/search/search",
-    "pages/songSheet/songSheet"
+    "pages/songSheet/songSheet",
+    "pages/rankDetail/rankDetail"
   ],
   "window": {
     "backgroundTextStyle": "light",

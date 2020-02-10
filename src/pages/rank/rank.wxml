@@ -15,4 +15,8 @@
       </view>
     </view>
   </view>
+  <!-- 底部播放控制器 -->
+  <view class="player-controller-wrapper">
+    <play-controller-bar></play-controller-bar>
+  </view>
 </view>

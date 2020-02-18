@@ -25,7 +25,16 @@ const loginApi = params =>
     data: params
   });
 
+// 歌单 ( 网友精选碟 )
+const getHotListApi = (params = {}) =>
+  request({
+    method: "GET",
+    url: baseConfig.baseUrl + "/top/playlist",
+    data: params
+  });
+
 module.exports = {
   getList,
-  updateInfo
+  updateInfo,
+  getHotListApi
 };

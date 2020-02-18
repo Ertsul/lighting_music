@@ -1,5 +1,5 @@
 const devConfig = require('./devConfig');
-const prodConfig = require('./proConfig');
+const prodConfig = require('./prodConfig');
 
 const env = 'dev'; // 开发
 // const env = 'prod'; // 生产

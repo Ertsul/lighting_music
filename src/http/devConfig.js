@@ -2,7 +2,7 @@
  * 开发环境请求基本信息
  */
 const devConfig = {
-  baseUrl: 'https://127.0.0.1:8080'
+  baseUrl: 'http://49.233.147.193:3000'
   // ...
 }
 

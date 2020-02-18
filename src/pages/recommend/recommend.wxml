@@ -25,25 +25,26 @@
   <view class="recommend-songs">
     <view class="recommend-songs__header header">
       <view class="header-title">推荐歌单</view>
-      <view class="header-operate header-operate-btn">换一批</view>
+      <!-- <view class="header-operate header-operate-btn">换一批</view> -->
     </view>
     <view class="recommend-songs__body list d-flex">
       <view class="recommend-songs__list-item" wx:for="{{recommendSongs}}" wx:key="index" bindtap="jumpSongSheetPage">
         <view class="recommend-songs__item-header">
-          <image class="recommend-songs__img" src="{{item.img}}" />
+          <image class="recommend-songs__img" src="{{item.coverImgUrl}}" />
           <view class="recommend-songs__counts">
             <image class="recommend-songs__play-icon" src="../../static/icons/recommend/play.png" />
-            {{item.counts}}
+            {{item.trackCount}}
           </view>
         </view>
         <view class="recommend-songs__name">{{item.name}}</view>
       </view>
-      <view class="d-flex recommend-songs__more">
+      <view class="d-flex recommend-songs__more" bindtap="getHotList">
         <text>更多</text>
         <image class="icon" src="../../static/icons/recommend/more.png" />
       </view>
     </view>
   </view>
+  <view class="null-block"></view>
   <!-- 底部播放控制器 -->
   <view class="player-controller-wrapper">
     <play-controller-bar></play-controller-bar>

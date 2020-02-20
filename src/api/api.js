@@ -33,8 +33,17 @@ const getHotListApi = (params = {}) =>
     data: params
   });
 
+// 歌单详情
+const getSongSheetDetailApi = (params = {}) =>
+  request({
+    method: "GET",
+    url: baseConfig.baseUrl + "/playlist/detail",
+    data: params
+  });
+
 module.exports = {
   getList,
   updateInfo,
-  getHotListApi
+  getHotListApi,
+  getSongSheetDetailApi,
 };

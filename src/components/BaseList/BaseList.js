@@ -10,39 +10,9 @@ Component({
       type: Number,
       value: 0
     },
-    lists: { // 列表
+    list: { // 列表
       type: Array,
-      value: [{
-        name: "知足",
-        singer: "五月天",
-        showRight: false,
-        ckecked: false
-      }, {
-        name: "突然好想你",
-        singer: "五月天",
-        showRight: false,
-        ckecked: false
-      }, {
-        name: "后青春的诗",
-        singer: "五月天",
-        showRight: false,
-        ckecked: false
-      }, {
-        name: "伤心的人不听慢歌",
-        singer: "五月天",
-        showRight: false,
-        ckecked: false
-      }, {
-        name: "知足1",
-        singer: "五月天",
-        showRight: false,
-        ckecked: false
-      }, {
-        name: "知足2",
-        singer: "五月天",
-        showRight: false,
-        ckecked: false
-      }],
+      value: [],
     }
   },
   data: {
@@ -78,26 +48,26 @@ Component({
      */
     scrollShowHandle(e) {
       const { index: currentIndex } = e.currentTarget.dataset;
-      let lists = this.data.lists;
-      lists = lists.map((item, index) => {
+      let list = this.data.list;
+      list = list.map((item, index) => {
         item.showRight = currentIndex === index;
         return item;
       })
       this.setData({
-        lists
+        list
       })
     },
     /**
      * 隐藏所有的右滑快
      */
     hideAllRightSlide() {
-      let lists = this.data.lists;
-      lists = lists.map((item, index) => {
+      let list = this.data.list;
+      list = list.map((item, index) => {
         item.showRight = false;
         return item;
       })
       this.setData({
-        lists
+        list
       })
     },
     /**
@@ -122,13 +92,13 @@ Component({
     toggleCheckboxs() {
       let vmData = {};
       if (this.data.showCheckbox) { // 关闭时候，取消所有的选择
-        let { lists, ifSelectedAll } = this.data;
-        lists = lists.map((item, index) => {
+        let { list, ifSelectedAll } = this.data;
+        list = list.map((item, index) => {
           item.checked = false;
           return item;
         })
         vmData = {
-          lists,
+          list,
           ifSelectedAll: false
         }
       }
@@ -140,13 +110,13 @@ Component({
      */
     selectAll(e) {
       console.log("e", e);
-      let { lists, ifSelectedAll } = this.data;
-      lists = lists.map((item, index) => {
+      let { list, ifSelectedAll } = this.data;
+      list = list.map((item, index) => {
         item.checked = !ifSelectedAll;
         return item;
       })
       this.setData({
-        lists,
+        list,
         ifSelectedAll: !ifSelectedAll
       })
     },

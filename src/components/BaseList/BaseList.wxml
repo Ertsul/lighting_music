@@ -16,12 +16,12 @@
   </view>
   <!-- 列表 -->
   <view class="body">
-    <view class="list-item" wx:for="{{lists}}" wx:key="index">
+    <view class="list-item" wx:for="{{list}}" wx:key="index">
       <SlideView buttons="{{slideButtons}}" icon="{{true}}" show="{{item.showRight}}" data-index="{{index}}" bindshow="scrollShowHandle" bindbuttontap="slideButtonTap">
         <view class="list-item__info d-flex">
           <view class="list-item__info-left d-flex">
             <view class="list-item__info-singer">{{item.name}}</view>
-            <view class="list-item__info-song">{{item.singer}}</view>
+            <view class="list-item__info-song">{{item.ar[0].name}}</view>
           </view>
           <image class="list-item__info-right" wx:if="{{!showCheckbox}}" src="../../static/icons/recent_play/more_read.png"></image>
           <checkbox value="{{item.name}}" wx:if="{{showCheckbox}}" checked="{{item.checked}}" />

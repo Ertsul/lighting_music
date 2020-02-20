@@ -1,27 +1,28 @@
 <view class="song-sheet">
   <view class="song-sheet__header">
+    <view class="song-sheet__header-bg" style="background-image: {{'url(' + songSheetInfo.coverImgUrl + ')'}};"></view>
     <view class="song-sheet__nav d-flex">
-      <image class="icon" src="../../static/icons/play_list/back03.png" bindtap="navigateBack"/>
+      <image class="icon" src="../../static/icons/play_list/back03.png" bindtap="navigateBack" />
       <view class="nav-title">歌单</view>
     </view>
     <view class="song-sheet__info d-flex">
       <view class="song-sheet__info-left">
-        <image class="song-sheet__cover" src="http://img4.imgtn.bdimg.com/it/u=4013814910,1099586848&fm=26&gp=0.jpg" />
+        <image class="song-sheet__cover" src="{{songSheetInfo.coverImgUrl}}" />
         <view class="song-sheet__counts">
           <image class="song-sheet__play-icon" src="../../static/icons/recommend/play.png" />
-          1000
+          {{songSheetInfo.playCount}}
         </view>
       </view>
       <view class="song-sheet__info-right d-flex">
-        <view class="song-sheet__sheet-name">歌单名奖奥斯卡的就是大家时间空间的</view>
+        <view class="song-sheet__sheet-name">{{songSheetInfo.description}}</view>
         <view class="d-flex" style="width: 100%;">
-          <image class="song-sheet__author-img" src="http://img4.imgtn.bdimg.com/it/u=2958967064,2714608608&fm=26&gp=0.jpg"/>
-          <view class="song-sheet__author-name">Ertsul</view>
+          <image class="song-sheet__author-img" src="{{creator.avatarUrl}}" />
+          <view class="song-sheet__author-name">{{creator.nickname}}</view>
         </view>
       </view>
     </view>
   </view>
   <view class="song-sheet__list">
-    <BaseList />
+    <BaseList list="{{songList}}" count="{{songList.length}}"/>
   </view>
 </view>

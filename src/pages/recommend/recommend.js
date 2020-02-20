@@ -73,6 +73,7 @@ Page({
     // ]
     recommendSongs: [],
     recommendSongsPage: 1,
+    recommendSongsLoading: false
   },
   onLoad() {
     this.getHotList();
@@ -88,9 +89,10 @@ Page({
   /**
    * 跳转推荐歌单详情页面
    */
-  jumpSongSheetPage() {
+  jumpSongSheetPage(e) {
+    const id = e.currentTarget.dataset.id;
     wx.navigateTo({
-      url: '/pages/songSheet/songSheet'
+      url: `/pages/songSheet/songSheet?id=${id}`
     });
   },
   /**
@@ -99,6 +101,9 @@ Page({
   async getHotList() {
     try {
       let { recommendSongs, recommendSongsPage } = this.data;
+      this.setData({
+        recommendSongsLoading: true
+      })
       const {
         data: {
           total = 0,
@@ -108,17 +113,22 @@ Page({
         limit: 6 * recommendSongsPage, // 每次 6 个歌单
         order: 'hot' // 拉取热歌数据
       });
+      let pageData = {
+        recommendSongsLoading: false
+      }
       if (total > 0) {
         let list = playlists;
         if (recommendSongs.length >= 6) {
           list = list.slice(6 * (recommendSongsPage - 1));
         }
         recommendSongs = [...recommendSongs, ...list];
-        this.setData({
+        pageData = {
+          ...pageData,
           recommendSongs,
           recommendSongsPage: recommendSongsPage + 1
-        })
+        }
       }
+      this.setData(pageData);
     } catch (error) {
       console.error(error);
     }

@@ -25,7 +25,7 @@ const loginApi = params =>
     data: params
   });
 
-// 歌单 ( 网友精选碟 )
+// 获取歌单 ( 网友精选碟 )
 const getHotListApi = (params = {}) =>
   request({
     method: "GET",
@@ -33,7 +33,7 @@ const getHotListApi = (params = {}) =>
     data: params
   });
 
-// 歌单详情
+// 获取歌单详情
 const getSongSheetDetailApi = (params = {}) =>
   request({
     method: "GET",
@@ -41,9 +41,18 @@ const getSongSheetDetailApi = (params = {}) =>
     data: params
   });
 
+// 获取音乐 url
+const getSongUrlApi = (params = {}) =>
+request({
+  method: "GET",
+  url: baseConfig.baseUrl + "/song/url",
+  data: params
+});
+
 module.exports = {
   getList,
   updateInfo,
   getHotListApi,
   getSongSheetDetailApi,
+  getSongUrlApi
 };

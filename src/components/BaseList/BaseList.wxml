@@ -3,7 +3,7 @@
   <view class="header d-flex" bindtap="hideAllRightSlide">
     <image class="header__play-icon" src="../../static/icons/my_page/play.png" />
     <view class="header__counts">播放全部</view>
-    <view class="header__counts-txt">(共{{lists.length}}首)</view>
+    <view class="header__counts-txt">(共{{list.length}}首)</view>
     <block wx:if="{{!showCheckbox}}">
       <view class="header__right-txt" bindtap="clearAll">清空</view>
       <image class="header__select-icon m-left-17" src="../../static/icons/recent_play/multi_select.png" bindtap="toggleCheckboxs"></image>
@@ -11,12 +11,12 @@
     <block wx:else>
       <view class="header__right-txt" bindtap="toggleCheckboxs">关闭</view>
       <view class="header__right-txt" style="color: silver;">全选</view>
-      <checkbox class="m-left-17" bindtap="selectAll" ckecked="{{ifSelectedAll}}"/>
+      <checkbox class="m-left-17" bindtap="selectAll" ckecked="{{ifSelectedAll}}" />
     </block>
   </view>
   <!-- 列表 -->
   <view class="body">
-    <view class="list-item" wx:for="{{list}}" wx:key="index">
+    <view class="list-item" wx:for="{{list}}" wx:key="index" data-index="{{index}}" catchtap="playMusic">
       <SlideView buttons="{{slideButtons}}" icon="{{true}}" show="{{item.showRight}}" data-index="{{index}}" bindshow="scrollShowHandle" bindbuttontap="slideButtonTap">
         <view class="list-item__info d-flex">
           <view class="list-item__info-left d-flex">

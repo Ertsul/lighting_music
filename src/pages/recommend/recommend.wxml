@@ -3,7 +3,7 @@
     <image class="icon" src="../../static/icons/search/search.png" />
     <text>搜索</text>
   </view>
-  <view class="hot-songs">
+  <!-- <view class="hot-songs">
     <view class="hot-songs__header header">
       <view class="header-title">热门歌曲</view>
       <view class="header-operate">
@@ -21,7 +21,7 @@
         <image class="icon hot-songs__more" src="../../static/icons/recent_play/more_read.png" />
       </view>
     </view>
-  </view>
+  </view> -->
   <view class="recommend-songs">
     <view class="recommend-songs__header header">
       <view class="header-title">推荐歌单</view>
@@ -52,6 +52,6 @@
   <view class="null-block"></view>
   <!-- 底部播放控制器 -->
   <view class="player-controller-wrapper">
-    <play-controller-bar></play-controller-bar>
+    <play-controller-bar musicInfo="{{musicInfo}}"></play-controller-bar>
   </view>
 </view>

@@ -23,6 +23,6 @@
     </view>
   </view>
   <view class="song-sheet__list">
-    <BaseList list="{{songList}}" count="{{songList.length}}"/>
+    <BaseList list="{{songList}}" count="{{songList.length}}" slideButtons="{{slideButtons}}"/>
   </view>
 </view>

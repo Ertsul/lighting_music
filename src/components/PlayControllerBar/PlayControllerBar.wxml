@@ -3,12 +3,13 @@
   <image class="play-controller-cover" src="http://img1.imgtn.bdimg.com/it/u=1483917017,752494682&fm=26&gp=0.jpg"></image>
   <!-- 歌曲名 + 歌手名称 -->
   <view class="play-controller-content">
-    <view class="play-controller-content__song">歌曲名</view>
-    <view class="play-controller-content__singer">歌手名</view>
+  {{app.globalData.musicPlayer.songName}}
+    <view class="play-controller-content__song">{{musicInfo.songName}}</view>
+    <view class="play-controller-content__singer">{{musicInfo.singer}}</view>
   </view>
   <!-- 播放控制图标 + 显示列表图标按钮 -->
   <view class="play-controller-btns">
-    <image wx:if="{{isPlay}}" bindtap="changePlayStatus" src="../../static/icons/my_page/play.png" />
+    <image wx:if="{{musicInfo.status == 'off'}}" bindtap="changePlayStatus" src="../../static/icons/my_page/play.png" />
     <image wx:else bindtap="changePlayStatus" src="../../static/icons/my_page/pause.png" />
     <!-- 播放列表图标按钮 -->
     <image src="../../static/icons/my_page/music_list.png" />

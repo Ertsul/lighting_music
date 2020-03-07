@@ -1,6 +1,13 @@
 const [RECENT_LIST, SEARCH_LIST] = [1, 2]; // 组件列表类型
+const [
+  ADD_TO_LIST, // 添加到播放列表
+  ADD_TO_LIKE, // 添加到喜欢
+  DETELE // 删除
+] = [0, 1, 2]; // 列表按钮类型
+const musicHandler = require('../../behaviors/musicHandler.js');
 
 Component({
+  behaviors: [musicHandler],
   properties: {
     listType: { // 组件列表类型
       type: Number,
@@ -12,25 +19,28 @@ Component({
     },
     list: { // 列表
       type: Array,
-      value: [],
+      value: []
+    },
+    slideButtons: {
+      type: Array,
+      value: [{
+        text: '下一首播放',
+        src: '../../static/icons/recent_play/next.png' // icon的路径
+      }, {
+        text: '普通',
+        extClass: 'test',
+        src: '../../static/icons/recent_play/like.png' // icon的路径
+      }, {
+        type: 'warn',
+        text: '警示',
+        extClass: 'test',
+        src: '../../static/icons/recent_play/delete.png' // icon的路径
+      }]
     }
   },
   data: {
     ifSelectedAll: false, // 是否全选
-    showCheckbox: false, // 是否显示 checkbox
-    slideButtons: [{
-      text: '下一首播放',
-      src: '../../static/icons/recent_play/next.png', // icon的路径
-    }, {
-      text: '普通',
-      extClass: 'test',
-      src: '../../static/icons/recent_play/like.png', // icon的路径
-    }, {
-      type: 'warn',
-      text: '警示',
-      extClass: 'test',
-      src: '../../static/icons/recent_play/delete.png', // icon的路径
-    }],
+    showCheckbox: false // 是否显示 checkbox
   },
   lifetimes: {
     attached: function () {
@@ -47,6 +57,8 @@ Component({
      * @param {*} e 
      */
     scrollShowHandle(e) {
+      console.log('scrollShowHandle');
+
       const { index: currentIndex } = e.currentTarget.dataset;
       let list = this.data.list;
       list = list.map((item, index) => {
@@ -56,6 +68,30 @@ Component({
       this.setData({
         list
       })
+    },
+    /**
+     * 列表按钮点击事件
+     * @param {Object} e 
+     */
+    slideButtonTap(e) {
+      const {
+        detail: {
+          index: btnType = ADD_TO_LIST
+        },
+        currentTarget: {
+          dataset: {
+            index: listIndex = 0
+          }
+        }
+      } = e;
+      console.log("btnType listIndex", btnType, listIndex);
+      if (btnType == ADD_TO_LIST) {
+        this.addMusicToList(e);
+      } else if (btnType == ADD_TO_LIKE) {
+        this.addMusicToLike(e);
+      } else {
+        this.deleteMusicFromList(e);
+      }
     },
     /**
      * 隐藏所有的右滑快

@@ -22,19 +22,23 @@ module.exports = Behavior({
       const {
         url
       } = await this.getSongUrl(id);
-      console.log("播放当前音乐 musicData", url);
+      console.log("播放当前音乐 musicData", url, targetMusic);
       // 设置播放器属性
       app.globalData.audioContext.src = url;
       app.globalData.musicPlayer.natualPlay = false; // 用户点点击
       app.globalData.musicData.playList = app.globalData.musicData.playList.splice(app.globalData.musicData.index, 0, {
         songName: targetMusic.name,
-        singer: targetMusic.ar[0].name
+        singer: targetMusic.ar[0].name,
+        id,
+        coverImgUrl: targetMusic.al.picUrl
       })
       app.globalData.audioContext.play();
       app.globalData.musicPlayer = {
         ...app.globalData.musicPlayer,
         songName: targetMusic.name,
-        singer: targetMusic.ar[0].name
+        singer: targetMusic.ar[0].name,
+        coverImgUrl: targetMusic.al.picUrl,
+        id,
       }
     },
     /**
@@ -49,9 +53,11 @@ module.exports = Behavior({
       } = await this.getSongUrl(id);
       console.log("添加音乐到音乐列表 musicData", url);
       url && app.globalData.musicData.playList.push({
+        id,
         url,
         songName: targetMusic.name,
-        singer: targetMusic.ar[0].name
+        singer: targetMusic.ar[0].name,
+        coverImgUrl: targetMusic.coverImgUrl,
       });
     },
     /**
@@ -66,9 +72,11 @@ module.exports = Behavior({
       } = await this.getSongUrl(id);
       console.log("添加音乐到喜欢列表 musicData", url);
       url && app.globalData.musicData.likeList.push({
+        id,
         url,
         songName: targetMusic.name,
-        singer: targetMusic.ar[0].name
+        singer: targetMusic.ar[0].name,
+        coverImgUrl: targetMusic.al.picUrl,
       });
     },
     /**

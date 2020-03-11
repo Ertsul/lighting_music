@@ -14,6 +14,8 @@ Page({
   onShow() {
     this.setData({
       musicInfo: {
+        coverImgUrl: app.globalData.musicPlayer.coverImgUrl,
+        id: app.globalData.musicPlayer.id,
         songName: app.globalData.musicPlayer.songName,
         singer: app.globalData.musicPlayer.singer,
         status: app.globalData.musicPlayer.status

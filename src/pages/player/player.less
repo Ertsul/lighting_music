@@ -1,0 +1,71 @@
+.player-page {
+  position: relative;
+  width: 750rpx;
+  height: 100vh;
+
+  &__bg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 750rpx;
+    height: 100vh;
+    -webkit-filter: blur(32rpx);
+    -moz-filter: blur(32rpx);
+    -ms-filter: blur(32rpx);
+    filter: blur(32rpx);
+    transform: scale(1.2);
+  }
+
+  &__main {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 750rpx;
+    height: 100vh;
+    background: inherit;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+  }
+}
+
+.header {
+  width: 100%;
+  height: 160rpx;
+}
+
+.lyric {
+  position: relative;
+  width: 100%;
+  flex-grow: 1;
+  overflow: hidden;
+
+  .lyric-wrap {
+    position: absolute;
+    left: 0;
+    top: 400rpx;
+    width: 100%;
+    height: 100%;
+    transition: ease-in-out .6s;
+
+  }
+
+  .lyric-item {
+    text-align: center;
+    color: #fff;
+    font-size: 40rpx;
+    line-height: 64rpx;
+
+    &__active {
+      color: black;
+      font-weight: bold;
+    }
+  }
+}
+
+.bottom {
+  width: 100%;
+  height: 200rpx;
+}

@@ -14,11 +14,11 @@ App({
       musicData: this.globalData.musicData,
       musicPlayer: this.globalData.musicPlayer
     }));
-    wx.playBackgroundAudio({
-      dataUrl: this.globalData.musicData.playList[this.globalData.musicData.index],
-      title: '',
-      coverImgUrl: ''
-    })
+    // wx.playBackgroundAudio({
+    //   dataUrl: this.globalData.musicData.playList[this.globalData.musicData.index],
+    //   title: '',
+    //   coverImgUrl: ''
+    // })
   },
   setaudioContext() {
     this.globalData.audioContext = wx.createInnerAudioContext();
@@ -55,7 +55,9 @@ App({
       this.globalData.musicPlayer = {
         ...this.globalData.musicPlayer,
         songName: playList[index].songName,
-        singer: playList[index].singer
+        singer: playList[index].singer,
+        id: playList[index].id,
+        coverImgUrl: playList[index].coverImgUrl
       }
     })
   },
@@ -73,6 +75,7 @@ App({
     this.globalData.musicData = musicData;
     this.globalData.musicPlayer = musicPlayer;
     this.globalData.audioContext.src = musicData.playList[musicData.index].url;
+    // this.globalData.audioContext.src = 'http://m701.music.126.net/20200311221825/7ef2981ecb1142a5f9295cb62a5bdf3c/jdymusic/obj/w5zDlMODwrDDiGjCn8Ky/1643178593/78c4/6354/fb10/a20e5b10ab9e97f6c915cd5cd73f5ded.mp3'
     this.globalData.musicPlayer.status = 'off';
   },
   globalData: {
@@ -88,7 +91,10 @@ App({
       songName: '', // 歌曲名
       singer: '', // 歌手名
       status: 'on', // 音乐播放器状态 'on' or 'off'
-      loop: false // 是否循环播放
+      loop: false, // 是否循环播放
+      id: 0,
+      coverImgUrl: ''
     }
   }
 })
+// {"musicData":{"likeList":[],"playList":[{"id":1330348068,"url":"http://m7.music.126.net/20200311235514/7732aef6afb650e633aaa5b087b9cff7/ymusic/0758/550f/545f/028d3b9421be8425d60dc57735cf6ebc.mp3","songName":"起风了","singer":"买辣椒也用券"}],"index":0},"musicPlayer":{"natualPlay":false,"songName":"起风了","singer":"买辣椒也用券","status":"off","loop":false}}

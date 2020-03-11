@@ -1,4 +1,19 @@
-<view class="player-page">player-page
-
-<share-mask></share-mask>
+<view class="player-page">
+  <image class="player-page__bg" src="{{musicInfo.coverImgUrl}}" />
+  <view class="player-page__main">
+    <view class="header"></view>
+    <view class="lyric">
+      <view style="width: 100%;height: 160rpx;"></view>
+      <view class="lyric-wrap" style="transform: translateY({{offsetTop}}rpx);">
+        <view class="lyric-item {{currentIndex == index ? 'lyric-item__active' : ''}}" wx:for="{{lyricList}}" wx:key="index">
+          {{item.text}}
+        </view>
+      </view>
+    </view>
+    <view class="bottom"></view>
+  </view>
+  <view style="position:fixed;left: 0rpx;bottom: 40rpx;z-index: 1000;">
+    <play-controller-bar musicInfo="{{musicInfo}}"></play-controller-bar>
+  </view>
+  <!-- <share-mask></share-mask> -->
 </view>

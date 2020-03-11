@@ -49,10 +49,19 @@ request({
   data: params
 });
 
+// 获取歌词
+const getLyricApi = (params = {}) =>
+request({
+  method: "GET",
+  url: baseConfig.baseUrl + "/lyric",
+  data: params
+});
+
 module.exports = {
   getList,
   updateInfo,
   getHotListApi,
   getSongSheetDetailApi,
-  getSongUrlApi
+  getSongUrlApi,
+  getLyricApi
 };

@@ -57,6 +57,13 @@ Component({
           musicInfo
         })
       }
+    },
+    jumpPlayerPage() {
+      console.log('jumpPlayerPage');
+      
+      wx.navigateTo({
+        url: `/pages/player/player?id=${this.data.musicInfo.id}`
+      })
     }
   }
 })

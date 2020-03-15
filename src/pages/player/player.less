@@ -1,12 +1,18 @@
 .player-page {
   position: relative;
   width: 750rpx;
-  height: 100vh;
+  max-height: 100vh;
 
-  &__bg {
+  &__bg-wrap {
     position: absolute;
     left: 0;
     top: 0;
+    width: 750rpx;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  &__bg {
     width: 750rpx;
     height: 100vh;
     -webkit-filter: blur(32rpx);
@@ -27,13 +33,29 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-
   }
 }
 
 .header {
   width: 100%;
   height: 160rpx;
+  box-sizing: border-box;
+  display: flex;
+  padding-left: 14rpx;
+  padding-top: 70rpx;
+
+  .nav-title {
+    width: 80%;
+    transform: translateY(-10rpx);
+
+    &__item {
+      width: 100%;
+      height: 60rpx;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
 }
 
 .lyric {
@@ -49,7 +71,6 @@
     width: 100%;
     height: 100%;
     transition: ease-in-out .6s;
-
   }
 
   .lyric-item {
@@ -68,4 +89,87 @@
 .bottom {
   width: 100%;
   height: 200rpx;
+}
+
+.icon {
+  width: 40rpx;
+  height: 40rpx;
+  transform: translateY(10rpx);
+}
+
+.nav-title {
+  margin-left: 14rpx;
+  font-size: 36rpx;
+  color: #fff;
+}
+
+.process {
+  margin: 0 auto;
+  width: 96%;
+  height: 46rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 28rpx;
+  color: #fff;
+
+  &-ani {
+    position: relative;
+    box-sizing: border-box;
+    flex-grow: 1;
+    width: 100%;
+    height: 100%;
+    color: #fff;
+  }
+
+  &-line {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 24rpx);
+    width: 96%;
+    height: 2rpx;
+    background-color: white;
+  }
+
+  &-point {
+    position: absolute;
+    top: 50%;
+    left: 8rpx;
+    transform: translateY(-50%);
+    width: 16rpx;
+    height: 16rpx;
+    border-radius: 16rpx;
+    background-color: #fff;
+  }
+}
+
+.play-btns {
+  height: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.list-type-icon {
+  width: 64rpx;
+  height: 64rpx;
+}
+
+.play-icon {
+  width: 112rpx;
+  height: 112rpx;
+}
+
+.change-list-icon {
+  width: 60rpx;
+  height: 60rpx;
+}
+
+.next-icon {
+  transform: rotate(180deg);
+}
+
+.list-icon {
+  width: 64rpx;
+  height: 64rpx;
 }

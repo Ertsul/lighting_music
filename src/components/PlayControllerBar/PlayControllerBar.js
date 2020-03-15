@@ -58,9 +58,8 @@ Component({
         })
       }
     },
-    jumpPlayerPage() {
-      console.log('jumpPlayerPage');
-      
+    async jumpPlayerPage() {
+      await console.log(app.globalData.audioContext.duration);
       wx.navigateTo({
         url: `/pages/player/player?id=${this.data.musicInfo.id}`
       })

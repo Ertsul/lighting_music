@@ -1,4 +1,11 @@
 const Router = require("./router/router");
+
+const [
+  RECYCLE_LIST_PLAY, // 列表循环
+  RECYCLE_ONE_PLAY, // 单曲循环
+  RANDOM_PLAY // 随机播放
+] = [0, 1, 2];
+
 //app.js
 App({
   Router,
@@ -14,6 +21,10 @@ App({
       musicData: this.globalData.musicData,
       musicPlayer: this.globalData.musicPlayer
     }));
+    wx.setStorageSync('lyric', JSON.stringify({
+      offsetTop: 0,
+      currentIndex: 0
+    }))
     // wx.playBackgroundAudio({
     //   dataUrl: this.globalData.musicData.playList[this.globalData.musicData.index],
     //   title: '',
@@ -32,7 +43,11 @@ App({
     })
     this.globalData.audioContext.onEnded(() => {
       console.log("onEnded");
-      this.globalData.musicPlayer.status = 'off'; // 切换播放器状态
+      wx.setStorageSync('lyric', JSON.stringify({
+        offsetTop: 0,
+        currentIndex: 0
+      }))
+      this.globalData.musicPlayer.status = 'end'; // 切换播放器状态
       let {
         playList = [],
         index = 0
@@ -40,14 +55,16 @@ App({
       if (!playList.length) {
         return;
       }
-      if (index == playList.length - 1) { // 播放到最后一首，
-        if (this.globalData.musicPlayer.loop) { // 循环播放模式
+      console.log('this.globalData.musicPlayer.listPlayType', this.globalData.musicPlayer.listPlayType);
+      
+      if (this.globalData.musicPlayer.listPlayType == RECYCLE_LIST_PLAY) {
+        if (index == playList.length - 1) { // 播放到最后一首
           index = 0;
         } else {
-          return;
+          index = index + 1;
         }
-      } else {
-        index++;
+      } else if (this.globalData.musicPlayer.listPlayType == RANDOM_PLAY) {
+        index = this.getRangeNum(0, playList.length - 1);
       }
       this.globalData.audioContext.index = index;
       this.globalData.audioContext.src = playList[index].url;
@@ -61,19 +78,27 @@ App({
       }
     })
   },
+  getRangeNum(min, max) {
+    const range = max - min;
+    const rand = Math.random();
+    return min + Math.round(rand * range);
+  },
   getCacheMusicData() {
     let musicInfo = wx.getStorageSync('musicInfo');
     if (!musicInfo) {
       return;
     }
-    
+
     musicInfo = JSON.parse(musicInfo);
     const {
       musicData,
       musicPlayer
     } = musicInfo;
     this.globalData.musicData = musicData;
-    this.globalData.musicPlayer = musicPlayer;
+    this.globalData.musicPlayer = {
+      ...musicPlayer,
+      listPlayType: RECYCLE_LIST_PLAY
+    };
     this.globalData.audioContext.src = musicData.playList[musicData.index].url;
     // this.globalData.audioContext.src = 'http://m701.music.126.net/20200311221825/7ef2981ecb1142a5f9295cb62a5bdf3c/jdymusic/obj/w5zDlMODwrDDiGjCn8Ky/1643178593/78c4/6354/fb10/a20e5b10ab9e97f6c915cd5cd73f5ded.mp3'
     this.globalData.musicPlayer.status = 'off';
@@ -93,7 +118,8 @@ App({
       status: 'on', // 音乐播放器状态 'on' or 'off'
       loop: false, // 是否循环播放
       id: 0,
-      coverImgUrl: ''
+      coverImgUrl: '',
+      listPlayType: RECYCLE_LIST_PLAY
     }
   }
 })

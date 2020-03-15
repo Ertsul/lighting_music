@@ -40,6 +40,10 @@ module.exports = Behavior({
         coverImgUrl: targetMusic.al.picUrl,
         id,
       }
+      wx.setStorageSync('lyric', JSON.stringify({
+        offsetTop: 0,
+        currentIndex: 0
+      }));
     },
     /**
      * 添加音乐到音乐列表

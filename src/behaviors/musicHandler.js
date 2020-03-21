@@ -26,20 +26,30 @@ module.exports = Behavior({
       // 设置播放器属性
       app.globalData.audioContext.src = url;
       app.globalData.musicPlayer.natualPlay = false; // 用户点点击
-      app.globalData.musicData.playList = app.globalData.musicData.playList.splice(app.globalData.musicData.index, 0, {
+      const musicInfo = {
+        id,
+        url,
         songName: targetMusic.name,
         singer: targetMusic.ar[0].name,
-        id,
         coverImgUrl: targetMusic.al.picUrl
-      })
+      };
+      if (app.globalData.musicData.playList && app.globalData.musicData.playList.length > 0) {
+        app.globalData.musicData.playList.splice(app.globalData.musicData.index, 0, musicInfo)
+        app.globalData.musicData.index = app.globalData.musicData.index;
+      } else {
+        app.globalData.musicData.index = 0;
+        app.globalData.musicData.playList.push(musicInfo);
+      }
       app.globalData.audioContext.play();
       app.globalData.musicPlayer = {
         ...app.globalData.musicPlayer,
+        id,
+        url,
         songName: targetMusic.name,
         singer: targetMusic.ar[0].name,
-        coverImgUrl: targetMusic.al.picUrl,
-        id,
+        coverImgUrl: targetMusic.al.picUrl
       }
+      // 歌曲播放页面的歌词播放位置（恢复默认位置）
       wx.setStorageSync('lyric', JSON.stringify({
         offsetTop: 0,
         currentIndex: 0
@@ -61,7 +71,7 @@ module.exports = Behavior({
         url,
         songName: targetMusic.name,
         singer: targetMusic.ar[0].name,
-        coverImgUrl: targetMusic.coverImgUrl,
+        coverImgUrl: targetMusic.al.picUrl
       });
     },
     /**
@@ -80,7 +90,7 @@ module.exports = Behavior({
         url,
         songName: targetMusic.name,
         singer: targetMusic.ar[0].name,
-        coverImgUrl: targetMusic.al.picUrl,
+        coverImgUrl: targetMusic.al.picUrl
       });
     },
     /**

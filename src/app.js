@@ -17,10 +17,12 @@ App({
     console.log("onHide", this.globalData.musicData);
     this.globalData.audioContext.pause();
     this.globalData.musicPlayer.status = 'off';
+    // 缓存当前歌曲信息，我的播放列表，我的喜欢音乐列表
     wx.setStorageSync('musicInfo', JSON.stringify({
       musicData: this.globalData.musicData,
       musicPlayer: this.globalData.musicPlayer
     }));
+    // 缓存歌曲信息，当退出小程序时候重置歌曲播放页面的歌词位置信息
     wx.setStorageSync('lyric', JSON.stringify({
       offsetTop: 0,
       currentIndex: 0
@@ -55,8 +57,6 @@ App({
       if (!playList.length) {
         return;
       }
-      console.log('this.globalData.musicPlayer.listPlayType', this.globalData.musicPlayer.listPlayType);
-      
       if (this.globalData.musicPlayer.listPlayType == RECYCLE_LIST_PLAY) {
         if (index == playList.length - 1) { // 播放到最后一首
           index = 0;
@@ -66,7 +66,7 @@ App({
       } else if (this.globalData.musicPlayer.listPlayType == RANDOM_PLAY) {
         index = this.getRangeNum(0, playList.length - 1);
       }
-      this.globalData.audioContext.index = index;
+      this.globalData.musicData.index = index;
       this.globalData.audioContext.src = playList[index].url;
       this.globalData.audioContext.play();
       this.globalData.musicPlayer = {
@@ -99,9 +99,31 @@ App({
       ...musicPlayer,
       listPlayType: RECYCLE_LIST_PLAY
     };
-    this.globalData.audioContext.src = musicData.playList[musicData.index].url;
-    // this.globalData.audioContext.src = 'http://m701.music.126.net/20200311221825/7ef2981ecb1142a5f9295cb62a5bdf3c/jdymusic/obj/w5zDlMODwrDDiGjCn8Ky/1643178593/78c4/6354/fb10/a20e5b10ab9e97f6c915cd5cd73f5ded.mp3'
-    this.globalData.musicPlayer.status = 'off';
+    console.log("小程序启动 ================ 获取缓存信息 == start");
+    console.log("小程序启动 ================ 喜欢音乐列表 == ", this.globalData.musicData.likeList);
+    console.log("小程序启动 ================ 播放音乐列表 ==", this.globalData.musicData.playList);
+    console.log("小程序启动 ================ 播放器信息 ==", this.globalData.musicPlayer);
+    console.log("小程序启动 ================ 获取缓存信息 == end");
+    if (!this.globalData.musicData.playList.length) {
+      return;
+    }
+    if (!this.globalData.musicPlayer.songName && this.globalData.musicData.playList.length) { // 无当前播放歌曲信息，默认播放我的播放列表的第一首歌曲
+      this.globalData.audioContext.src = musicData.playList[0].url;
+      this.globalData.musicPlayer = {
+        natualPlay: true, // 是否是自动播放
+        songName: musicData.playList[0].songName, // 歌曲名
+        singer: musicData.playList[0].singer, // 歌手名
+        status: 'off', // 音乐播放器状态 'on' or 'off'
+        loop: false, // 是否循环播放
+        id: musicData.playList[0].id,
+        coverImgUrl: musicData.playList[0].coverImgUrl,
+        listPlayType: RECYCLE_LIST_PLAY
+      }
+    } else {
+      this.globalData.audioContext.src = musicData.playList[musicData.index].url;
+    }
+    // // this.globalData.audioContext.src = 'http://m701.music.126.net/20200311221825/7ef2981ecb1142a5f9295cb62a5bdf3c/jdymusic/obj/w5zDlMODwrDDiGjCn8Ky/1643178593/78c4/6354/fb10/a20e5b10ab9e97f6c915cd5cd73f5ded.mp3'
+    // this.globalData.musicPlayer.status = 'off';
   },
   globalData: {
     audioContext: null,

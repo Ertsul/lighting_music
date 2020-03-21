@@ -17,13 +17,13 @@
           {{item.text}}
         </view>
       </view>
-      <view wx:else class="lyric-wrap">暂无歌词</view>
+      <view wx:else class="noop-lyric-wrap">暂无歌词</view>
     </view>
     <view class="bottom">
       <view class="process">
         <view class="current-time">{{currentTime}}</view>
         <view class="process-ani">
-          <view class="process-point"></view>
+          <view class="process-point" style="transform: translate({{timeOffset}}rpx, -50%)"></view>
           <view class="process-line"></view>
         </view>
         <view class="all-time">{{duration}}</view>

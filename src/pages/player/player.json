@@ -1,4 +1,5 @@
 {
+  "enablePullDownRefresh": false,
   "usingComponents": {
     "share-mask": "../../components/ShareMask/ShareMask",
     "play-controller-bar": "../../components/PlayControllerBar/PlayControllerBar"

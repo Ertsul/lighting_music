@@ -1,4 +1,5 @@
 {
+  "enablePullDownRefresh": false,
   "navigationBarTitleText": "最近播放",
   "navigationStyle": "default",
   "usingComponents": {

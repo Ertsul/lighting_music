@@ -18,6 +18,7 @@ Page({
     currentIndex: 0,
     offsetTop: 0,
     lastIndex: 0,
+    timeOffset: 0,
     id: '',
     cacheLyricIdx: 0,
     cacheLyricOffset: 0,
@@ -33,16 +34,18 @@ Page({
   },
   async onShow() {
     let cacheLyric = wx.getStorageSync('lyric');
-    console.log('onshow', cacheLyric);
+    console.log('onshow cacheLyric', cacheLyric);
     let offsetTop = 0;
     let currentIndex = 0;
+    let timeOffset = 0;
     if (cacheLyric) {
       cacheLyric = JSON.parse(cacheLyric);
       offsetTop = cacheLyric.offsetTop;
       currentIndex = cacheLyric.currentIndex;
+      // timeOffset = cacheLyric.timeOffset || 0;
     }
     const duration = this.formatTime(app.globalData.audioContext.duration).slice(0, 5);
-    console.log("musicTimeUpdateHandler", app.globalData.audioContext.duration, duration);
+    // console.log("musicTimeUpdateHandler", app.globalData.audioContext.duration, duration);
     this.setData({
       musicInfo: {
         songName: app.globalData.musicPlayer.songName,
@@ -54,19 +57,21 @@ Page({
       duration,
       offsetTop,
       currentIndex,
+      timeOffset,
       cacheIndex: currentIndex
     })
     await this.getLyric(this.data.id);
     await this.formatLyric();
-    this.musicPlayHandler();
+    // app.globalData.audioContext.seek(170)
+    this.musicEndHandler();
     this.musicTimeUpdateHandler();
   },
   onHide() {
-    console.log("onHide");
     wx.setStorageSync('lyric', JSON.stringify({
       offsetTop: this.data.offsetTop,
       currentIndex: this.data.currentIndex,
-      currentTime: this.data.currentTime
+      currentTime: this.data.currentTime,
+      timeOffset: this.data.timeOffset
     }))
   },
   async getLyric(id) {
@@ -74,55 +79,37 @@ Page({
       const res = await getLyricApi({
         id
       })
-      console.log(res);
       this.setData({
-        lyric: res.data.lrc.lyric || ''
+        lyric: (res.data.lrc && res.data.lrc.lyric) ? res.data.lrc.lyric : ''
       })
     } catch (error) {
       console.error(error);
     }
   },
-  async musicPlayHandler() {
-    // app.globalData.audioContext.onPlay(async () => {
-    //   console.log("shitshishishsihisishhsihsihsishisishi", this.data.musicInfo.id, app.globalData.musicPlayer.id);
-    //   if (this.data.musicInfo.id != app.globalData.musicPlayer.id) { // 自动切换
-    //     let offsetTop = 0;
-    //     let currentIndex = 0;
-    //     const duration = this.formatTime(app.globalData.audioContext.duration).slice(0, 5);
-    //     console.log("musicTimeUpdateHandler", app.globalData.audioContext.duration, duration);
-    //     this.setData({
-    //       musicInfo: {
-    //         songName: app.globalData.musicPlayer.songName,
-    //         singer: app.globalData.musicPlayer.singer,
-    //         status: app.globalData.musicPlayer.status,
-    //         id: app.globalData.musicPlayer.id,
-    //         coverImgUrl: app.globalData.musicPlayer.coverImgUrl
-    //       },
-    //       duration,
-    //       offsetTop,
-    //       currentIndex,
-    //       cacheIndex: currentIndex
-    //     })
-    //     await this.getLyric(app.globalData.musicPlayer.id);
-    //     await this.formatLyric();
-    //     this.musicPlayHandler();
-    //     this.musicTimeUpdateHandler();
-    //   }
-    // })
+  async musicEndHandler() {
+    app.globalData.audioContext.onEnded(async () => {
+      this.nextSong();
+    })
   },
   /**
    * 监听音频播放进度更新事件
    */
   musicTimeUpdateHandler() {
-    console.log("musicTimeUpdateHandler", app.globalData.audioContext.duration);
+    // console.log("musicTimeUpdateHandler", app.globalData.audioContext.duration);
     app.globalData.audioContext.onTimeUpdate(() => {
+      console.log("onTimeUpdate duration11111", app.globalData.musicPlayer.timeOffset);
       let obj = this.formatTime1(app.globalData.audioContext.currentTime);
       let str = `${obj.m}:${obj.s}`;
-      console.log(app.globalData.audioContext.currentTime, '-----', str);
+      // console.log(app.globalData.audioContext.currentTime, '-----', str, Math.floor(614 / (Number(durationArr[0]) * 60 + Number(durationArr[1]))));
       let i = this.data.cacheIndex;
+      const durationArr = this.data.duration.split(':');
+      console.log('当前时间', Math.floor((Number(obj.m) * 60 + Number(obj.s))));
+      console.log('总时间', Math.floor((Number(durationArr[0]) * 60 + Number(durationArr[1]))));
+      console.log('-------------------------------')
       if (str != this.data.currentTime) {
         this.setData({
-          currentTime: str
+          currentTime: str,
+          timeOffset: 560 * (Math.round((Number(obj.m) * 60 + Number(obj.s))) / Math.round((Number(durationArr[0]) * 60 + Number(durationArr[1]))))
         })
       }
       for (i; i < this.data.lyricList.length; i++) {
@@ -138,7 +125,6 @@ Page({
           }
         }
       }
-      console.log('---------------------------------------');
     })
   },
   formatLyric() {
@@ -171,19 +157,21 @@ Page({
     min = min < 10 ? `0${min}` : min;
     let second = (time % 60) * 10;
     second = second < 10 ? `0${second.toFixed(2)}` : second.toFixed(2);
-    return `${min}:${second}`
+    return `${min}:${second}` == "00:00" ? '' : `${min}:${second}`
   },
   navigateBack() {
     let lyric = {
       offsetTop: this.data.offsetTop,
       currentIndex: this.data.currentIndex,
-      currentTime: this.data.currentTime
+      currentTime: this.data.currentTime,
+      timeOffset: this.data.timeOffset
     }
     if (app.globalData.musicPlayer.status == 'end') {
       lyric = {
         offsetTop: 0,
         currentIndex: 0,
-        currentTime: 0
+        currentTime: 0,
+        timeOffset: 0
       }
     }
     wx.setStorageSync('lyric', JSON.stringify(lyric))
@@ -195,7 +183,7 @@ Page({
      * 切换音乐播放状态
      */
   changePlayStatus() {
-    console.log('changePlayStatus', app.globalData.musicPlayer.status);
+    // console.log('changePlayStatus', app.globalData.musicPlayer.status);
     if (app.globalData.musicPlayer.status == 'off') {
       app.globalData.audioContext.play();
       app.globalData.musicPlayer = {
@@ -233,7 +221,7 @@ Page({
         playList = [],
         index = 0
       } = app.globalData.musicData;
-      console.log("playList index", playList, index);
+      // console.log("playList index", playList, index);
       if (!playList.length) {
         return;
       }
@@ -267,7 +255,8 @@ Page({
         offsetTop: 0,
         currentIndex: 0,
         cacheIndex: 0,
-        duration: this.formatTime(app.globalData.audioContext.duration).slice(0, 5)
+        duration: this.formatTime(app.globalData.audioContext.duration).slice(0, 5),
+        timeOffset: 0
       })
       setTimeout(() => {
         app.globalData.audioContext.play();
@@ -276,11 +265,12 @@ Page({
       this.setData({
         offsetTop: 0,
         currentIndex: 0,
-        cacheIndex: 0
+        cacheIndex: 0,
+        timeOffset: 0
       })
       this.musicTimeUpdateHandler();
+      this.musicEndHandler();
       app.globalData.audioContext.stop();
-      // app.globalData.audioContext.play();
       setTimeout(() => {
         app.globalData.audioContext.play();
       }, 100)
@@ -315,7 +305,8 @@ Page({
         offsetTop: 0,
         currentIndex: 0,
         cacheIndex: 0,
-        duration: this.formatTime(app.globalData.audioContext.duration).slice(0, 5)
+        duration: this.formatTime(app.globalData.audioContext.duration).slice(0, 5),
+        timeOffset: 0
       })
       setTimeout(() => {
         app.globalData.audioContext.play();
@@ -326,8 +317,6 @@ Page({
    * 下一首
    */
   async nextSong() {
-    console.log("app.globalData.musicPlayer.listPlayType", app.globalData.musicPlayer.listPlayType);
-    console.log("app.globalData.musicPlayer.listPlayType", app.globalData.musicPlayer.listPlayType);
     if (app.globalData.musicPlayer.listPlayType == RECYCLE_LIST_PLAY) { // 列表循环
       let {
         playList = [],
@@ -365,7 +354,8 @@ Page({
         offsetTop: 0,
         currentIndex: 0,
         cacheIndex: 0,
-        duration: this.formatTime(app.globalData.audioContext.duration).slice(0, 5)
+        duration: this.formatTime(app.globalData.audioContext.duration).slice(0, 5),
+        timeOffset: 0
       })
       setTimeout(() => {
         app.globalData.audioContext.play();
@@ -374,9 +364,11 @@ Page({
       this.setData({
         offsetTop: 0,
         currentIndex: 0,
-        cacheIndex: 0
+        cacheIndex: 0,
+        timeOffset: 0
       })
       this.musicTimeUpdateHandler();
+      this.musicEndHandler();
       app.globalData.audioContext.stop();
       setTimeout(() => {
         app.globalData.audioContext.play();
@@ -389,8 +381,6 @@ Page({
         return;
       }
       const index = this.getRangeNum(0, playList.length - 1);
-      console.log("indexindex", index);
-
       app.globalData.audioContext.stop();
       app.globalData.musicData.index = index;
       app.globalData.audioContext.src = playList[index].url;
@@ -414,7 +404,9 @@ Page({
         offsetTop: 0,
         currentIndex: 0,
         cacheIndex: 0,
-        duration: this.formatTime(app.globalData.audioContext.duration).slice(0, 5)
+        timeOffset: 0,
+        duration: this.formatTime(app.globalData.audioContext.duration).slice(0, 5),
+        timeOffset: 0
       })
       setTimeout(() => {
         app.globalData.audioContext.play();

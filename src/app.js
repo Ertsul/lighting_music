@@ -77,6 +77,18 @@ App({
         coverImgUrl: playList[index].coverImgUrl
       }
     })
+    this.globalData.audioContext.onTimeUpdate(() => {
+      let durationArr = this.formatTime(this.globalData.audioContext.duration).slice(0, 5).split(':');
+      this.globalData.musicPlayer.timeOffset = this.globalData.musicPlayer.timeOffset + Math.floor(614 / (Number(durationArr[0]) * 60 + Number(durationArr[1])))
+      console.warn("onTimeUpdate duration", durationArr, this.globalData.musicPlayer.timeOffset);
+    })
+  },
+  formatTime(time) {
+    let min = Math.floor(time / 60);
+    min = min < 10 ? `0${min}` : min;
+    let second = (time % 60) * 10;
+    second = second < 10 ? `0${second.toFixed(2)}` : second.toFixed(2);
+    return `${min}:${second}` == "00:00" ? '' : `${min}:${second}`
   },
   getRangeNum(min, max) {
     const range = max - min;
@@ -97,7 +109,8 @@ App({
     this.globalData.musicData = musicData;
     this.globalData.musicPlayer = {
       ...musicPlayer,
-      listPlayType: RECYCLE_LIST_PLAY
+      listPlayType: RECYCLE_LIST_PLAY,
+      timeOffset: 0
     };
     console.log("小程序启动 ================ 获取缓存信息 == start");
     console.log("小程序启动 ================ 喜欢音乐列表 == ", this.globalData.musicData.likeList);
@@ -117,7 +130,8 @@ App({
         loop: false, // 是否循环播放
         id: musicData.playList[0].id,
         coverImgUrl: musicData.playList[0].coverImgUrl,
-        listPlayType: RECYCLE_LIST_PLAY
+        listPlayType: RECYCLE_LIST_PLAY,
+        timeOffset: 0
       }
     } else {
       this.globalData.audioContext.src = musicData.playList[musicData.index].url;
@@ -141,7 +155,8 @@ App({
       loop: false, // 是否循环播放
       id: 0,
       coverImgUrl: '',
-      listPlayType: RECYCLE_LIST_PLAY
+      listPlayType: RECYCLE_LIST_PLAY,
+      timeOffset: 0
     }
   }
 })

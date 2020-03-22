@@ -7,6 +7,7 @@
   "backgroundColor": "#eeeeee",
   "backgroundTextStyle": "light",
   "usingComponents": {
-    "play-controller-bar": "../../components/PlayControllerBar/PlayControllerBar"
+    "play-controller-bar": "../../components/PlayControllerBar/PlayControllerBar",
+    "BaseList": "../../components/BaseList/BaseList"
   }
 }

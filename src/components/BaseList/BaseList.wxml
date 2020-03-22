@@ -5,7 +5,7 @@
     <view class="header__counts">播放全部</view>
     <view class="header__counts-txt">(共{{list.length}}首)</view>
     <block wx:if="{{!showCheckbox}}">
-      <view class="header__right-txt" bindtap="clearAll">清空</view>
+      <view class="header__right-txt" bindtap="clearAll" wx:if="{{slideButtons.length === 3}}">清空</view>
       <image class="header__select-icon m-left-17" src="../../static/icons/recent_play/multi_select.png" bindtap="toggleCheckboxs"></image>
     </block>
     <block wx:else>
@@ -21,7 +21,7 @@
         <view class="list-item__info d-flex">
           <view class="list-item__info-left d-flex">
             <view class="list-item__info-singer">{{item.name}}</view>
-            <view class="list-item__info-song">{{item.ar[0].name}}</view>
+            <view class="list-item__info-song">{{item.ar[0].name || item.artists[0].name}}</view>
           </view>
           <image class="list-item__info-right" wx:if="{{!showCheckbox}}" src="../../static/icons/recent_play/more_read.png"></image>
           <checkbox value="{{item.name}}" wx:if="{{showCheckbox}}" checked="{{item.checked}}" />

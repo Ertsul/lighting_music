@@ -57,11 +57,29 @@ request({
   data: params
 });
 
+// 默认搜索关键词
+const getDefaultKeywordApi = (params = {}) =>
+request({
+  method: "GET",
+  url: baseConfig.baseUrl + "/search/default",
+  data: params
+});
+
+// 搜索建议
+const searchApi = (params = {}) =>
+request({
+  method: "GET",
+  url: baseConfig.baseUrl + "/search/suggest",
+  data: params
+});
+
 module.exports = {
   getList,
   updateInfo,
   getHotListApi,
   getSongSheetDetailApi,
   getSongUrlApi,
-  getLyricApi
+  getLyricApi,
+  getDefaultKeywordApi,
+  searchApi
 };

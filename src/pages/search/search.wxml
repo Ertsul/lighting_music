@@ -12,7 +12,7 @@
       <image bindtap="clearSearchCache" class="icon history-record__delete-icon" src="../../static/icons/search/delete01.png" />
     </view>
     <view class="content-wrap">
-      <view class="content-wrap__item" wx:for="{{searchHistory}}" wx:key="index">{{item}}</view>
+      <view class="content-wrap__item" wx:for="{{searchHistory}}" wx:key="index" data-value="{{item}}" bindtap="clickItemToSearch">{{item}}</view>
     </view>
   </view>
   <view class="hot-search" wx:if="{{hotSearchList.length}}">
@@ -20,11 +20,14 @@
       <text>热门搜索</text>
     </view>
     <view class="content-wrap">
-      <view class="content-wrap__item" wx:for="{{hotSearchList}}" wx:key="index">{{item}}</view>
+      <view class="content-wrap__item" wx:for="{{hotSearchList}}" wx:key="index" data-value="{{item}}" bindtap="clickItemToSearch">{{item}}</view>
     </view>
   </view>
   <!-- 底部播放控制器 -->
-  <view class="player-controller-wrapper">
+  <!-- <view class="player-controller-wrapper">
     <play-controller-bar></play-controller-bar>
+  </view> -->
+  <view class="list-wrap" wx:if="{{songList.length}}">
+    <BaseList list="{{songList}}" count="{{songList.length}}" slideButtons="{{slideButtons}}"></BaseList>
   </view>
 </view>

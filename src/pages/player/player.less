@@ -197,25 +197,35 @@
   height: 64rpx;
 }
 
+.no-lyric {
+  position: relative;
+  width: 100%;
+  flex-grow: 1;
+  overflow: hidden;
+  transition: .6s;
+}
+
 .cover-circle {
   width: 400rpx;
   height: 400rpx;
   border-radius: 100%;
   box-shadow: 0 0 4rpx rgba(0, 0, 0, .5);
-  position: relative;
+  position: absolute;
   left: 50%;
-  top: 40%;
+  top: 50%;
   transform: translate(-50%, -50%) rotate(0);
-
-  transition: 0.5s;
-  transform-origin: center center;  
-  animation: roateInfinit 10s linear infinite forwards;
 
   &__img {
     width: 400rpx;
     height: 400rpx;
     border-radius: 100%;
   }
+}
+
+.play-ani {
+  transition: 0.5s;
+  transform-origin: center center;  
+  animation: roateInfinit 10s linear infinite forwards;
 }
 
 @keyframes roateInfinit {

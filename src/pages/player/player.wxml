@@ -20,8 +20,8 @@
       </view>
       <view wx:else class="noop-lyric-wrap">暂无歌词</view>
     </view>
-    <view class="lyric" wx:else bindtap="changeLyricVisible">
-      <view class="cover-circle">
+    <view wx:else bindtap="changeLyricVisible" class="no-lyric">
+      <view class="cover-circle {{musicInfo.status == 'on' ? 'play-ani' : ''}}">
         <image class="cover-circle__img" src="{{musicInfo.coverImgUrl}}" />
       </view>
     </view>

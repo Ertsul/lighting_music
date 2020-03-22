@@ -3,20 +3,24 @@
     <image class="icon" src="../../static/icons/search/search.png" />
     <text>搜索</text>
   </view>
-  <view class="rank-title">排行榜</view>
-  <view class="rank-list">
-    <view wx:for="{{ranklist}}" wx:key="index" class="d-flex rank-item" bindtap="jumpRankDetailPage">
-      <view class="rank-item__left">
-        <image class="rank-item__left-cover" src="{{item.cover}}"/>
-        <view class="rank-item__left-name">{{item.name}}</view>
-      </view>
-      <view class="d-flex rank-item__right">
-        <view class="rank-item__right-song" wx:for="{{item.songList}}" wx:for-item="songItem" wx:for-index="songIndex" wx:key="songIndex">{{songIndex + 1}}. {{songItem.singer}} - {{songItem.songName}}</view>
+  <view wx:if="{{ranklist.length}}">
+    <view class="rank-title">排行榜</view>
+    <view class="rank-list">
+      <view wx:for="{{ranklist}}" wx:if="{{item.tracks.length}}" wx:key="index" class="d-flex rank-item" data-id="{{item.id}}" bindtap="jumpRankDetailPage">
+        <view class="rank-item__left">
+          <image class="rank-item__left-cover" src="{{item.coverImgUrl}}" />
+        </view>
+        <view class="d-flex rank-item__right">
+          <view class="rank-item__right-song" wx:for="{{item.tracks}}" wx:for-item="songItem" wx:for-index="songIndex" wx:key="songIndex">
+            {{songIndex + 1}}. {{songItem.second}} - {{songItem.first}}
+          </view>
+        </view>
       </view>
     </view>
   </view>
+  <view class="null-block"></view>
   <!-- 底部播放控制器 -->
   <view class="player-controller-wrapper">
-    <play-controller-bar></play-controller-bar>
+    <play-controller-bar musicInfo="{{musicInfo}}"></play-controller-bar>
   </view>
 </view>

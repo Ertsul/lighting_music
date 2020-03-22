@@ -1,72 +1,38 @@
+const { getTopListApi } = require('../../api/api.js');
+const app = getApp();
+
 Page({
   data: {
     txt: 'txt',
-    ranklist: [
-      {
-        cover: 'http://img4.imgtn.bdimg.com/it/u=2958967064,2714608608&fm=26&gp=0.jpg',
-        name: '榜单名',
-        songList: [
-          {
-            songName: '歌名1',
-            singer: '歌手名1'
-          },
-          {
-            songName: '歌名2',
-            singer: '歌手名2'
-          },
-          {
-            songName: '歌名3',
-            singer: '歌手名3'
-          }
-        ]
-      }, {
-        cover: 'http://img4.imgtn.bdimg.com/it/u=2958967064,2714608608&fm=26&gp=0.jpg',
-        name: '榜单名',
-        songList: [
-          {
-            songName: '歌名1',
-            singer: '歌手名1'
-          },
-          {
-            songName: '歌名2',
-            singer: '歌手名2'
-          },
-          {
-            songName: '歌名3',
-            singer: '歌手名3'
-          }
-        ]
-      }, {
-        cover: 'http://img4.imgtn.bdimg.com/it/u=2958967064,2714608608&fm=26&gp=0.jpg',
-        name: '榜单名',
-        songList: [
-          {
-            songName: '歌名1',
-            singer: '歌手名1'
-          },
-          {
-            songName: '歌名2',
-            singer: '歌手名2'
-          },
-          {
-            songName: '歌名3',
-            singer: '歌手名3'
-          }
-        ]
-      }
-    ]
+    ranklist: []
   },
   onLoad() {
     console.log("rank onLoad");
+    this.getTopList();
   },
   async onShow() {
+    this.setData({
+      musicInfo: {
+        coverImgUrl: app.globalData.musicPlayer.coverImgUrl,
+        id: app.globalData.musicPlayer.id,
+        songName: app.globalData.musicPlayer.songName,
+        singer: app.globalData.musicPlayer.singer,
+        status: app.globalData.musicPlayer.status
+      }
+    })
+  },
+  /**
+   * 所有榜单内容摘要
+   */
+  async getTopList() {
     try {
-      const a = 1;
-      const b = 2;
-      const c = 10;
-      const d = 200;
+      const res = await getTopListApi();
+      console.log("所有榜单内容摘要", res.data.list);
+      this.setData({
+        ranklist: res.data.list
+      })
     } catch (error) {
-
+      console.error('所有榜单内容摘要', error);
     }
   },
   /**
@@ -80,9 +46,10 @@ Page({
   /**
    * 跳转排行榜详情
    */
-  jumpRankDetailPage() {
+  jumpRankDetailPage(e) {
+    const id = e.currentTarget.dataset.id;
     wx.navigateTo({
-      url: '/pages/rankDetail/rankDetail'
+      url: `/pages/songSheet/songSheet?id=${id}`
     });
   }
 })

@@ -73,6 +73,14 @@ request({
   data: params
 });
 
+// 所有榜单内容摘要
+const getTopListApi = (params = {}) =>
+request({
+  method: "GET",
+  url: baseConfig.baseUrl + "/toplist/detail",
+  data: params
+});
+
 module.exports = {
   getList,
   updateInfo,
@@ -81,5 +89,6 @@ module.exports = {
   getSongUrlApi,
   getLyricApi,
   getDefaultKeywordApi,
-  searchApi
+  searchApi,
+  getTopListApi
 };

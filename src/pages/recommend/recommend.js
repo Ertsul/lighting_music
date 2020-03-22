@@ -1,6 +1,5 @@
 const { getHotListApi } = require('../../api/api.js');
 const app = getApp();
-let recommendSongsTemplate = [];
 
 Page({
   data: {
@@ -76,6 +75,5 @@ Page({
     } catch (error) {
       console.error(error);
     }
-  },
-
+  }
 })

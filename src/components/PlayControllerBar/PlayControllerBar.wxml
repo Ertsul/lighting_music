@@ -1,6 +1,6 @@
 <view class="play-controller-box" catchtap="jumpPlayerPage" wx:if="{{musicInfo.songName && musicInfo.singer}}">
   <!-- 封面 -->
-  <image class="play-controller-cover" src="http://img1.imgtn.bdimg.com/it/u=1483917017,752494682&fm=26&gp=0.jpg"></image>
+  <image class="play-controller-cover" src="{{musicInfo.coverImgUrl || 'http://img1.imgtn.bdimg.com/it/u=1483917017,752494682&fm=26&gp=0.jpg'}}"></image>
   <!-- 歌曲名 + 歌手名称 -->
   <view class="play-controller-content">
   {{app.globalData.musicPlayer.songName}}

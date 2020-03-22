@@ -24,7 +24,8 @@ Page({
     cacheLyricOffset: 0,
     currentTime: "00:00",
     pointPercent: 0,
-    listPlayType: RECYCLE_LIST_PLAY
+    listPlayType: RECYCLE_LIST_PLAY,
+    ifShowLyric: false
   },
   async onLoad(options) {
     console.log(":::: Player Page onload", options);
@@ -427,5 +428,10 @@ Page({
     const range = max - min;
     const rand = Math.random();
     return min + Math.round(rand * range);
+  },
+  changeLyricVisible() {
+    this.setData({
+      ifShowLyric: !this.data.ifShowLyric
+    })
   }
 })

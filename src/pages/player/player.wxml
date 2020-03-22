@@ -11,7 +11,7 @@
         <view class="nav-title__item" style="font-size: 30rpx">{{musicInfo.singer}}</view>
       </view>
     </view>
-    <view class="lyric">
+    <view class="lyric" wx:if="{{ifShowLyric}}" bindtap="changeLyricVisible">
       <view style="width: 100%;height: 100rpx;"></view>
       <view wx:if="{{lyricList.length}}" class="lyric-wrap" style="transform: translateY({{offsetTop}}rpx);">
         <view class="lyric-item {{currentIndex == index ? 'lyric-item__active' : ''}}" wx:for="{{lyricList}}" wx:key="index">
@@ -19,6 +19,11 @@
         </view>
       </view>
       <view wx:else class="noop-lyric-wrap">暂无歌词</view>
+    </view>
+    <view class="lyric" wx:else bindtap="changeLyricVisible">
+      <view class="cover-circle">
+        <image class="cover-circle__img" src="{{musicInfo.coverImgUrl}}" />
+      </view>
     </view>
     <view class="bottom">
       <view class="process">
@@ -33,9 +38,9 @@
         <image class="list-type-icon" bindtap="changeListPlayType" data-type="1" wx:if="{{listPlayType == 0}}" src="../../static/icons/play/recycle_play.png" />
         <image class="list-type-icon" bindtap="changeListPlayType" data-type="2" wx:elif="{{listPlayType == 1}}" src="../../static/icons/play/one_recycle_play.png" />
         <image class="list-type-icon" bindtap="changeListPlayType" data-type="0" wx:elif="{{listPlayType == 2}}" src="../../static/icons/play/random_play.png" />
-        <image class="change-list-icon prev-icon" src="../../static/icons/play/last_music01.png" bindtap="prevSong"/>
+        <image class="change-list-icon prev-icon" src="../../static/icons/play/last_music01.png" bindtap="prevSong" />
         <image class="play-icon" bindtap="changePlayStatus" src="{{musicInfo.status == 'on' ? '../../static/icons/play/stop.png' : '../../static/icons/play/play.png'}}" />
-        <image class="change-list-icon next-icon" src="../../static/icons/play/last_music01.png" bindtap="nextSong"/>
+        <image class="change-list-icon next-icon" src="../../static/icons/play/last_music01.png" bindtap="nextSong" />
         <image class="list-icon" src="../../static/icons/play/music_list.png" />
       </view>
     </view>

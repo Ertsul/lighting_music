@@ -76,6 +76,7 @@
   width: 100%;
   flex-grow: 1;
   overflow: hidden;
+  transition: .6s;
 
   .noop-lyric-wrap {
     position: absolute;
@@ -194,4 +195,35 @@
 .list-icon {
   width: 64rpx;
   height: 64rpx;
+}
+
+.cover-circle {
+  width: 400rpx;
+  height: 400rpx;
+  border-radius: 100%;
+  box-shadow: 0 0 4rpx rgba(0, 0, 0, .5);
+  position: relative;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%) rotate(0);
+
+  transition: 0.5s;
+  transform-origin: center center;  
+  animation: roateInfinit 10s linear infinite forwards;
+
+  &__img {
+    width: 400rpx;
+    height: 400rpx;
+    border-radius: 100%;
+  }
+}
+
+@keyframes roateInfinit {
+  0% {
+    transform: translate(-50%, -50%) rotate(0);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }

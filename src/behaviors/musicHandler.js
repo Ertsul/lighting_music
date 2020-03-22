@@ -73,6 +73,7 @@ module.exports = Behavior({
         offsetTop: 0,
         currentIndex: 0
       }));
+      this.triggerEvent('playMusic');
     },
     /**
      * 添加音乐到音乐列表

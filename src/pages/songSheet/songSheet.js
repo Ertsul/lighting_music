@@ -1,5 +1,6 @@
 const { getSongSheetDetailApi } = require('../../api/api.js');
-var musicHandler = require('../../behaviors/musicHandler.js')
+var musicHandler = require('../../behaviors/musicHandler.js');
+const app = getApp();
 Page({
   behaviors: [musicHandler],
   data: {
@@ -27,6 +28,17 @@ Page({
       id
     } = option;
     id && this.getSongSheetDetail(id);
+  },
+  onShow() {
+    this.setData({
+      musicInfo: {
+        coverImgUrl: app.globalData.musicPlayer.coverImgUrl,
+        id: app.globalData.musicPlayer.id,
+        songName: app.globalData.musicPlayer.songName,
+        singer: app.globalData.musicPlayer.singer,
+        status: app.globalData.musicPlayer.status
+      }
+    })
   },
   async getSongSheetDetail(id) {
     try {
@@ -59,6 +71,17 @@ Page({
   navigateBack() {
     wx.navigateBack({
       delta: 1
+    })
+  },
+  playMusic() {
+    this.setData({
+      musicInfo: {
+        coverImgUrl: app.globalData.musicPlayer.coverImgUrl,
+        id: app.globalData.musicPlayer.id,
+        songName: app.globalData.musicPlayer.songName,
+        singer: app.globalData.musicPlayer.singer,
+        status: app.globalData.musicPlayer.status
+      }
     })
   }
 })

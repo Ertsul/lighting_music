@@ -23,6 +23,10 @@
     </view>
   </view>
   <view class="song-sheet__list">
-    <BaseList list="{{songList}}" count="{{songList.length}}" slideButtons="{{slideButtons}}"/>
+    <BaseList bindplayMusic="playMusic" list="{{songList}}" count="{{songList.length}}" slideButtons="{{slideButtons}}"/>
   </view>
+</view>
+<!-- 底部播放控制器 -->
+<view class="player-controller-wrapper">
+  <play-controller-bar musicInfo="{{musicInfo}}"></play-controller-bar>
 </view>

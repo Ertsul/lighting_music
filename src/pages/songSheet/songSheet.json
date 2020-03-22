@@ -1,6 +1,7 @@
 {
   "enablePullDownRefresh": false,
   "usingComponents": {
-    "BaseList": "../../components/BaseList/BaseList"
+    "BaseList": "../../components/BaseList/BaseList",
+    "play-controller-bar": "../../components/PlayControllerBar/PlayControllerBar"
   }
 }

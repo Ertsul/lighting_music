@@ -1,6 +1,7 @@
 <view class="player-page">
   <view class="player-page__bg-wrap">
     <image class="player-page__bg" src="{{musicInfo.coverImgUrl}}" />
+    <view class="player-page__bg-1"></view>
   </view>
   <view class="player-page__main">
     <view class="header">

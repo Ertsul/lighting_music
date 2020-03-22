@@ -5,7 +5,7 @@
   </view>
   <view class="player-page__main">
     <view class="header">
-      <image class="icon" src="../../static/icons/play_list/back03.png" bindtap="navigateBack" />
+      <image class="icon" style="transform: rotate(90deg);" src="../../static/icons/play_list/back05.png" bindtap="navigateBack" />
       <view class="nav-title">
         <view class="nav-title__item">{{musicInfo.songName}}</view>
         <view class="nav-title__item" style="font-size: 30rpx">{{musicInfo.singer}}</view>

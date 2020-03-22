@@ -80,7 +80,6 @@ App({
     this.globalData.audioContext.onTimeUpdate(() => {
       let durationArr = this.formatTime(this.globalData.audioContext.duration).slice(0, 5).split(':');
       this.globalData.musicPlayer.timeOffset = this.globalData.musicPlayer.timeOffset + Math.floor(614 / (Number(durationArr[0]) * 60 + Number(durationArr[1])))
-      console.warn("onTimeUpdate duration", durationArr, this.globalData.musicPlayer.timeOffset);
     })
   },
   formatTime(time) {

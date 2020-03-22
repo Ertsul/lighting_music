@@ -97,15 +97,15 @@ Page({
   musicTimeUpdateHandler() {
     // console.log("musicTimeUpdateHandler", app.globalData.audioContext.duration);
     app.globalData.audioContext.onTimeUpdate(() => {
-      console.log("onTimeUpdate duration11111", app.globalData.musicPlayer.timeOffset);
+      // console.log("onTimeUpdate duration11111", app.globalData.musicPlayer.timeOffset);
       let obj = this.formatTime1(app.globalData.audioContext.currentTime);
       let str = `${obj.m}:${obj.s}`;
       // console.log(app.globalData.audioContext.currentTime, '-----', str, Math.floor(614 / (Number(durationArr[0]) * 60 + Number(durationArr[1]))));
       let i = this.data.cacheIndex;
       const durationArr = this.data.duration.split(':');
-      console.log('当前时间', Math.floor((Number(obj.m) * 60 + Number(obj.s))));
-      console.log('总时间', Math.floor((Number(durationArr[0]) * 60 + Number(durationArr[1]))));
-      console.log('-------------------------------')
+      // console.log('当前时间', Math.floor((Number(obj.m) * 60 + Number(obj.s))));
+      // console.log('总时间', Math.floor((Number(durationArr[0]) * 60 + Number(durationArr[1]))));
+      // console.log('-------------------------------')
       if (str != this.data.currentTime) {
         this.setData({
           currentTime: str,

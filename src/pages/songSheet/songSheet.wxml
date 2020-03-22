@@ -1,11 +1,12 @@
 <view class="song-sheet">
   <view class="song-sheet__header">
     <view class="song-sheet__header-bg" style="background-image: {{'url(' + songSheetInfo.coverImgUrl + ')'}};"></view>
+    <view class="song-sheet__header-bg-1"></view>
     <view class="song-sheet__nav d-flex">
-      <image class="icon" src="../../static/icons/play_list/back03.png" bindtap="navigateBack" />
+      <image class="icon" style="transform: rotate(90deg);" src="../../static/icons/play_list/back05.png" bindtap="navigateBack" />
       <view class="nav-title">歌单</view>
     </view>
-    <view class="song-sheet__info d-flex">
+    <view class="song-sheet__info d-flex" wx:if="{{songList.length}}">
       <view class="song-sheet__info-left">
         <image class="song-sheet__cover" src="{{songSheetInfo.coverImgUrl}}" />
         <view class="song-sheet__counts">
@@ -22,8 +23,8 @@
       </view>
     </view>
   </view>
-  <view class="song-sheet__list">
-    <BaseList bindplayMusic="playMusic" list="{{songList}}" count="{{songList.length}}" slideButtons="{{slideButtons}}"/>
+  <view class="song-sheet__list" wx:if="{{songList.length}}">
+    <BaseList bindplayMusic="playMusic" list="{{songList}}" count="{{songList.length}}" slideButtons="{{slideButtons}}" />
   </view>
 </view>
 <!-- 底部播放控制器 -->

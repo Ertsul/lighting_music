@@ -15,7 +15,7 @@
       <view style="width: 100%;height: 100rpx;"></view>
       <view wx:if="{{lyricList.length}}" class="lyric-wrap" style="transform: translateY({{offsetTop}}rpx);">
         <view class="lyric-item {{currentIndex == index ? 'lyric-item__active' : ''}}" wx:for="{{lyricList}}" wx:key="index">
-          {{item.text}}
+          <text>{{item.text}}</text>
         </view>
       </view>
       <view wx:else class="noop-lyric-wrap">暂无歌词</view>

@@ -20,7 +20,12 @@ App({
     // 缓存当前歌曲信息，我的播放列表，我的喜欢音乐列表
     wx.setStorageSync('musicInfo', JSON.stringify({
       musicData: this.globalData.musicData,
-      musicPlayer: this.globalData.musicPlayer
+      musicPlayer: {
+        ...this.globalData.musicPlayer,
+        currentIndex: 0,
+        list: [],
+        offsetTop: 0
+      }
     }));
     // 缓存歌曲信息，当退出小程序时候重置歌曲播放页面的歌词位置信息
     wx.setStorageSync('lyric', JSON.stringify({
@@ -49,6 +54,11 @@ App({
         offsetTop: 0,
         currentIndex: 0
       }))
+      this.globalData.musicPlayer.lyric = {
+        currentIndex: 0,
+        list: [],
+        offsetTop: 0
+      }
       this.globalData.musicPlayer.status = 'end'; // 切换播放器状态
       let {
         playList = [],
@@ -109,7 +119,12 @@ App({
     this.globalData.musicPlayer = {
       ...musicPlayer,
       listPlayType: RECYCLE_LIST_PLAY,
-      timeOffset: 0
+      timeOffset: 0,
+      lyric: {
+        currentIndex: 0,
+        list: [],
+        offsetTop: 0
+      }
     };
     console.log("小程序启动 ================ 获取缓存信息 == start");
     console.log("小程序启动 ================ 喜欢音乐列表 == ", this.globalData.musicData.likeList);
@@ -155,7 +170,12 @@ App({
       id: 0,
       coverImgUrl: '',
       listPlayType: RECYCLE_LIST_PLAY,
-      timeOffset: 0
+      timeOffset: 0,
+      lyric: {
+        currentIndex: 0,
+        list: [],
+        offsetTop: 0
+      }
     }
   }
 })

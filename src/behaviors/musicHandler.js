@@ -61,7 +61,10 @@ module.exports = Behavior({
       app.globalData.audioContext.play();
       app.globalData.musicPlayer = {
         ...app.globalData.musicPlayer,
-        ...musicInfo
+        ...musicInfo,
+        currentIndex: 0,
+        list: [],
+        offsetTop: 0
         // id,
         // url,
         // songName: targetMusic.name || targetMusic.name,

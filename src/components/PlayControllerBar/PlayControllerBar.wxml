@@ -12,6 +12,6 @@
     <image wx:if="{{musicInfo.status == 'off'}}" catchtap="changePlayStatus" src="../../static/icons/my_page/play.png" />
     <image wx:else catchtap="changePlayStatus" src="../../static/icons/my_page/pause.png" />
     <!-- 播放列表图标按钮 -->
-    <image src="../../static/icons/my_page/music_list.png" />
+    <!-- <image src="../../static/icons/my_page/music_list.png" /> -->
   </view>
 </view>

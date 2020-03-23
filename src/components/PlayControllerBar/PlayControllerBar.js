@@ -1,6 +1,7 @@
 const app = getApp();
-
+const timeUpdate = require('../../behaviors/timeUpdate.js');
 Component({
+  behaviors: [timeUpdate],
   properties: {
     // 这里定义了innerText属性，属性值可以在组件使用时指定
     list: {
@@ -21,6 +22,7 @@ Component({
   },
   lifetimes: {
     attached: function () {
+      // this.timeUpdate();
     },
     detached: function () {
       // 在组件实例被从页面节点树移除时执行
@@ -47,6 +49,7 @@ Component({
         this.setData({
           musicInfo
         })
+        this.jumpPlayerPage();
       } else {
         app.globalData.audioContext.pause();
         const musicInfo = {

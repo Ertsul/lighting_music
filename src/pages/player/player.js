@@ -25,7 +25,8 @@ Page({
     currentTime: "00:00",
     pointPercent: 0,
     listPlayType: RECYCLE_LIST_PLAY,
-    ifShowLyric: false
+    ifShowLyric: false,
+    cacheIndex: -1
   },
   async onLoad(options) {
     console.log(":::: Player Page onload", options);
@@ -41,6 +42,9 @@ Page({
     let currentIndex = 0;
     if (cacheLyric) {
       cacheLyric = JSON.parse(cacheLyric);
+      // this.setData({
+      //   cacheIndex: cacheLyric.cacheIndex == -1 ? cacheLyric.cacheIndex : -1
+      // })
     }
     currentIndex = app.globalData.musicPlayer.lyric.currentIndex || 0;
     offsetTop = app.globalData.musicPlayer.lyric.offsetTop || 0;
@@ -109,12 +113,24 @@ Page({
         if (item.time.split('.')[0] == str) {
           if (this.data.currentIndex != i) {
             const reg = /[\n]/gm;
-            const offsetTop = this.data.offsetTop - (item.text.length > 42 ? (Math.round(item.text.length / 42)) * 70 : 70);
+            let offsetTop = 0;
+            // let cacheLyric = wx.getStorageSync('lyric') || "";
+            // if (cacheLyric && JSON.parse(cacheLyric).hasOwnProperty('cacheIndex')) {
+            //   console.log("chacheinsandfkjklsdjflkjsdf");
+              
+            //   const itemOffsetTop = (item.text.length > 42 ? (Math.round(item.text.length / 42)) * 70 : 70);
+            //   offsetTop = this.data.offsetTop - itemOffsetTop * (this.data.currentIndex - app.globalData.musicPlayer.lyric.cacheIndex);
+            //   // delete app.globalData.musicPlayer.lyric.cacheIndex;
+            //   wx.setStorageSync('lyric', '')
+            // } else {
+            // }
+            offsetTop = this.data.offsetTop - (item.text.length > 42 ? (Math.round(item.text.length / 42)) * 70 : 70);
             this.setData({
               currentIndex: i,
               offsetTop,
               lastIndex: item.time.split('.')[0]
             })
+            app.globalData.musicPlayer.lyric.currentIndex = i;
             app.globalData.musicPlayer.lyric.offsetTop = offsetTop;
             break
           }
@@ -152,7 +168,7 @@ Page({
             str += lyricList[j].text;
           }
         }
-        if(Math.round(str.length / 42) < 4) {
+        if (Math.round(str.length / 42) < 4) {
           resLyricList.push({
             text: str,
             time: lyricList[i - 1].time
@@ -262,6 +278,7 @@ Page({
       app.globalData.audioContext.stop();
       app.globalData.musicData.index = index;
       app.globalData.audioContext.src = playList[index].url;
+      app.globalData.audioContext.title = playList[index].songName;
       await this.getLyric(playList[index].id);
       await this.formatLyric();
       app.globalData.musicPlayer = {
@@ -298,6 +315,17 @@ Page({
       this.musicTimeUpdateHandler();
       this.musicEndHandler();
       app.globalData.audioContext.stop();
+      let {
+        playList = [],
+        index = 0
+      } = app.globalData.musicData;
+      if (!playList.length) {
+        return;
+      }
+      app.globalData.audioContext.stop();
+      app.globalData.musicData.index = index;
+      app.globalData.audioContext.src = playList[index].url;
+      app.globalData.audioContext.title = playList[index].songName;
       setTimeout(() => {
         app.globalData.audioContext.play();
       }, 100)
@@ -312,6 +340,7 @@ Page({
       app.globalData.audioContext.stop();
       app.globalData.musicData.index = index;
       app.globalData.audioContext.src = playList[index].url;
+      app.globalData.audioContext.title = playList[index].songName;
       await this.getLyric(playList[index].id);
       await this.formatLyric();
       app.globalData.musicPlayer = {
@@ -366,6 +395,7 @@ Page({
       app.globalData.audioContext.stop();
       app.globalData.musicData.index = index;
       app.globalData.audioContext.src = playList[index].url;
+      app.globalData.audioContext.title = playList[index].songName;
       await this.getLyric(playList[index].id);
       await this.formatLyric();
       app.globalData.musicPlayer = {
@@ -399,9 +429,20 @@ Page({
         cacheIndex: 0,
         timeOffset: 0
       })
+      app.globalData.audioContext.stop();
+      let {
+        playList = [],
+        index = 0
+      } = app.globalData.musicData;
+      if (!playList.length) {
+        return;
+      }
+      app.globalData.audioContext.stop();
+      app.globalData.musicData.index = index;
+      app.globalData.audioContext.src = playList[index].url;
+      app.globalData.audioContext.title = playList[index].songName;
       this.musicTimeUpdateHandler();
       this.musicEndHandler();
-      app.globalData.audioContext.stop();
       setTimeout(() => {
         app.globalData.audioContext.play();
       }, 100)
@@ -416,6 +457,7 @@ Page({
       app.globalData.audioContext.stop();
       app.globalData.musicData.index = index;
       app.globalData.audioContext.src = playList[index].url;
+      app.globalData.audioContext.title = playList[index].songName;
       await this.getLyric(playList[index].id);
       await this.formatLyric();
       app.globalData.musicPlayer = {

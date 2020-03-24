@@ -84,6 +84,15 @@ Page({
         singer: app.globalData.musicPlayer.singer,
         status: app.globalData.musicPlayer.status
       }
+    }, function() {
+      app.globalData.musicPlayer.lyric = {
+        currentIndex: 0,
+        list: [],
+        offsetTop: 0
+      }
+      wx.navigateTo({
+        url: `/pages/player/player?id=${app.globalData.musicPlayer.id}`
+      })
     })
   },
   timeUpdate() {

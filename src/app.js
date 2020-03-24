@@ -15,8 +15,6 @@ App({
   },
   onHide() {
     console.log("onHide", this.globalData.musicData);
-    this.globalData.audioContext.pause();
-    this.globalData.musicPlayer.status = 'off';
     // 缓存当前歌曲信息，我的播放列表，我的喜欢音乐列表
     wx.setStorageSync('musicInfo', JSON.stringify({
       musicData: this.globalData.musicData,
@@ -28,18 +26,19 @@ App({
       }
     }));
     // 缓存歌曲信息，当退出小程序时候重置歌曲播放页面的歌词位置信息
+    // wx.setStorageSync('lyric', JSON.stringify({
+    //   offsetTop: 0,
+    //   currentIndex: 0,
+    //   cacheIndex: this.globalData.musicPlayer.lyric.currentIndex
+    // }))
     wx.setStorageSync('lyric', JSON.stringify({
-      offsetTop: 0,
-      currentIndex: 0
+      offsetTop: this.globalData.musicPlayer.lyric.offsetTop,
+      currentIndex: this.globalData.musicPlayer.lyric.currentIndex,
+      cacheIndex: this.globalData.musicPlayer.lyric.currentIndex
     }))
-    // wx.playBackgroundAudio({
-    //   dataUrl: this.globalData.musicData.playList[this.globalData.musicData.index],
-    //   title: '',
-    //   coverImgUrl: ''
-    // })
   },
   setaudioContext() {
-    this.globalData.audioContext = wx.createInnerAudioContext();
+    this.globalData.audioContext = wx.getBackgroundAudioManager();
     this.globalData.audioContext.onPlay(() => {
       console.log("onPlay");
       this.globalData.musicPlayer.status = 'on'; // 切换播放器状态
@@ -78,6 +77,7 @@ App({
       }
       this.globalData.musicData.index = index;
       this.globalData.audioContext.src = playList[index].url;
+      this.globalData.audioContext.title = playList[index].songName;
       this.globalData.audioContext.play();
       this.globalData.musicPlayer = {
         ...this.globalData.musicPlayer,
@@ -115,17 +115,31 @@ App({
       musicData,
       musicPlayer
     } = musicInfo;
+    let lyric = wx.getStorageSync('lyric') || "";
+    if (lyric) {
+      lyric = JSON.parse(lyric);
+    } else {
+      lyric = {
+        cacheIndex: -1,
+        currentIndex: 0,
+        list: [],
+        offsetTop: 0
+      }
+    }
+    console.log('lyric', lyric);
     this.globalData.musicData = musicData;
     this.globalData.musicPlayer = {
       ...musicPlayer,
       listPlayType: RECYCLE_LIST_PLAY,
       timeOffset: 0,
       lyric: {
-        currentIndex: 0,
+        currentIndex: lyric.currentIndex,
+        cacheIndex: lyric.cacheIndex,
         list: [],
         offsetTop: 0
       }
     };
+    console.log('lyric', this.globalData.musicPlayer.lyric);
     console.log("小程序启动 ================ 获取缓存信息 == start");
     console.log("小程序启动 ================ 喜欢音乐列表 == ", this.globalData.musicData.likeList);
     console.log("小程序启动 ================ 播放音乐列表 ==", this.globalData.musicData.playList);
@@ -136,7 +150,9 @@ App({
     }
     if (!this.globalData.musicPlayer.songName && this.globalData.musicData.playList.length) { // 无当前播放歌曲信息，默认播放我的播放列表的第一首歌曲
       this.globalData.audioContext.src = musicData.playList[0].url;
+      this.globalData.audioContext.title = musicData.playList[musicData.index].songName;
       this.globalData.musicPlayer = {
+        ...this.globalData.musicPlayer,
         natualPlay: true, // 是否是自动播放
         songName: musicData.playList[0].songName, // 歌曲名
         singer: musicData.playList[0].singer, // 歌手名
@@ -148,10 +164,11 @@ App({
         timeOffset: 0
       }
     } else {
+      this.globalData.audioContext.title = musicData.playList[musicData.index].songName;
       this.globalData.audioContext.src = musicData.playList[musicData.index].url;
     }
-    // // this.globalData.audioContext.src = 'http://m701.music.126.net/20200311221825/7ef2981ecb1142a5f9295cb62a5bdf3c/jdymusic/obj/w5zDlMODwrDDiGjCn8Ky/1643178593/78c4/6354/fb10/a20e5b10ab9e97f6c915cd5cd73f5ded.mp3'
-    // this.globalData.musicPlayer.status = 'off';
+    this.globalData.musicPlayer.status = 'off';
+    this.globalData.audioContext.pause();
   },
   globalData: {
     audioContext: null,
@@ -172,6 +189,7 @@ App({
       listPlayType: RECYCLE_LIST_PLAY,
       timeOffset: 0,
       lyric: {
+        cacheIndex: -1,
         currentIndex: 0,
         list: [],
         offsetTop: 0
@@ -179,4 +197,3 @@ App({
     }
   }
 })
-// {"musicData":{"likeList":[],"playList":[{"id":1330348068,"url":"http://m7.music.126.net/20200311235514/7732aef6afb650e633aaa5b087b9cff7/ymusic/0758/550f/545f/028d3b9421be8425d60dc57735cf6ebc.mp3","songName":"起风了","singer":"买辣椒也用券"}],"index":0},"musicPlayer":{"natualPlay":false,"songName":"起风了","singer":"买辣椒也用券","status":"off","loop":false}}

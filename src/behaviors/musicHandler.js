@@ -25,6 +25,7 @@ module.exports = Behavior({
       } = await this.getSongUrl(id);
       console.log("播放当前音乐 musicData", url, targetMusic);
       // 设置播放器属性
+      app.globalData.audioContext.title = targetMusic.name;
       app.globalData.audioContext.src = url;
       app.globalData.musicPlayer.natualPlay = false; // 用户点点击
       let musicInfo = {
@@ -76,7 +77,7 @@ module.exports = Behavior({
         offsetTop: 0,
         currentIndex: 0
       }));
-      this.triggerEvent('playMusic');
+      this.triggerEvent('playMusic', id);
     },
     /**
      * 添加音乐到音乐列表

@@ -9,6 +9,10 @@
     "pages/songSheet/songSheet",
     "pages/rankDetail/rankDetail"
   ],
+  "requiredBackgroundModes": [
+    "audio",
+    "location"
+  ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",

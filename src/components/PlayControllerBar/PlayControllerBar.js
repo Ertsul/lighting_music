@@ -46,10 +46,12 @@ Component({
           ...this.data.musicInfo,
           status: 'on'
         }
+        const vm = this;
         this.setData({
           musicInfo
+        }, function() {
+          vm.jumpPlayerPage();
         })
-        this.jumpPlayerPage();
       } else {
         app.globalData.audioContext.pause();
         const musicInfo = {

@@ -25,6 +25,13 @@ Page({
   onShow() {
     this.timeUpdate();
   },
+  playMusic(e) {
+    setTimeout(() => {
+      wx.navigateTo({
+        url: `/pages/player/player?id=${e.detail}`
+      })
+    }, 260)
+  },
   /**
    * 获取默认搜索关键词
    */

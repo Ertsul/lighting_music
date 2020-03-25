@@ -14,42 +14,41 @@
     <view wx:else>
       <view class="header__bg" style="background-color: #EBF6F7;"></view>
       <view class="header__user-info authorize">
-        <button class="authorize-btn">登录网易云账号</button>
-        <!-- <view class=" authorize-txt">授权登录网易云账号</view> -->
+        <view class="header__avatar">
+          <open-data style="width: 160rpx;height: 160rpx; border-radius: 160rpx" type="userAvatarUrl"></open-data>
+        </view>
+        <open-data type="userNickName" class="header__nickname"></open-data>
       </view>
     </view>
-    <view class="header__bottom">
-      <view class="header__bottom-item header__like">
-        <image class="header__bottom-item-icon" src="../../static/icons/my_page/like.png" />
-        <text>喜欢</text>
+    <!-- <view class="header__user-info">
+      <view class="header__avatar">
+        <open-data style="width: 160rpx;height: 160rpx; border-radius: 160rpx" type="userAvatarUrl"></open-data>
       </view>
-      <view class="header__bottom-item header__collection" bindtap="jumpRecentPlayPage">
-        <image class="header__bottom-item-icon" src="../../static/icons/my_page/recently_play.png" />
-        <text>最近</text>
-      </view>
-    </view>
+      <open-data type="userNickName" class="header__nickname"></open-data>
+    </view> -->
+    <view class="header__bottom"></view>
   </view>
   <!-- 底部 -->
   <view class="footer">
     <view class="footer__tab">
       <view class="footer__tab-item footer__self-build-list {{currentActiveTab == 0 ? 'footer__tab-item-active' : ''}}" data-index="0" bindtap="changeTab">
-        自建歌单
+        播放列表
       </view>
       <view class="footer__tab-item footer__collect-list {{currentActiveTab == 1 ? 'footer__tab-item-active' : ''}}" data-index="1" bindtap="changeTab">
-        收藏歌单
+        喜欢音乐
       </view>
     </view>
   </view>
-  <!-- tab0 自建歌单 -->
+  <!-- tab0 播放列表 -->
   <view class="tab-content-container" wx:if="{{currentActiveTab == 0}}">
-    <list list="{{selfBuildList}}" type="{{currentActiveTab}}"></list>
+    <BaseList listType="1" list="{{playList}}" slideButtons="{{slideButtons1}}" bindplayMusic="playMusic"></BaseList>
   </view>
-  <!-- tab1 收藏歌单 -->
+  <!-- tab1 喜欢音乐 -->
   <view class="tab-content-container" wx:if="{{currentActiveTab == 1}}">
-    <list list="{{collectList}}" type="{{currentActiveTab}}"></list>
+    <BaseList listType="1" list="{{likeList}}" slideButtons="{{slideButtons2}}" bindplayMusic="playMusic"></BaseList>
   </view>
   <!-- 底部播放控制器 -->
   <view class="player-controller-wrapper">
-    <play-controller-bar></play-controller-bar>
+    <play-controller-bar musicInfo="{{musicInfo}}"></play-controller-bar>
   </view>
 </view>

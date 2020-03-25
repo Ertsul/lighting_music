@@ -1,9 +1,9 @@
 <view class="recent-play-page">
   <view class="top">
-    <BaseList></BaseList>
+    <BaseList listType="1" list="{{list}}" slideButtons="{{slideButtons}}"></BaseList>
   </view>
   <!-- 底部播放控制组件 -->
-  <view class="footer">
+  <!-- <view class="footer">
     <PlayControllerBar></PlayControllerBar>
-  </view>
+  </view> -->
 </view>

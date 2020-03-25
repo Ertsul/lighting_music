@@ -184,6 +184,8 @@ Component({
             });
         },
         buttonTapByWxs: function buttonTapByWxs(data) {
+            console.log("data", data);
+            
             this.triggerEvent('buttontap', data, {});
         },
         hide: function hide() {

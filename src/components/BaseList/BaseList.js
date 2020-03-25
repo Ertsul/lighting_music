@@ -24,14 +24,16 @@ Component({
     slideButtons: {
       type: Array,
       value: [{
+        type: 'play',
         text: '下一首播放',
         src: '../../static/icons/recent_play/next.png' // icon的路径
       }, {
+        type: 'like',
         text: '普通',
         extClass: 'test',
         src: '../../static/icons/recent_play/like.png' // icon的路径
       }, {
-        type: 'warn',
+        type: 'delete',
         text: '警示',
         extClass: 'test',
         src: '../../static/icons/recent_play/delete.png' // icon的路径
@@ -76,7 +78,8 @@ Component({
     slideButtonTap(e) {
       const {
         detail: {
-          index: btnType = ADD_TO_LIST
+          // index: btnType = ADD_TO_LIST，
+          type: btnType = ''
         },
         currentTarget: {
           dataset: {
@@ -85,9 +88,9 @@ Component({
         }
       } = e;
       console.log("btnType listIndex", btnType, listIndex);
-      if (btnType == ADD_TO_LIST) {
+      if (btnType == 'play') {
         this.addMusicToList(e);
-      } else if (btnType == ADD_TO_LIKE) {
+      } else if (btnType == 'like') {
         this.addMusicToLike(e);
       } else {
         this.deleteMusicFromList(e);

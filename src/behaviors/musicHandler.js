@@ -25,19 +25,28 @@ module.exports = Behavior({
       } = await this.getSongUrl(id);
       console.log("播放当前音乐 musicData", url, targetMusic);
       // 设置播放器属性
-      app.globalData.audioContext.title = targetMusic.name;
+      app.globalData.audioContext.title = targetMusic.name || targetMusic.songName;
       app.globalData.audioContext.src = url;
       app.globalData.musicPlayer.natualPlay = false; // 用户点点击
       let musicInfo = {
         id,
         url,
-        songName: targetMusic.name || targetMusic.name
+        songName: targetMusic.name || targetMusic.songName
       }
-      if (targetMusic.ar && targetMusic.ar[0]) {
+      console.log("targetMusic",targetMusic);
+      
+      if (targetMusic.hasOwnProperty('ar') && targetMusic.ar[0]) {
         musicInfo = {
           ...musicInfo,
           singer: targetMusic.ar[0].name,
           coverImgUrl: targetMusic.al.picUrl
+        }
+      } else if (!targetMusic.hasOwnProperty('ar')) {
+        musicInfo = {
+          ...musicInfo,
+          singer: targetMusic.singer,
+          coverImgUrl: targetMusic.coverImgUrl
+
         }
       } else {
         musicInfo = {
@@ -52,12 +61,17 @@ module.exports = Behavior({
       //   singer: targetMusic.ar[0].name || targetMusic.artists[0].name,
       //   coverImgUrl: targetMusic.al.picUrl || targetMusic.artists[0].img1v1Url
       // };
-      if (app.globalData.musicData.playList && app.globalData.musicData.playList.length > 0) {
-        app.globalData.musicData.playList.splice(app.globalData.musicData.index, 0, musicInfo)
-        app.globalData.musicData.index = app.globalData.musicData.index;
-      } else {
-        app.globalData.musicData.index = 0;
-        app.globalData.musicData.playList.push(musicInfo);
+      console.log("app.globalData.musicData.playList", app.globalData.musicData.playList);
+      const currentPage = getCurrentPages();
+      if (currentPage[0].is != 'pages/index/index') {
+        console.log(getCurrentPages());
+        if (app.globalData.musicData.playList && app.globalData.musicData.playList.length > 0) {
+          app.globalData.musicData.playList.splice(app.globalData.musicData.index, 0, musicInfo)
+          app.globalData.musicData.index = app.globalData.musicData.index;
+        } else {
+          app.globalData.musicData.index = 0;
+          app.globalData.musicData.playList.push(musicInfo);
+        }
       }
       app.globalData.audioContext.play();
       app.globalData.musicPlayer = {
@@ -72,6 +86,9 @@ module.exports = Behavior({
         // singer: targetMusic.ar[0].name || targetMusic.artists[0].name,
         // coverImgUrl: targetMusic.al.picUrl || targetMusic.artists[0].img1v1Url
       }
+      // app.globalData.musicData.playList = [...new Set(app.globalData.musicData.playList)];
+      // app.globalData.musicData.playList = Array.from(app.globalData.musicData.playList);
+
       // 歌曲播放页面的歌词播放位置（恢复默认位置）
       wx.setStorageSync('lyric', JSON.stringify({
         offsetTop: 0,
@@ -93,13 +110,20 @@ module.exports = Behavior({
       let musicInfo = {
         id,
         url,
-        songName: targetMusic.name || targetMusic.name
+        songName: targetMusic.name || targetMusic.songName
       }
       if (targetMusic.ar && targetMusic.ar[0]) {
         musicInfo = {
           ...musicInfo,
           singer: targetMusic.ar[0].name,
           coverImgUrl: targetMusic.al.picUrl
+        }
+      } else if (!targetMusic.hasOwnProperty('ar')) {
+        musicInfo = {
+          ...musicInfo,
+          singer: targetMusic.singer,
+          coverImgUrl: targetMusic.coverImgUrl
+
         }
       } else {
         musicInfo = {
@@ -109,6 +133,13 @@ module.exports = Behavior({
         }
       }
       url && app.globalData.musicData.playList.push(musicInfo);
+      // app.globalData.musicData.playList = [...new Set(app.globalData.musicData.playList)];
+      // app.globalData.musicData.playList = Array.from(app.globalData.musicData.playList);
+      wx.showToast({
+        title: '已加到播放列表',
+        icon: 'success',
+        duration: 2000
+      })
     },
     /**
      * 添加音乐到喜欢列表
@@ -124,13 +155,20 @@ module.exports = Behavior({
       let musicInfo = {
         id,
         url,
-        songName: targetMusic.name || targetMusic.name
+        songName: targetMusic.name || targetMusic.songName
       }
       if (targetMusic.ar && targetMusic.ar[0]) {
         musicInfo = {
           ...musicInfo,
           singer: targetMusic.ar[0].name,
           coverImgUrl: targetMusic.al.picUrl
+        }
+      } else if (!targetMusic.hasOwnProperty('ar')) {
+        musicInfo = {
+          ...musicInfo,
+          singer: targetMusic.singer,
+          coverImgUrl: targetMusic.coverImgUrl
+
         }
       } else {
         musicInfo = {
@@ -140,6 +178,13 @@ module.exports = Behavior({
         }
       }
       url && app.globalData.musicData.likeList.push(musicInfo);
+      // app.globalData.musicData.likeList = [...new Set(app.globalData.musicData.likeList)];
+      // app.globalData.musicData.likeList = Array.from(app.globalData.musicData.likeList);
+      wx.showToast({
+        title: '已加到喜欢列表',
+        icon: 'success',
+        duration: 2000
+      })
     },
     /**
      * 删除喜欢列表中的音乐

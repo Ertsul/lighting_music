@@ -1,59 +1,53 @@
 const [SELF_BUILD_LIST, COLLECT_LIST] = [0, 1];
-
+const app = getApp();
+const [
+  LIKE_LIST,
+  RERENT_PLAY_LIST
+] = [0, 1];
 Page({
   data: {
-    txt: 'txt',
-    userInfo: {
-      // avatarUrl: "../../static/images/2.jpg",
-      // nickName: "Ynnus"
-      // avatarUrl: "",
-      // nickName: "",
-    },
-    currentActiveTab: 0,
-    selfBuildList: [ // 自建歌单
-    ],
-    collectList: [ // 收藏歌单
-    ],
-    i: 0,
-    imgsArr: [
-      'http://img0.imgtn.bdimg.com/it/u=1563847232,2166245740&fm=26&gp=0.jpg',
-      'http://img4.imgtn.bdimg.com/it/u=2958967064,2714608608&fm=26&gp=0.jpg',
-      'http://img4.imgtn.bdimg.com/it/u=4013814910,1099586848&fm=26&gp=0.jpg',
-      'http://img5.imgtn.bdimg.com/it/u=441837680,1650038187&fm=26&gp=0.jpg'
-    ]
+    currentActiveTab: LIKE_LIST,
+    likeList: [],
+    playList: [],
+    musicInfo: {},
+    slideButtons1: [{
+      type: 'like',
+      text: '普通',
+      extClass: 'test',
+      src: '../../static/icons/recent_play/like.png' // icon的路径
+    }, {
+      type: 'delete',
+      text: '警示',
+      extClass: 'test',
+      src: '../../static/icons/recent_play/delete.png' // icon的路径
+    }],
+    slideButtons2: [{
+      type: 'play',
+      text: '下一首播放',
+      src: '../../static/icons/recent_play/next.png' // icon的路径
+    }, {
+      type: 'delete',
+      text: '警示',
+      extClass: 'test',
+      src: '../../static/icons/recent_play/delete.png' // icon的路径
+    }]
   },
   onLoad() {
-    console.log("index onLoad");
-    // setInterval(() => {
-    //   let index = this.data.i;
-    //   if (index == this.data.imgsArr.length) {
-    //     index = 0;
-    //   }
-    //   const currentImg = this.data.imgsArr[index];
-    //   const img = 'userInfo.avatarUrl';
-    //   this.setData({
-    //     [img]: currentImg,
-    //     i: ++index
-    //   })
-    // }, 1500)
+    this.timeUpdate();
   },
-  async onShow() {
-    try {
-      const a = 1;
-      const b = 2;
-      const c = 10;
-      const d = 200;
-      // let imgsArr = [
-      //   'http://img0.imgtn.bdimg.com/it/u=1563847232,2166245740&fm=26&gp=0.jpg',
-      //   'http://img4.imgtn.bdimg.com/it/u=2958967064,2714608608&fm=26&gp=0.jpg',
-      //   'http://img4.imgtn.bdimg.com/it/u=4013814910,1099586848&fm=26&gp=0.jpg',
-      //   'http://img5.imgtn.bdimg.com/it/u=441837680,1650038187&fm=26&gp=0.jpg'
-      // ];
-      // let i = 0;
-      
-    } catch (error) {
-
-    }
+  onShow() {
+    this.setData({
+      likeList: app.globalData.musicData.likeList,
+      playList: app.globalData.musicData.playList,
+      musicInfo: {
+        coverImgUrl: app.globalData.musicPlayer.coverImgUrl,
+        id: app.globalData.musicPlayer.id,
+        songName: app.globalData.musicPlayer.songName,
+        singer: app.globalData.musicPlayer.singer,
+        status: app.globalData.musicPlayer.status
+      }
+    })
+    this.timeUpdate();
   },
   /**
    * 切换 tab
@@ -62,7 +56,29 @@ Page({
   changeTab(e) {
     const currentActiveTab = e.target.dataset.index || 0;
     this.setData({
-      currentActiveTab
+      currentActiveTab,
+      likeList: app.globalData.musicData.likeList,
+      playList: app.globalData.musicData.playList
+    })
+  },
+  playMusic() {
+    this.setData({
+      musicInfo: {
+        coverImgUrl: app.globalData.musicPlayer.coverImgUrl,
+        id: app.globalData.musicPlayer.id,
+        songName: app.globalData.musicPlayer.songName,
+        singer: app.globalData.musicPlayer.singer,
+        status: app.globalData.musicPlayer.status
+      }
+    }, function() {
+      app.globalData.musicPlayer.lyric = {
+        currentIndex: 0,
+        list: [],
+        offsetTop: 0
+      }
+      wx.navigateTo({
+        url: `/pages/player/player?id=${app.globalData.musicPlayer.id}`
+      })
     })
   },
   /**
@@ -72,5 +88,43 @@ Page({
     wx.navigateTo({
       url: '/pages/recentPlay/recentPlay'
     });
+  },
+  timeUpdate() {
+    app.globalData.audioContext.onTimeUpdate(() => {
+      console.log("timeupdatetimeupdatetimeupdatetimeupdate");
+      let obj = this.formatTime1(app.globalData.audioContext.currentTime);
+      let str = `${obj.m}:${obj.s}`;
+      let i = 0;
+      for (i; i < app.globalData.musicPlayer.lyric.list.length; i++) {
+        const item = app.globalData.musicPlayer.lyric.list[i];
+        if (item.time.split('.')[0] == str) {
+          console.log("app.globalData.musicPlayer.lyric.offsetTop", app.globalData.musicPlayer.lyric.offsetTop);
+          if (app.globalData.musicPlayer.lyric.currentIndex != i) {
+            const offsetTop = app.globalData.musicPlayer.lyric.offsetTop - (item.text.length > 42 ? (Math.round(item.text.length / 42)) * 70 : 70);
+            const reg = /[\n]/gm;
+            app.globalData.musicPlayer.lyric.offsetTop = offsetTop;
+            app.globalData.musicPlayer.lyric.currentIndex = i;
+            console.log("app.globalData.musicPlayer.lyric.offsetTop", app.globalData.musicPlayer.lyric.offsetTop);
+            break
+          }
+        }
+      }
+    })
+  },
+  formatTime1(total) {
+    let h = this.repairZero(Math.floor(total / 3600));
+    let m = this.repairZero(Math.floor((total - h * 3600) / 60));
+    let s = this.repairZero(Math.floor(total - h * 3600 - m * 60));
+    return { h, m, s };
+  },
+  formatTime(time) {
+    let min = Math.floor(time / 60);
+    min = min < 10 ? `0${min}` : min;
+    let second = (time % 60) * 10;
+    second = second < 10 ? `0${second.toFixed(2)}` : second.toFixed(2);
+    return `${min}:${second}` == "00:00" ? '' : `${min}:${second}`
+  },
+  repairZero(num) {
+    return num < 10 ? '0' + num : num;
   }
 })

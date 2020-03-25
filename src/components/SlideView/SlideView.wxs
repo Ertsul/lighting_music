@@ -155,7 +155,7 @@ var innerHideButton = function(ownerInstance) {
 }
 var hideButton = function(event, ownerInstance) {
     innerHideButton(ownerInstance)
-    ownerInstance.callMethod('buttonTapByWxs', {index: event.currentTarget.dataset.index, data: event.currentTarget.dataset.data})
+    ownerInstance.callMethod('buttonTapByWxs', {index: event.currentTarget.dataset.index, data: event.currentTarget.dataset.data, type: event.currentTarget.dataset.type})
     return false
 }
 var sizeReady = function(newVal, oldVal, ownerInstance, ins) {

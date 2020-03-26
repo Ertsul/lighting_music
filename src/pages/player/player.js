@@ -133,8 +133,6 @@ Page({
   formatLyric() {
     let lyric = this.data.lyric;
     let lyricList = lyric.split("[").reduce((prev, cur, idx) => {
-      console.log("index", idx);
-
       const curArr = cur.split("]");
       const time = curArr[0];
       const text = curArr[1];

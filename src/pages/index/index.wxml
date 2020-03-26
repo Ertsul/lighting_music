@@ -20,12 +20,6 @@
         <open-data type="userNickName" class="header__nickname"></open-data>
       </view>
     </view>
-    <!-- <view class="header__user-info">
-      <view class="header__avatar">
-        <open-data style="width: 160rpx;height: 160rpx; border-radius: 160rpx" type="userAvatarUrl"></open-data>
-      </view>
-      <open-data type="userNickName" class="header__nickname"></open-data>
-    </view> -->
     <view class="header__bottom"></view>
   </view>
   <!-- 底部 -->

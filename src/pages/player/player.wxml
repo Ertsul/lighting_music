@@ -5,7 +5,8 @@
   </view>
   <view class="player-page__main">
     <view class="header">
-      <image class="icon" style="transform: rotate(90deg);" src="../../static/icons/play_list/back05.png" bindtap="navigateBack" />
+      <image class="icon" style="transform: rotate(90deg);" src="../../static/icons/play_list/back05.png"
+        bindtap="navigateBack" />
       <view class="nav-title">
         <view class="nav-title__item">{{musicInfo.songName}}</view>
         <view class="nav-title__item" style="font-size: 30rpx">{{musicInfo.singer}}</view>
@@ -13,11 +14,14 @@
     </view>
     <view class="lyric" wx:if="{{ifShowLyric}}" bindtap="changeLyricVisible">
       <view style="width: 100%;height: 100rpx;"></view>
-      <view wx:if="{{lyricList.length}}" class="lyric-wrap" style="transform: translateY({{offsetTop}}rpx);">
-        <view class="lyric-item {{currentIndex == index ? 'lyric-item__active' : ''}}" wx:for="{{lyricList}}" wx:key="index">
-          <text>{{item.text}}</text>
-        </view>
-      </view>
+      <scroll-view scroll-y wx:if="{{lyricList.length}}" class="lyric-wrap" scroll-into-view="{{toViewId}}"
+        scroll-with-animation>
+        <block wx:for="{{lyricList}}" wx:for-item="lyric" wx:key="lyric">
+          <view class="lyric-item {{toViewId == lyric.id ? 'lyric-item__active' : ''}}" data-time="{{lyric.time}}" id="{{lyric.id}}">
+            <text>{{lyric.text}}</text>
+          </view>
+        </block>
+      </scroll-view>
       <view wx:else class="noop-lyric-wrap">暂无歌词</view>
     </view>
     <view wx:else bindtap="changeLyricVisible" class="no-lyric">
@@ -35,12 +39,16 @@
         <view class="all-time">{{duration}}</view>
       </view>
       <view class="play-btns">
-        <image class="list-type-icon" bindtap="changeListPlayType" data-type="1" wx:if="{{listPlayType == 0}}" src="../../static/icons/play/recycle_play.png" />
-        <image class="list-type-icon" bindtap="changeListPlayType" data-type="2" wx:elif="{{listPlayType == 1}}" src="../../static/icons/play/one_recycle_play.png" />
-        <image class="list-type-icon" bindtap="changeListPlayType" data-type="0" wx:elif="{{listPlayType == 2}}" src="../../static/icons/play/random_play.png" />
-        <image class="change-list-icon prev-icon" src="../../static/icons/play/last_music01.png" bindtap="prevSong" />
-        <image class="play-icon" bindtap="changePlayStatus" src="{{musicInfo.status == 'on' ? '../../static/icons/play/stop.png' : '../../static/icons/play/play.png'}}" />
-        <image class="change-list-icon next-icon" src="../../static/icons/play/last_music01.png" bindtap="nextSong" />
+        <image class="list-type-icon" bindtap="changeListPlayType" data-type="1" wx:if="{{listPlayType == 0}}"
+          src="../../static/icons/play/recycle_play.png" />
+        <image class="list-type-icon" bindtap="changeListPlayType" data-type="2" wx:elif="{{listPlayType == 1}}"
+          src="../../static/icons/play/one_recycle_play.png" />
+        <image class="list-type-icon" bindtap="changeListPlayType" data-type="0" wx:elif="{{listPlayType == 2}}"
+          src="../../static/icons/play/random_play.png" />
+        <image class="change-list-icon prev-icon" src="../../static/icons/play/last_music01.png" bindtap="changeSong" data-type="prev" />
+        <image class="play-icon" bindtap="changePlayStatus"
+          src="{{musicInfo.status == 'on' ? '../../static/icons/play/stop.png' : '../../static/icons/play/play.png'}}" />
+        <image class="change-list-icon next-icon" src="../../static/icons/play/last_music01.png" bindtap="changeSong" data-type="next" />
         <image class="list-icon" src="../../static/icons/play/music_list.png" />
       </view>
     </view>

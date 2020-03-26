@@ -38,7 +38,11 @@ Component({
         extClass: 'test',
         src: '../../static/icons/recent_play/delete.png' // icon的路径
       }]
-    }
+    },
+    ifMultiSelect: { // 是否显示多选
+      type: Boolean,
+      value: true
+    },
   },
   data: {
     ifSelectedAll: false, // 是否全选

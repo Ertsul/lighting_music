@@ -25,39 +25,30 @@ App({
         offsetTop: 0
       }
     }));
-    // 缓存歌曲信息，当退出小程序时候重置歌曲播放页面的歌词位置信息
-    // wx.setStorageSync('lyric', JSON.stringify({
-    //   offsetTop: 0,
-    //   currentIndex: 0,
-    //   cacheIndex: this.globalData.musicPlayer.lyric.currentIndex
-    // }))
-    wx.setStorageSync('lyric', JSON.stringify({
-      offsetTop: this.globalData.musicPlayer.lyric.offsetTop,
-      currentIndex: this.globalData.musicPlayer.lyric.currentIndex,
-      cacheIndex: this.globalData.musicPlayer.lyric.currentIndex
-    }))
+    wx.setStorageSync(
+      "lyric",
+      JSON.stringify({
+        currentTime: '',
+        timeOffset: '',
+        toViewId: 'L0'
+      })
+    );
   },
   setaudioContext() {
-    this.globalData.audioContext = wx.getBackgroundAudioManager();
+    this.globalData.audioContext = wx.getBackgroundAudioManager(); // 创建背景音乐对象
+    // 监听播放事件
     this.globalData.audioContext.onPlay(() => {
-      console.log("onPlay");
+      console.log("播放 onPlay");
       this.globalData.musicPlayer.status = 'on'; // 切换播放器状态
     })
+    // 监听暂停事件
     this.globalData.audioContext.onPause(() => {
+      console.log("暂停 onPause");
       this.globalData.musicPlayer.status = 'off';
-      console.log("onPause");
     })
+    // 监听结束事件
     this.globalData.audioContext.onEnded(() => {
-      console.log("onEnded");
-      wx.setStorageSync('lyric', JSON.stringify({
-        offsetTop: 0,
-        currentIndex: 0
-      }))
-      this.globalData.musicPlayer.lyric = {
-        currentIndex: 0,
-        list: [],
-        offsetTop: 0
-      }
+      console.log("结束 onEnded");
       this.globalData.musicPlayer.status = 'end'; // 切换播放器状态
       let {
         playList = [],
@@ -109,37 +100,16 @@ App({
     if (!musicInfo) {
       return;
     }
-
     musicInfo = JSON.parse(musicInfo);
     const {
       musicData,
       musicPlayer
     } = musicInfo;
-    let lyric = wx.getStorageSync('lyric') || "";
-    if (lyric) {
-      lyric = JSON.parse(lyric);
-    } else {
-      lyric = {
-        cacheIndex: -1,
-        currentIndex: 0,
-        list: [],
-        offsetTop: 0
-      }
-    }
-    console.log('lyric', lyric);
     this.globalData.musicData = musicData;
     this.globalData.musicPlayer = {
       ...musicPlayer,
       listPlayType: RECYCLE_LIST_PLAY,
-      timeOffset: 0,
-      lyric: {
-        currentIndex: lyric.currentIndex,
-        cacheIndex: lyric.cacheIndex,
-        list: [],
-        offsetTop: 0
-      }
     };
-    console.log('lyric', this.globalData.musicPlayer.lyric);
     console.log("小程序启动 ================ 获取缓存信息 == start");
     console.log("小程序启动 ================ 喜欢音乐列表 == ", this.globalData.musicData.likeList);
     console.log("小程序启动 ================ 播放音乐列表 ==", this.globalData.musicData.playList);
@@ -153,47 +123,35 @@ App({
       this.globalData.audioContext.title = musicData.playList[musicData.index].songName;
       this.globalData.musicPlayer = {
         ...this.globalData.musicPlayer,
-        natualPlay: true, // 是否是自动播放
         songName: musicData.playList[0].songName, // 歌曲名
         singer: musicData.playList[0].singer, // 歌手名
         status: 'off', // 音乐播放器状态 'on' or 'off'
-        loop: false, // 是否循环播放
         id: musicData.playList[0].id,
         coverImgUrl: musicData.playList[0].coverImgUrl,
         listPlayType: RECYCLE_LIST_PLAY,
-        timeOffset: 0
       }
     } else {
       this.globalData.audioContext.title = musicData.playList[musicData.index].songName;
       this.globalData.audioContext.src = musicData.playList[musicData.index].url;
     }
-    this.globalData.musicPlayer.status = 'off';
     this.globalData.audioContext.pause();
+    this.globalData.musicPlayer.status = 'off';
   },
   globalData: {
     audioContext: null,
-    userInfo: null,
     musicData: { // 音乐数据
       likeList: [],
       playList: [], // 音乐列表
       index: 0 // 当前播放索引
     },
     musicPlayer: {
-      natualPlay: true, // 是否是自动播放
       songName: '', // 歌曲名
       singer: '', // 歌手名
       status: 'on', // 音乐播放器状态 'on' or 'off'
-      loop: false, // 是否循环播放
       id: 0,
       coverImgUrl: '',
       listPlayType: RECYCLE_LIST_PLAY,
       timeOffset: 0,
-      lyric: {
-        cacheIndex: -1,
-        currentIndex: 0,
-        list: [],
-        offsetTop: 0
-      }
     }
   }
 })

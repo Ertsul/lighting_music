@@ -28,6 +28,6 @@
     <play-controller-bar></play-controller-bar>
   </view> -->
   <view class="list-wrap" wx:if="{{songList.length}}">
-    <BaseList list="{{songList}}" count="{{songList.length}}" slideButtons="{{slideButtons}}" bindplayMusic="playMusic"></BaseList>
+    <BaseList list="{{songList}}" count="{{songList.length}}" slideButtons="{{slideButtons}}" bindplayMusic="playMusic" ifMultiSelect="{{ifMultiSelect}}"></BaseList>
   </view>
 </view>

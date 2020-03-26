@@ -1,6 +1,4 @@
-import {
-  getLyricApi
-} from '../../api/api.js'
+import { getLyricApi } from "../../api/api.js";
 
 const app = getApp();
 
@@ -8,7 +6,7 @@ const [
   RECYCLE_LIST_PLAY, // 列表循环
   RECYCLE_ONE_PLAY, // 单曲循环
   RANDOM_PLAY // 随机播放
-] = [0, 1, 2]
+] = [0, 1, 2];
 
 Page({
   data: {
@@ -19,36 +17,33 @@ Page({
     offsetTop: 0,
     lastIndex: 0,
     timeOffset: 0,
-    id: '',
+    id: "",
     cacheLyricIdx: 0,
     cacheLyricOffset: 0,
     currentTime: "00:00",
     pointPercent: 0,
     listPlayType: RECYCLE_LIST_PLAY,
     ifShowLyric: false,
-    cacheIndex: -1
+    cacheIndex: -1,
+    toViewId: "L0"
   },
   async onLoad(options) {
     console.log(":::: Player Page onload", options);
     this.setData({
       id: options.id
-    })
+    });
   },
   async onShow() {
-    let cacheLyric = wx.getStorageSync('lyric');
-    console.log('onshow cacheLyric', cacheLyric);
-    let offsetTop = 0;
+    let cacheLyric = wx.getStorageSync("lyric");
     let timeOffset = 0;
-    let currentIndex = 0;
+    let toViewId = "L0";
     if (cacheLyric) {
       cacheLyric = JSON.parse(cacheLyric);
-      // this.setData({
-      //   cacheIndex: cacheLyric.cacheIndex == -1 ? cacheLyric.cacheIndex : -1
-      // })
+      toViewId = cacheLyric.toViewId;
     }
-    currentIndex = app.globalData.musicPlayer.lyric.currentIndex || 0;
-    offsetTop = app.globalData.musicPlayer.lyric.offsetTop || 0;
-    const duration = this.formatTime(app.globalData.audioContext.duration).slice(0, 5);
+    const duration = this.formatTime(
+      app.globalData.audioContext.duration
+    ).slice(0, 5);
     this.setData({
       musicInfo: {
         songName: app.globalData.musicPlayer.songName,
@@ -58,40 +53,40 @@ Page({
         coverImgUrl: app.globalData.musicPlayer.coverImgUrl
       },
       duration,
-      offsetTop,
-      currentIndex,
-      timeOffset,
-      cacheIndex: currentIndex
-    })
+      toViewId,
+      timeOffset
+    });
     await this.getLyric(this.data.id);
     await this.formatLyric();
     this.musicEndHandler();
     this.musicTimeUpdateHandler();
   },
   onHide() {
-    wx.setStorageSync('lyric', JSON.stringify({
-      offsetTop: this.data.offsetTop,
-      currentIndex: this.data.currentIndex,
-      currentTime: this.data.currentTime,
-      timeOffset: this.data.timeOffset
-    }))
+    wx.setStorageSync(
+      "lyric",
+      JSON.stringify({
+        currentTime: this.data.currentTime,
+        timeOffset: this.data.timeOffset,
+        toViewId: this.data.toViewId
+      })
+    );
   },
   async getLyric(id) {
     try {
       const res = await getLyricApi({
         id
-      })
+      });
       this.setData({
-        lyric: (res.data.lrc && res.data.lrc.lyric) ? res.data.lrc.lyric : ''
-      })
+        lyric: res.data.lrc && res.data.lrc.lyric ? res.data.lrc.lyric : ""
+      });
     } catch (error) {
       console.error(error);
     }
   },
   async musicEndHandler() {
     app.globalData.audioContext.onEnded(async () => {
-      this.nextSong();
-    })
+      this.changeSong();
+    });
   },
   /**
    * 监听音频播放进度更新事件
@@ -100,96 +95,71 @@ Page({
     app.globalData.audioContext.onTimeUpdate(() => {
       let obj = this.formatTime1(app.globalData.audioContext.currentTime);
       let str = `${obj.m}:${obj.s}`;
-      let i = this.data.cacheIndex;
-      const durationArr = this.data.duration.split(':');
-      if (str != this.data.currentTime) {
+      const durationArr = this.data.duration.split(":");
+      if (str >= this.data.currentTime) {
+        // 时间进度条
         this.setData({
           currentTime: str,
-          timeOffset: 560 * (Math.round((Number(obj.m) * 60 + Number(obj.s))) / Math.round((Number(durationArr[0]) * 60 + Number(durationArr[1]))))
-        })
+          timeOffset:
+            560 *
+            (Math.round(Number(obj.m) * 60 + Number(obj.s)) /
+              Math.round(Number(durationArr[0]) * 60 + Number(durationArr[1])))
+        });
       }
-      for (i; i < this.data.lyricList.length; i++) {
+      for (let i = 0; i < this.data.lyricList.length; i++) {
         const item = this.data.lyricList[i];
-        if (item.time.split('.')[0] == str) {
+        if (item.time.split(".")[0] == str) {
           if (this.data.currentIndex != i) {
-            const reg = /[\n]/gm;
             let offsetTop = 0;
-            // let cacheLyric = wx.getStorageSync('lyric') || "";
-            // if (cacheLyric && JSON.parse(cacheLyric).hasOwnProperty('cacheIndex')) {
-            //   console.log("chacheinsandfkjklsdjflkjsdf");
-              
-            //   const itemOffsetTop = (item.text.length > 42 ? (Math.round(item.text.length / 42)) * 70 : 70);
-            //   offsetTop = this.data.offsetTop - itemOffsetTop * (this.data.currentIndex - app.globalData.musicPlayer.lyric.cacheIndex);
-            //   // delete app.globalData.musicPlayer.lyric.cacheIndex;
-            //   wx.setStorageSync('lyric', '')
-            // } else {
-            // }
-            offsetTop = this.data.offsetTop - (item.text.length > 42 ? (Math.round(item.text.length / 42)) * 70 : 70);
+            offsetTop =
+              this.data.offsetTop -
+              (item.text.length > 42
+                ? Math.round(item.text.length / 42) * 70
+                : 70);
             this.setData({
               currentIndex: i,
               offsetTop,
-              lastIndex: item.time.split('.')[0]
-            })
+              lastIndex: item.time.split(".")[0],
+              toViewId: item.id
+            });
             app.globalData.musicPlayer.lyric.currentIndex = i;
             app.globalData.musicPlayer.lyric.offsetTop = offsetTop;
-            break
+            break;
           }
         }
       }
-    })
+    });
   },
   formatLyric() {
     let lyric = this.data.lyric;
-    let lyricList = lyric.split('[').reduce((prev, cur) => {
-      const curArr = cur.split(']');
+    let lyricList = lyric.split("[").reduce((prev, cur, idx) => {
+      console.log("index", idx);
+
+      const curArr = cur.split("]");
       const time = curArr[0];
       const text = curArr[1];
-      (text && text.trim()) && prev.push({
+      prev.push({
         time,
-        text: text.trim()
-      })
+        text: text && text.trim() ? text.trim() : text,
+        id: "L" + idx
+      });
       return prev;
-    }, [])
-    let i = 0;
-    let resLyricList = [];
-    let startIdx = 0;
-    let endIdx = 0;
-    while (i < lyricList.length) {
-      const item = lyricList[i].time.split('.')[0];
-      if (i != 0 && item == lyricList[i - 1].time.split('.')[0]) {
-        endIdx = endIdx + 1;
+    }, []);
+    if (lyricList.length) {
+      for (let k = 0; k < 5; k++) {
+        lyricList.push({
+          text: "\n",
+          time: "",
+          id: "L" + (lyricList.length + 1)
+        });
       }
-      if (i != 0 && item != lyricList[i - 1].time.split('.')[0]) {
-        let str = '';
-        for (let j = startIdx; j <= endIdx; j++) {
-          if (j != startIdx || j != endIdx) {
-            str += lyricList[j].text + '\n';
-          } else {
-            str += lyricList[j].text;
-          }
-        }
-        if (Math.round(str.length / 42) < 4) {
-          resLyricList.push({
-            text: str,
-            time: lyricList[i - 1].time
-          })
-        }
-        startIdx = i;
-        endIdx = i;
-      }
-      i++;
     }
-    app.globalData.musicPlayer.lyric = {
-      list: resLyricList,
-      currentIndex: 0,
-      offsetTop: 0
-    };
     this.setData({
-      lyricList: resLyricList
-    })
+      lyricList
+    });
   },
   repairZero(num) {
-    return num < 10 ? '0' + num : num;
+    return num < 10 ? "0" + num : num;
   },
   formatTime1(total) {
     let h = this.repairZero(Math.floor(total / 3600));
@@ -202,196 +172,92 @@ Page({
     min = min < 10 ? `0${min}` : min;
     let second = (time % 60) * 10;
     second = second < 10 ? `0${second.toFixed(2)}` : second.toFixed(2);
-    return `${min}:${second}` == "00:00" ? '' : `${min}:${second}`
+    return `${min}:${second}` == "00:00" ? "" : `${min}:${second}`;
   },
   navigateBack() {
     let lyric = {
-      offsetTop: this.data.offsetTop,
-      currentIndex: this.data.currentIndex,
       currentTime: this.data.currentTime,
-      timeOffset: this.data.timeOffset
-    }
-    if (app.globalData.musicPlayer.status == 'end') {
+      timeOffset: this.data.timeOffset,
+      toViewId: this.data.toViewId
+    };
+    if (app.globalData.musicPlayer.status == "end") {
       lyric = {
         offsetTop: 0,
         currentIndex: 0,
         currentTime: 0,
         timeOffset: 0
-      }
+      };
     }
-    wx.setStorageSync('lyric', JSON.stringify(lyric))
+    wx.setStorageSync("lyric", JSON.stringify(lyric));
     wx.navigateBack({
       delta: 1
-    })
+    });
   },
   /**
-     * 切换音乐播放状态
-     */
+   * 切换音乐播放状态
+   */
   changePlayStatus() {
-    if (app.globalData.musicPlayer.status == 'off') {
+    if (app.globalData.musicPlayer.status == "off") {
       app.globalData.audioContext.play();
       app.globalData.musicPlayer = {
         ...app.globalData.musicPlayer,
         status: "on"
-      }
+      };
       const musicInfo = {
         ...this.data.musicInfo,
-        status: 'on'
-      }
+        status: "on"
+      };
       this.setData({
         musicInfo
-      })
+      });
     } else {
       app.globalData.audioContext.pause();
       app.globalData.musicPlayer = {
         ...app.globalData.musicPlayer,
         status: "off"
-      }
+      };
       const musicInfo = {
         ...this.data.musicInfo,
-        status: 'off'
-      }
+        status: "off"
+      };
       this.setData({
         musicInfo
-      })
+      });
     }
   },
   /**
-   * 上一首
+   * 切换歌曲 上一首 下一首
+   * @param {*} e
    */
-  async prevSong() {
-    if (app.globalData.musicPlayer.listPlayType == RECYCLE_LIST_PLAY) { // 列表循环
-      let {
-        playList = [],
-        index = 0
-      } = app.globalData.musicData;
+  async changeSong(e) {
+    let type = "next";
+    if (e) {
+      type = e.currentTarget.dataset.type;
+    }
+    if (app.globalData.musicPlayer.listPlayType == RECYCLE_LIST_PLAY) {
+      // 列表循环
+      let { playList = [], index = 0 } = app.globalData.musicData;
       if (!playList.length) {
         return;
+      }
+      if (type == "prev") {
+        // 上一首
+        if (index == 0) {
+          console.log("播放到第一首");
+          index = playList.length - 1;
+        } else {
+          index = index - 1;
+        }
+      } else {
+        // 下一首
+        if (index == playList.length - 1) {
+          console.log("播放到最后一首");
+          index = 0;
+        } else {
+          index = index + 1;
+        }
       }
 
-      if (index == 0) {
-        console.log("播放到第一首");
-        index = playList.length - 1;
-      } else {
-        index = index - 1;
-      }
-      app.globalData.audioContext.stop();
-      app.globalData.musicData.index = index;
-      app.globalData.audioContext.src = playList[index].url;
-      app.globalData.audioContext.title = playList[index].songName;
-      await this.getLyric(playList[index].id);
-      await this.formatLyric();
-      app.globalData.musicPlayer = {
-        ...app.globalData.musicPlayer,
-        songName: playList[index].songName,
-        singer: playList[index].singer,
-        id: playList[index].id,
-        coverImgUrl: playList[index].coverImgUrl,
-        status: "on"
-      }
-      this.setData({
-        musicInfo: {
-          songName: app.globalData.musicPlayer.songName,
-          singer: app.globalData.musicPlayer.singer,
-          id: app.globalData.musicPlayer.id,
-          coverImgUrl: app.globalData.musicPlayer.coverImgUrl
-        },
-        offsetTop: 0,
-        currentIndex: 0,
-        cacheIndex: 0,
-        duration: this.formatTime(app.globalData.audioContext.duration).slice(0, 5),
-        timeOffset: 0
-      })
-      setTimeout(() => {
-        app.globalData.audioContext.play();
-      }, 100)
-    } else if (app.globalData.musicPlayer.listPlayType == RECYCLE_ONE_PLAY) { // 单曲循环
-      this.setData({
-        offsetTop: 0,
-        currentIndex: 0,
-        cacheIndex: 0,
-        timeOffset: 0
-      })
-      this.musicTimeUpdateHandler();
-      this.musicEndHandler();
-      app.globalData.audioContext.stop();
-      let {
-        playList = [],
-        index = 0
-      } = app.globalData.musicData;
-      if (!playList.length) {
-        return;
-      }
-      app.globalData.audioContext.stop();
-      app.globalData.musicData.index = index;
-      app.globalData.audioContext.src = playList[index].url;
-      app.globalData.audioContext.title = playList[index].songName;
-      setTimeout(() => {
-        app.globalData.audioContext.play();
-      }, 100)
-    } else { // 随机播放
-      let {
-        playList = []
-      } = app.globalData.musicData;
-      if (!playList.length) {
-        return;
-      }
-      const index = this.getRangeNum(0, playList.length - 1);
-      app.globalData.audioContext.stop();
-      app.globalData.musicData.index = index;
-      app.globalData.audioContext.src = playList[index].url;
-      app.globalData.audioContext.title = playList[index].songName;
-      await this.getLyric(playList[index].id);
-      await this.formatLyric();
-      app.globalData.musicPlayer = {
-        ...app.globalData.musicPlayer,
-        songName: playList[index].songName,
-        singer: playList[index].singer,
-        id: playList[index].id,
-        coverImgUrl: playList[index].coverImgUrl,
-        status: "on"
-      }
-      this.setData({
-        musicInfo: {
-          songName: app.globalData.musicPlayer.songName,
-          singer: app.globalData.musicPlayer.singer,
-          id: app.globalData.musicPlayer.id,
-          coverImgUrl: app.globalData.musicPlayer.coverImgUrl
-        },
-        offsetTop: 0,
-        currentIndex: 0,
-        cacheIndex: 0,
-        duration: this.formatTime(app.globalData.audioContext.duration).slice(0, 5),
-        timeOffset: 0
-      })
-      setTimeout(() => {
-        app.globalData.audioContext.play();
-      }, 100)
-    }
-    app.globalData.musicPlayer.lyric = {
-      currentIndex: 0,
-      list: [],
-      offsetTop: 0
-    }
-  },
-  /**
-   * 下一首
-   */
-  async nextSong() {
-    if (app.globalData.musicPlayer.listPlayType == RECYCLE_LIST_PLAY) { // 列表循环
-      let {
-        playList = [],
-        index = 0
-      } = app.globalData.musicData;
-      if (!playList.length) {
-        return;
-      }
-      if (index == playList.length - 1) {
-        console.log("播放到最后一首");
-        index = 0;
-      } else {
-        index = index + 1;
-      }
       app.globalData.audioContext.stop();
       app.globalData.musicData.index = index;
       app.globalData.audioContext.src = playList[index].url;
@@ -404,7 +270,7 @@ Page({
         singer: playList[index].singer,
         id: playList[index].id,
         coverImgUrl: playList[index].coverImgUrl
-      }
+      };
       this.setData({
         musicInfo: {
           songName: app.globalData.musicPlayer.songName,
@@ -416,24 +282,27 @@ Page({
         offsetTop: 0,
         currentIndex: 0,
         cacheIndex: 0,
-        duration: this.formatTime(app.globalData.audioContext.duration).slice(0, 5),
-        timeOffset: 0
-      })
+        duration: this.formatTime(app.globalData.audioContext.duration).slice(
+          0,
+          5
+        ),
+        timeOffset: 0,
+        currentTime: "00:00"
+      });
       setTimeout(() => {
         app.globalData.audioContext.play();
-      }, 100)
-    } else if (app.globalData.musicPlayer.listPlayType == RECYCLE_ONE_PLAY) { // 单曲循环
+      }, 100);
+    } else if (app.globalData.musicPlayer.listPlayType == RECYCLE_ONE_PLAY) {
+      // 单曲循环
       this.setData({
         offsetTop: 0,
         currentIndex: 0,
         cacheIndex: 0,
-        timeOffset: 0
-      })
+        timeOffset: 0,
+        currentTime: "00:00"
+      });
       app.globalData.audioContext.stop();
-      let {
-        playList = [],
-        index = 0
-      } = app.globalData.musicData;
+      let { playList = [], index = 0 } = app.globalData.musicData;
       if (!playList.length) {
         return;
       }
@@ -445,11 +314,10 @@ Page({
       this.musicEndHandler();
       setTimeout(() => {
         app.globalData.audioContext.play();
-      }, 100)
-    } else { // 随机播放
-      let {
-        playList = []
-      } = app.globalData.musicData;
+      }, 100);
+    } else {
+      // 随机播放
+      let { playList = [] } = app.globalData.musicData;
       if (!playList.length) {
         return;
       }
@@ -467,30 +335,34 @@ Page({
         id: playList[index].id,
         coverImgUrl: playList[index].coverImgUrl,
         status: "on"
-      }
+      };
       this.setData({
         musicInfo: {
           songName: app.globalData.musicPlayer.songName,
           singer: app.globalData.musicPlayer.singer,
           id: app.globalData.musicPlayer.id,
-          coverImgUrl: app.globalData.musicPlayer.coverImgUrl
+          coverImgUrl: app.globalData.musicPlayer.coverImgUrl,
+          status: "on"
         },
         offsetTop: 0,
         currentIndex: 0,
         cacheIndex: 0,
         timeOffset: 0,
-        duration: this.formatTime(app.globalData.audioContext.duration).slice(0, 5),
-        timeOffset: 0
-      })
+        currentTime: "00:00",
+        duration: this.formatTime(app.globalData.audioContext.duration).slice(
+          0,
+          5
+        )
+      });
       setTimeout(() => {
         app.globalData.audioContext.play();
-      }, 100)
+      }, 100);
     }
     app.globalData.musicPlayer.lyric = {
       currentIndex: 0,
       list: [],
       offsetTop: 0
-    }
+    };
   },
   /**
    * 更改歌曲切换模式
@@ -498,9 +370,8 @@ Page({
   changeListPlayType(e) {
     this.setData({
       listPlayType: e.currentTarget.dataset.type
-    })
+    });
     app.globalData.musicPlayer.listPlayType = e.currentTarget.dataset.type;
-    console.log('更改歌曲切换模式', e.currentTarget.dataset.type, app.globalData.musicPlayer.listPlayType);
   },
   getRangeNum(min, max) {
     const range = max - min;
@@ -510,6 +381,6 @@ Page({
   changeLyricVisible() {
     this.setData({
       ifShowLyric: !this.data.ifShowLyric
-    })
+    });
   }
-})
+});

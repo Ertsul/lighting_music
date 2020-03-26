@@ -3,29 +3,9 @@
     <image class="icon" src="../../static/icons/search/search.png" />
     <text>搜索</text>
   </view>
-  <!-- <view class="hot-songs">
-    <view class="hot-songs__header header">
-      <view class="header-title">热门歌曲</view>
-      <view class="header-operate">
-        <text>更多</text>
-        <image class="icon" src="../../static/icons/recommend/more.png" />
-      </view>
-    </view>
-    <view class="hot-songs__body list">
-      <view class="hot-songs__list-item d-flex" wx:for="{{hotSongs}}" wx:key="index">
-        <image class="hot-songs__img" src="{{item.img}}" />
-        <view class="hot-songs__info">
-          <view class="hot-songs__song-name">{{item.songName}}</view>
-          <view class="hot-songs__singer">{{item.singer}}</view>
-        </view>
-        <image class="icon hot-songs__more" src="../../static/icons/recent_play/more_read.png" />
-      </view>
-    </view>
-  </view> -->
   <view class="recommend-songs">
     <view class="recommend-songs__header header">
       <view class="header-title">推荐歌单</view>
-      <!-- <view class="header-operate header-operate-btn">换一批</view> -->
     </view>
     <view class="recommend-songs__body list d-flex">
       <view class="recommend-songs__list-item" wx:for="{{recommendSongs}}" wx:key="index" data-id="{{item.id}}" bindtap="jumpSongSheetPage">
@@ -40,7 +20,7 @@
       </view>
       <view class="d-flex recommend-songs__more" bindtap="getHotList">
         <block wx:if="{{recommendSongsLoading}}">
-          <text>---- 正在加载中 ----</text>
+          <text>正在加载中...</text>
         </block>
         <block wx:else>
           <text>更多</text>

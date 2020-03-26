@@ -19,7 +19,7 @@ module.exports = Behavior({
       const index = e.currentTarget.dataset.index;
       const targetMusic = this.data.list[index];
       const id = targetMusic.id; // 音乐 id
-      console.log("ididiid", id);
+      console.log("播放当前音乐 ididiid", id);
       const {
         url
       } = await this.getSongUrl(id);
@@ -34,7 +34,6 @@ module.exports = Behavior({
         songName: targetMusic.name || targetMusic.songName
       }
       console.log("targetMusic",targetMusic);
-      
       if (targetMusic.hasOwnProperty('ar') && targetMusic.ar[0]) {
         musicInfo = {
           ...musicInfo,
@@ -46,7 +45,6 @@ module.exports = Behavior({
           ...musicInfo,
           singer: targetMusic.singer,
           coverImgUrl: targetMusic.coverImgUrl
-
         }
       } else {
         musicInfo = {
@@ -55,12 +53,6 @@ module.exports = Behavior({
           coverImgUrl: targetMusic.artists[0].img1v1Url
         }
       }
-      // const musicInfo = {
-      //   id,
-      //   url,
-      //   singer: targetMusic.ar[0].name || targetMusic.artists[0].name,
-      //   coverImgUrl: targetMusic.al.picUrl || targetMusic.artists[0].img1v1Url
-      // };
       console.log("app.globalData.musicData.playList", app.globalData.musicData.playList);
       const currentPage = getCurrentPages();
       if (currentPage[0].is != 'pages/index/index') {
@@ -77,23 +69,16 @@ module.exports = Behavior({
       app.globalData.musicPlayer = {
         ...app.globalData.musicPlayer,
         ...musicInfo,
-        currentIndex: 0,
-        list: [],
-        offsetTop: 0
-        // id,
-        // url,
-        // songName: targetMusic.name || targetMusic.name,
-        // singer: targetMusic.ar[0].name || targetMusic.artists[0].name,
-        // coverImgUrl: targetMusic.al.picUrl || targetMusic.artists[0].img1v1Url
       }
-      // app.globalData.musicData.playList = [...new Set(app.globalData.musicData.playList)];
-      // app.globalData.musicData.playList = Array.from(app.globalData.musicData.playList);
-
+      wx.setStorageSync(
+        "lyric",
+        JSON.stringify({
+          currentTime: '',
+          timeOffset: '',
+          toViewId: 'L0'
+        })
+      );
       // 歌曲播放页面的歌词播放位置（恢复默认位置）
-      wx.setStorageSync('lyric', JSON.stringify({
-        offsetTop: 0,
-        currentIndex: 0
-      }));
       this.triggerEvent('playMusic', id);
     },
     /**
@@ -133,8 +118,6 @@ module.exports = Behavior({
         }
       }
       url && app.globalData.musicData.playList.push(musicInfo);
-      // app.globalData.musicData.playList = [...new Set(app.globalData.musicData.playList)];
-      // app.globalData.musicData.playList = Array.from(app.globalData.musicData.playList);
       wx.showToast({
         title: '已加到播放列表',
         icon: 'success',
@@ -178,8 +161,6 @@ module.exports = Behavior({
         }
       }
       url && app.globalData.musicData.likeList.push(musicInfo);
-      // app.globalData.musicData.likeList = [...new Set(app.globalData.musicData.likeList)];
-      // app.globalData.musicData.likeList = Array.from(app.globalData.musicData.likeList);
       wx.showToast({
         title: '已加到喜欢列表',
         icon: 'success',

@@ -42,6 +42,9 @@ Page({
    */
   async getHotList() {
     try {
+      wx.showLoading({
+        title: '加载中'
+      })
       let { recommendSongs, recommendSongsPage } = this.data;
       this.setData({
         recommendSongsLoading: true
@@ -70,7 +73,9 @@ Page({
           recommendSongsPage: recommendSongsPage + 1
         }
       }
-      this.setData(pageData);
+      this.setData(pageData, function () {
+        wx.hideLoading();
+      });
     } catch (error) {
       console.error(error);
     }

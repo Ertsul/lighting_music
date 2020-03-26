@@ -26,10 +26,15 @@ Page({
    */
   async getTopList() {
     try {
+      wx.showLoading({
+        title: '加载中'
+      })
       const res = await getTopListApi();
       console.log("所有榜单内容摘要", res.data.list);
       this.setData({
         ranklist: res.data.list
+      }, function () {
+        wx.hideLoading();
       })
     } catch (error) {
       console.error('所有榜单内容摘要', error);

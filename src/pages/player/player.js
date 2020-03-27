@@ -109,6 +109,7 @@ Page({
       for (let i = 0; i < this.data.lyricList.length; i++) {
         const item = this.data.lyricList[i];
         if (item.time.split(".")[0] == str) {
+          // console.log('item.time.split(".")[0]', item.time.split(".")[0], str, this.data.currentIndex, i);
           if (this.data.currentIndex != i) {
             let offsetTop = 0;
             offsetTop =
@@ -139,21 +140,53 @@ Page({
       prev.push({
         time,
         text: text && text.trim() ? text.trim() : text,
-        id: "L" + idx
+        // id: "L" + idx
       });
       return prev;
     }, []);
-    if (lyricList.length) {
+
+    let i = 0;
+    let resLyricList = [];
+    let startIdx = 0;
+    let endIdx = 0;
+    // 歌词内容格式过滤
+    while (i < lyricList.length) {
+      const item = lyricList[i].time.split('.')[0];
+      if (i != 0 && item == lyricList[i - 1].time.split('.')[0]) {
+        endIdx = endIdx + 1;
+      }
+      if (i != 0 && item != lyricList[i - 1].time.split('.')[0]) {
+        let str = '';
+        for (let j = startIdx; j <= endIdx; j++) {
+            if (j != startIdx || j != endIdx) {
+              str += lyricList[j].text + '\n';
+            } else {
+              str += lyricList[j].text;
+            }
+        }
+        if(str && str.trim() && lyricList[i - 1].time && Math.round(str.length / 42) < 4) {
+          resLyricList.push({
+            text: str,
+            time: lyricList[i - 1].time,
+            id: 'L' + resLyricList.length
+          })
+        }
+        startIdx = i;
+        endIdx = i;
+      }
+      i++;
+    }
+    if (resLyricList.length) {
       for (let k = 0; k < 5; k++) {
-        lyricList.push({
+        resLyricList.push({
           text: "\n",
           time: "",
-          id: "L" + (lyricList.length + 1)
+          id: "L" + (resLyricList.length + 1)
         });
       }
     }
     this.setData({
-      lyricList
+      lyricList: resLyricList
     });
   },
   repairZero(num) {
@@ -285,20 +318,15 @@ Page({
           5
         ),
         timeOffset: 0,
-        currentTime: "00:00"
+        currentTime: "00:00",
+        toViewId: "L0"
+      }, function() {
+        setTimeout(() => {
+          app.globalData.audioContext.play();
+        }, 1000);
       });
-      setTimeout(() => {
-        app.globalData.audioContext.play();
-      }, 100);
     } else if (app.globalData.musicPlayer.listPlayType == RECYCLE_ONE_PLAY) {
       // 单曲循环
-      this.setData({
-        offsetTop: 0,
-        currentIndex: 0,
-        cacheIndex: 0,
-        timeOffset: 0,
-        currentTime: "00:00"
-      });
       app.globalData.audioContext.stop();
       let { playList = [], index = 0 } = app.globalData.musicData;
       if (!playList.length) {
@@ -310,9 +338,18 @@ Page({
       app.globalData.audioContext.title = playList[index].songName;
       this.musicTimeUpdateHandler();
       this.musicEndHandler();
-      setTimeout(() => {
-        app.globalData.audioContext.play();
-      }, 100);
+      this.setData({
+        offsetTop: 0,
+        currentIndex: 0,
+        cacheIndex: 0,
+        timeOffset: 0,
+        currentTime: "00:00",
+        toViewId: "L0"
+      }, function() {
+        setTimeout(() => {
+          app.globalData.audioContext.play();
+        }, 1000);
+      });
     } else {
       // 随机播放
       let { playList = [] } = app.globalData.musicData;
@@ -350,11 +387,13 @@ Page({
         duration: this.formatTime(app.globalData.audioContext.duration).slice(
           0,
           5
-        )
+        ),
+        toViewId: "L0"
+      }, function() {
+        setTimeout(() => {
+          app.globalData.audioContext.play();
+        }, 1000);
       });
-      setTimeout(() => {
-        app.globalData.audioContext.play();
-      }, 100);
     }
     app.globalData.musicPlayer.lyric = {
       currentIndex: 0,

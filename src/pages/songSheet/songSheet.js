@@ -1,8 +1,6 @@
 const { getSongSheetDetailApi } = require('../../api/api.js');
-const musicHandler = require('../../behaviors/musicHandler.js');
 const app = getApp();
 Page({
-  behaviors: [musicHandler],
   data: {
     songList: [],
     songSheetInfo: {
@@ -26,13 +24,44 @@ Page({
     }],
     ifMultiSelect: false
   },
-  onLoad(option) {
-    const {
-      id
-    } = option;
-    id && this.getSongSheetDetail(id);
+  async onLoad(option) {
+    try {
+      const {
+        id
+      } = option;
+      this.setData({ id });
+      id && (await this.getSongSheetDetail(id));
+    } catch (error) {
+      console.error("songSheet onLoad error", error);
+    }
   },
-  onShow() {
+  async onShow() {
+    let songList = this.data.songList;
+    const id = getApp().globalData.musicPlayer.id;
+    const likeList = getApp().globalData.musicData.likeList;
+    for (let i = 0; i < songList.length; i++) {
+      const item = songList[i];
+      if (item.id == id) {
+        // 当前播放标记
+        songList[i].active = true;
+      }
+      for (let j = 0; j < likeList.length; j++) {
+        // 喜欢列表标记
+        if (likeList[j].id == item.id) {
+          songList[i].like = true;
+          songList[i].buttons = [{
+            type: 'play',
+            text: '下一首播放',
+            src: '../../static/icons/recent_play/next.png' // icon的路径
+          }, {
+            type: 'like',
+            text: '普通',
+            extClass: 'test',
+            src: '../../static/icons/recent_play/liked.png' // icon的路径
+          }];
+        }
+      }
+    }
     this.setData({
       musicInfo: {
         coverImgUrl: app.globalData.musicPlayer.coverImgUrl,
@@ -40,7 +69,8 @@ Page({
         songName: app.globalData.musicPlayer.songName,
         singer: app.globalData.musicPlayer.singer,
         status: app.globalData.musicPlayer.status
-      }
+      },
+      songList
     })
   },
   async getSongSheetDetail(id) {
@@ -51,7 +81,34 @@ Page({
       const res = await getSongSheetDetailApi({
         id
       });
-      const data = res.data.playlist;
+      let data = res.data.playlist;
+      if (data.tracks.length) {
+        const id =  getApp().globalData.musicPlayer.id;
+        const likeList = getApp().globalData.musicData.likeList;
+        for (let i = 0; i < data.tracks.length; i++) {
+          const item = data.tracks[i];
+          if (item.id == id) {
+            // 当前播放标记
+            data.tracks[i].active = true;
+          }
+          for (let j = 0; j < likeList.length; j++) {
+            // 喜欢列表标记
+            if (likeList[j].id == item.id) {
+              data.tracks[i].like = true;
+              data.tracks[i].buttons = [{
+                type: 'play',
+                text: '下一首播放',
+                src: '../../static/icons/recent_play/next.png' // icon的路径
+              }, {
+                type: 'like',
+                text: '普通',
+                extClass: 'test',
+                src: '../../static/icons/recent_play/liked.png' // icon的路径
+              }];
+            }
+          }
+        }
+      }
       let pageData = {
         songSheetInfo: {
           coverImgUrl: data.coverImgUrl,
@@ -96,4 +153,24 @@ Page({
       })
     })
   },
+  /**
+   * 更改喜欢图标状态
+   * @param {*}} e 
+   */
+  changeLikeStatus(e){
+    const index = e.detail;
+    const key = `songList[${index}].buttons`;
+    this.setData({
+      [key]: [{
+        type: 'play',
+        text: '下一首播放',
+        src: '../../static/icons/recent_play/next.png' // icon的路径
+      }, {
+        type: 'like',
+        text: '普通',
+        extClass: 'test',
+        src: '../../static/icons/recent_play/liked.png' // icon的路径
+      }]
+    })
+  }
 })

@@ -24,7 +24,7 @@
     </view>
   </view>
   <view class="song-sheet__list" wx:if="{{songList.length}}">
-    <BaseList bindplayMusic="playMusic" list="{{songList}}" count="{{songList.length}}" slideButtons="{{slideButtons}}" ifMultiSelect="{{ifMultiSelect}}" />
+    <BaseList bindplayMusic="playMusic" list="{{songList}}" count="{{songList.length}}" slideButtons="{{slideButtons}}" ifMultiSelect="{{ifMultiSelect}}" bindchangeLikeIconStatus="changeLikeStatus" />
   </view>
 </view>
 <!-- 底部播放控制器 -->

@@ -10,10 +10,11 @@ Page({
     hotSearchList: [],
     songList: [],
     slideButtons: [{
+      type: 'play',
       text: '下一首播放',
       src: '../../static/icons/recent_play/next.png' // icon的路径
     }, {
-      text: '普通',
+      text: 'like',
       extClass: 'test',
       src: '../../static/icons/recent_play/like.png' // icon的路径
     }],

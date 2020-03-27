@@ -33,28 +33,72 @@ Page({
     }]
   },
   onShow() {
+    const {
+      playList = [],
+      likeList = []
+    } = this.signList();
     this.setData({
-      likeList: app.globalData.musicData.likeList,
-      playList: app.globalData.musicData.playList,
       musicInfo: {
         coverImgUrl: app.globalData.musicPlayer.coverImgUrl,
         id: app.globalData.musicPlayer.id,
         songName: app.globalData.musicPlayer.songName,
         singer: app.globalData.musicPlayer.singer,
         status: app.globalData.musicPlayer.status
-      }
+      },
+      playList,
+      likeList
     })
+  },
+  /**
+   * 标记列表
+   */
+  signList() {
+    let likeList = app.globalData.musicData.likeList;
+    let playList = app.globalData.musicData.playList;
+    const id = app.globalData.musicPlayer.id;
+    for (let i = 0; i < playList.length; i++) {
+      const item = playList[i];
+      if (item.id == id) {
+        // 当前播放标记
+        playList[i].active = true;
+      }
+      for (let j = 0; j < likeList.length; j++) {
+        // 喜欢列表标记
+        if (likeList[j].id == item.id) {
+          playList[i].like = true;
+          playList[i].buttons = [{
+            type: 'like',
+            text: '普通',
+            extClass: 'test',
+            src: '../../static/icons/recent_play/liked.png' // icon的路径
+          }, {
+            type: 'delete',
+            text: '警示',
+            extClass: 'test',
+            src: '../../static/icons/recent_play/delete.png' // icon的路径
+          }];
+        }
+      }
+    }
+    return {
+      playList,
+      likeList
+    };
   },
   /**
    * 切换 tab
    * @param {*} e 
    */
   changeTab(e) {
-    const currentActiveTab = e.target.dataset.index || 0;
+    const currentActiveTab = e.currentTarget.dataset.index || 0;
+    const {
+      playList = [],
+      likeList = []
+    } = this.signList();
     this.setData({
       currentActiveTab,
-      likeList: app.globalData.musicData.likeList,
-      playList: app.globalData.musicData.playList
+      likeList,
+      playList
     })
   },
   playMusic() {
@@ -85,4 +129,56 @@ Page({
       url: '/pages/recentPlay/recentPlay'
     });
   },
+  /**
+   * 更改喜欢图标状态
+   * @param {*}} e 
+   */
+  changeLikeStatus(e){
+    const index = e.detail;
+    const key = `playList[${index}].buttons`;
+    this.setData({
+      [key]: [{
+        type: 'like',
+        text: '普通',
+        extClass: 'test',
+        src: '../../static/icons/recent_play/liked.png' // icon的路径
+      }, {
+        type: 'delete',
+        text: '警示',
+        extClass: 'test',
+        src: '../../static/icons/recent_play/delete.png' // icon的路径
+      }]
+    })
+  },
+  /**
+   * 删除音乐
+   * @param {*} e 
+   */
+  deleteMusic(e) {
+    try {
+      const index = e.detail;
+      if (this.data.currentActiveTab == LIKE_LIST) {
+        let likeList = this.data.likeList;
+        likeList.splice(index, 1);
+        this.setData({
+          likeList
+        })
+        app.globalData.musicData.likeList.splice(index, 1);
+      } else {
+        let playList = this.data.playList;
+        playList.splice(index, 1);
+        this.setData({
+          playList
+        })
+        app.globalData.musicData.playList.splice(index, 1);
+      }
+      wx.showToast({
+        title: "删除成功",
+        icon: "success",
+        duration: 2000
+      });
+    } catch (error) {
+      console.error("删除音乐", e);
+    }
+  }
 })

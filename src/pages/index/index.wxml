@@ -26,20 +26,20 @@
   <view class="footer">
     <view class="footer__tab">
       <view class="footer__tab-item footer__self-build-list {{currentActiveTab == 0 ? 'footer__tab-item-active' : ''}}" data-index="0" bindtap="changeTab">
-        播放列表
+        喜欢音乐
       </view>
       <view class="footer__tab-item footer__collect-list {{currentActiveTab == 1 ? 'footer__tab-item-active' : ''}}" data-index="1" bindtap="changeTab">
-        喜欢音乐
+        播放列表
       </view>
     </view>
   </view>
   <!-- tab0 播放列表 -->
-  <view class="tab-content-container" wx:if="{{currentActiveTab == 0}}">
-    <BaseList listType="1" list="{{playList}}" slideButtons="{{slideButtons1}}" bindplayMusic="playMusic"></BaseList>
+  <view class="tab-content-container" wx:if="{{currentActiveTab == 1}}">
+    <BaseList listType="1" list="{{playList}}" slideButtons="{{slideButtons1}}" bindplayMusic="playMusic" bindchangeLikeIconStatus="changeLikeStatus" binddeleteMusic="deleteMusic"></BaseList>
   </view>
   <!-- tab1 喜欢音乐 -->
-  <view class="tab-content-container" wx:if="{{currentActiveTab == 1}}">
-    <BaseList listType="1" list="{{likeList}}" slideButtons="{{slideButtons2}}" bindplayMusic="playMusic"></BaseList>
+  <view class="tab-content-container" wx:if="{{currentActiveTab == 0}}">
+    <BaseList listType="1" list="{{likeList}}" slideButtons="{{slideButtons2}}" bindplayMusic="playMusic" binddeleteMusic="deleteMusic"></BaseList>
   </view>
   <!-- 底部播放控制器 -->
   <view class="player-controller-wrapper">

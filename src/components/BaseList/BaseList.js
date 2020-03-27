@@ -63,8 +63,6 @@ Component({
      * @param {*} e 
      */
     scrollShowHandle(e) {
-      console.log('scrollShowHandle');
-
       const { index: currentIndex } = e.currentTarget.dataset;
       let list = this.data.list;
       list = list.map((item, index) => {

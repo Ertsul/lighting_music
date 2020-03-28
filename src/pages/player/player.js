@@ -99,7 +99,7 @@ Page({
       let obj = this.formatTime1(app.globalData.audioContext.currentTime);
       let str = `${obj.m}:${obj.s}`;
       const durationArr = this.data.duration.split(":");
-      if (str >= this.data.currentTime) {
+      if (str > this.data.currentTime) {
         // 时间进度条
         this.setData({
           currentTime: str,

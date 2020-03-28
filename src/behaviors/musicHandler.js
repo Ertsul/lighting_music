@@ -141,15 +141,21 @@ module.exports = Behavior({
         // 查找是否已存在于播放列表中
         const idx = app.globalData.musicData.playList.findIndex(item => item.id == id);
         if (idx != -1) {
+          // wx.showToast({
+          //   title: "歌曲已存在",
+          //   icon: "none",
+          //   duration: 2000
+          // });
+          app.globalData.musicData.playList.splice(idx, 1);
           wx.showToast({
-            title: "歌曲已存在",
-            icon: "none",
+            title: "已移除",
+            icon: "success",
             duration: 2000
           });
         } else {
           url && app.globalData.musicData.playList.push(musicInfo); // 添加到音乐播放列表队列的队头
           wx.showToast({
-            title: "已加到播放列表",
+            title: "已添加",
             icon: "success",
             duration: 2000
           });
@@ -207,22 +213,35 @@ module.exports = Behavior({
          // 查找是否已存在于播放列表中
          const idx = app.globalData.musicData.likeList.findIndex(item => item.id == id);
          if (idx != -1) {
+          //  wx.showToast({
+          //    title: "歌曲已存在",
+          //    icon: "none",
+          //    duration: 2000
+          //  });
+           app.globalData.musicData.likeList.splice(idx, 1);
            wx.showToast({
-             title: "歌曲已存在",
-             icon: "none",
-             duration: 2000
-           });
+            title: "已移除",
+            icon: "success",
+            duration: 2000
+          });
+          this.triggerEvent('changeLikeIconStatus', {
+            index,
+            type: 'unlike'
+          });
          } else {
            url && app.globalData.musicData.likeList.push(musicInfo); // 添加到喜欢列表队列的队头
            wx.showToast({
-             title: "已加到喜欢列表",
+             title: "已添加",
              icon: "success",
              duration: 2000
+           });
+           this.triggerEvent('changeLikeIconStatus', {
+             index,
+             type: 'like'
            });
          }
         //  console.log("changeLikeIconStatuschangeLikeIconStatuschangeLikeIconStatuschangeLikeIconStatus == trigger");
         //  this.triggerHandler(index);
-         this.triggerEvent('changeLikeIconStatus', index);
       } catch (error) {
         console.error("添加到喜欢列表", error);
         wx.showToast({

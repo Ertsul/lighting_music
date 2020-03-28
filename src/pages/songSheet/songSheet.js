@@ -148,29 +148,43 @@ Page({
         list: [],
         offsetTop: 0
       }
-      wx.navigateTo({
-        url: `/pages/player/player?id=${app.globalData.musicPlayer.id}`
-      })
+      // wx.navigateTo({
+      //   url: `/pages/player/player?id=${app.globalData.musicPlayer.id}`
+      // })
     })
   },
   /**
    * 更改喜欢图标状态
-   * @param {*}} e 
+   * @param {*} e 
+   * @param {*} type
    */
   changeLikeStatus(e){
-    const index = e.detail;
+    const {
+      index,
+      type
+    } = e.detail;
     const key = `songList[${index}].buttons`;
+    const buttons = type == 'like' ? [{
+      type: 'play',
+      text: '下一首播放',
+      src: '../../static/icons/recent_play/next.png' // icon的路径
+    }, {
+      type: 'like',
+      text: '普通',
+      extClass: 'test',
+      src: '../../static/icons/recent_play/liked.png' // icon的路径
+    }] : [{
+      type: 'play',
+      text: '下一首播放',
+      src: '../../static/icons/recent_play/next.png' // icon的路径
+    }, {
+      type: 'like',
+      text: '普通',
+      extClass: 'test',
+      src: '../../static/icons/recent_play/like.png' // icon的路径
+    }];
     this.setData({
-      [key]: [{
-        type: 'play',
-        text: '下一首播放',
-        src: '../../static/icons/recent_play/next.png' // icon的路径
-      }, {
-        type: 'like',
-        text: '普通',
-        extClass: 'test',
-        src: '../../static/icons/recent_play/liked.png' // icon的路径
-      }]
+      [key]: buttons
     })
   }
 })

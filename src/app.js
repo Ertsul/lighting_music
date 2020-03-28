@@ -12,6 +12,7 @@ App({
   onLaunch: async function () {
     await this.setaudioContext();
     this.getCacheMusicData();
+    this.globalData.audioContext.pause();
   },
   onHide() {
     console.log("onHide", this.globalData.musicData);
@@ -121,6 +122,7 @@ App({
     if (!this.globalData.musicPlayer.songName && this.globalData.musicData.playList.length) { // 无当前播放歌曲信息，默认播放我的播放列表的第一首歌曲
       this.globalData.audioContext.src = musicData.playList[0].url;
       this.globalData.audioContext.title = musicData.playList[musicData.index].songName;
+      this.globalData.audioContext.pause();
       this.globalData.musicPlayer = {
         ...this.globalData.musicPlayer,
         songName: musicData.playList[0].songName, // 歌曲名
@@ -133,8 +135,8 @@ App({
     } else {
       this.globalData.audioContext.title = musicData.playList[musicData.index].songName;
       this.globalData.audioContext.src = musicData.playList[musicData.index].url;
+      this.globalData.audioContext.pause();
     }
-    this.globalData.audioContext.pause();
     this.globalData.musicPlayer.status = 'off';
   },
   globalData: {

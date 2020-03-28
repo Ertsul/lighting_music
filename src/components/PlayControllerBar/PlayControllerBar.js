@@ -50,7 +50,7 @@ Component({
         this.setData({
           musicInfo
         }, function() {
-          vm.jumpPlayerPage();
+          // vm.jumpPlayerPage();
         })
       } else {
         app.globalData.audioContext.pause();

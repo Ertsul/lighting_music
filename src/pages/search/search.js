@@ -14,7 +14,7 @@ Page({
       text: '下一首播放',
       src: '../../static/icons/recent_play/next.png' // icon的路径
     }, {
-      text: 'like',
+      type: 'like',
       extClass: 'test',
       src: '../../static/icons/recent_play/like.png' // icon的路径
     }],
@@ -144,8 +144,34 @@ Page({
       console.log('搜索歌曲', res);
       if (res.data.result.order.includes('songs')) {
         console.log('搜索歌曲', res.data.result.songs);
+        let songList = res.data.result.songs; // 搜索结果
+        const id = app.globalData.musicPlayer.id;
+        const likeList = app.globalData.musicData.likeList;
+        for (let i = 0; i < songList.length; i++) {
+          const item = songList[i];
+          if (item.id == id) {
+            // 当前播放标记
+            songList[i].active = true;
+          }
+          for (let j = 0; j < likeList.length; j++) {
+            // 喜欢列表标记
+            if (likeList[j].id == item.id) {
+              songList[i].like = true;
+              songList[i].buttons = [{
+                type: 'play',
+                text: '下一首播放',
+                src: '../../static/icons/recent_play/next.png' // icon的路径
+              }, {
+                type: 'like',
+                text: '普通',
+                extClass: 'test',
+                src: '../../static/icons/recent_play/liked.png' // icon的路径
+              }];
+            }
+          }
+        }
         this.setData({
-          songList: res.data.result.songs
+          songList
         })
       } else {
         wx.showToast({
@@ -158,4 +184,35 @@ Page({
       console.error("搜索歌曲", error);
     }
   },
+  /**
+   * 更改喜欢图标状态
+   * @param {*}} e 
+   */
+  changeLikeStatus(e) {
+    const {
+      index,
+      type
+    } = e.detail;
+    const key = `songList[${index}].buttons`;
+    const buttons = type == 'like' ? [{
+      type: 'play',
+      text: '下一首播放',
+      src: '../../static/icons/recent_play/next.png' // icon的路径
+    }, {
+      text: 'like',
+      extClass: 'test',
+      src: '../../static/icons/recent_play/liked.png' // icon的路径
+    }] : [{
+      type: 'play',
+      text: '下一首播放',
+      src: '../../static/icons/recent_play/next.png' // icon的路径
+    }, {
+      text: 'like',
+      extClass: 'test',
+      src: '../../static/icons/recent_play/like.png' // icon的路径
+    }];
+    this.setData({
+      [key]: buttons
+    })
+  }
 })

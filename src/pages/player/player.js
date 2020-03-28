@@ -419,5 +419,10 @@ Page({
     this.setData({
       ifShowLyric: !this.data.ifShowLyric
     });
+  },
+  jumpListPage() {
+    wx.switchTab({
+      url: '/pages/index/index'
+    });
   }
 });

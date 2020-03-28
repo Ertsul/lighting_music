@@ -1,9 +1,9 @@
 <view class="base-list">
   <!-- 顶部播放 -->
   <view class="header d-flex" bindtap="hideAllRightSlide">
-    <image class="header__play-icon" src="../../static/icons/my_page/play.png" />
-    <view class="header__counts">播放全部</view>
-    <view class="header__counts-txt">(共{{list.length}}首)</view>
+    <image class="header__play-icon" src="../../static/icons/my_page/rank02.png" />
+    <!-- <view class="header__counts">共{{list.length}}首</view> -->
+    <view class="header__counts-txt">共{{list.length}}首</view>
     <block wx:if="{{!showCheckbox}}">
       <view class="header__right-txt" bindtap="clearAll" wx:if="{{slideButtons.length === 3}}">清空</view>
       <image class="header__select-icon m-left-17" src="../../static/icons/recent_play/multi_select.png" wx:if="{{ifMultiSelect}}" bindtap="toggleCheckboxs"></image>

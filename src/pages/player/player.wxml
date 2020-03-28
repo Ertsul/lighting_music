@@ -49,7 +49,7 @@
         <image class="play-icon" bindtap="changePlayStatus"
           src="{{musicInfo.status == 'on' ? '../../static/icons/play/stop.png' : '../../static/icons/play/play.png'}}" />
         <image class="change-list-icon next-icon" src="../../static/icons/play/last_music01.png" bindtap="changeSong" data-type="next" />
-        <image class="list-icon" src="../../static/icons/play/music_list.png" />
+        <image class="list-icon" src="../../static/icons/play/music_list.png" bindtap="jumpListPage"/>
       </view>
     </view>
   </view>

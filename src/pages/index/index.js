@@ -6,6 +6,7 @@ const [
 ] = [0, 1];
 Page({
   data: {
+    ifMultiSelect: false,
     currentActiveTab: LIKE_LIST,
     likeList: [],
     playList: [],
@@ -116,9 +117,9 @@ Page({
         list: [],
         offsetTop: 0
       }
-      wx.navigateTo({
-        url: `/pages/player/player?id=${app.globalData.musicPlayer.id}`
-      })
+      // wx.navigateTo({
+      //   url: `/pages/player/player?id=${app.globalData.musicPlayer.id}`
+      // })
     })
   },
   /**
@@ -134,20 +135,34 @@ Page({
    * @param {*}} e 
    */
   changeLikeStatus(e){
-    const index = e.detail;
+    const {
+      index,
+      type
+    } = e.detail;
     const key = `playList[${index}].buttons`;
+    const buttons = type == 'like' ? [{
+      type: 'like',
+      text: '普通',
+      extClass: 'test',
+      src: '../../static/icons/recent_play/liked.png' // icon的路径
+    }, {
+      type: 'delete',
+      text: '警示',
+      extClass: 'test',
+      src: '../../static/icons/recent_play/delete.png' // icon的路径
+    }] : [{
+      type: 'like',
+      text: '普通',
+      extClass: 'test',
+      src: '../../static/icons/recent_play/like.png' // icon的路径
+    }, {
+      type: 'delete',
+      text: '警示',
+      extClass: 'test',
+      src: '../../static/icons/recent_play/delete.png' // icon的路径
+    }];
     this.setData({
-      [key]: [{
-        type: 'like',
-        text: '普通',
-        extClass: 'test',
-        src: '../../static/icons/recent_play/liked.png' // icon的路径
-      }, {
-        type: 'delete',
-        text: '警示',
-        extClass: 'test',
-        src: '../../static/icons/recent_play/delete.png' // icon的路径
-      }]
+      [key]: buttons
     })
   },
   /**

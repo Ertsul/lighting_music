@@ -25,7 +25,8 @@ Page({
     listPlayType: RECYCLE_LIST_PLAY,
     ifShowLyric: false,
     cacheIndex: -1,
-    toViewId: "L0"
+    toViewId: "L0",
+    ifLike: false,
   },
   async onLoad(options) {
     console.log(":::: Player Page onload", options);
@@ -58,6 +59,7 @@ Page({
     });
     await this.getLyric(this.data.id);
     await this.formatLyric();
+    this.signLikeStatus(this.data.id);
     this.musicEndHandler();
     this.musicTimeUpdateHandler();
   },
@@ -77,7 +79,8 @@ Page({
         id
       });
       this.setData({
-        lyric: res.data.lrc && res.data.lrc.lyric ? res.data.lrc.lyric : ""
+        lyric: res.data.lrc && res.data.lrc.lyric ? res.data.lrc.lyric : "",
+        id
       });
     } catch (error) {
       console.error(error);
@@ -295,6 +298,7 @@ Page({
       app.globalData.audioContext.title = playList[index].songName;
       await this.getLyric(playList[index].id);
       await this.formatLyric();
+      this.signLikeStatus(playList[index].id);
       app.globalData.musicPlayer = {
         ...app.globalData.musicPlayer,
         songName: playList[index].songName,
@@ -363,6 +367,7 @@ Page({
       app.globalData.audioContext.title = playList[index].songName;
       await this.getLyric(playList[index].id);
       await this.formatLyric();
+      this.signLikeStatus(playList[index].id);
       app.globalData.musicPlayer = {
         ...app.globalData.musicPlayer,
         songName: playList[index].songName,
@@ -420,9 +425,36 @@ Page({
       ifShowLyric: !this.data.ifShowLyric
     });
   },
-  jumpListPage() {
-    wx.switchTab({
-      url: '/pages/index/index'
+  /**
+   * 更改喜欢状态
+   */
+  changeLikeStatus() {
+    const likeList = app.globalData.musicData.likeList;
+    const idx = likeList.findIndex(item => item.id == this.data.id);
+    let title = '已添加';
+    if (idx == -1) {
+      app.globalData.musicData.likeList.push(this.data.musicInfo);
+    } else {
+      app.globalData.musicData.likeList.splice(idx, 1);
+      title = '已移除';
+    }
+    this.setData({
+      ifLike: !(idx == -1)
+    })
+    wx.showToast({
+      title,
+      icon: "success",
+      duration: 2000
     });
+  },
+  /**
+   * 标记喜欢与否状态
+   */
+  signLikeStatus(id) {
+    const likeList = app.globalData.musicData.likeList;
+    const idx = likeList.findIndex(item => item.id == id);
+    this.setData({
+      ifLike: idx == -1
+    })
   }
 });

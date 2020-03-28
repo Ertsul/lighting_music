@@ -296,6 +296,7 @@ Page({
       app.globalData.musicData.index = index;
       app.globalData.audioContext.src = playList[index].url;
       app.globalData.audioContext.title = playList[index].songName;
+      app.globalData.audioContext.play();
       await this.getLyric(playList[index].id);
       await this.formatLyric();
       this.signLikeStatus(playList[index].id);
@@ -325,9 +326,9 @@ Page({
         currentTime: "00:00",
         toViewId: "L0"
       }, function() {
-        setTimeout(() => {
-          app.globalData.audioContext.play();
-        }, 1000);
+        // setTimeout(() => {
+        //   app.globalData.audioContext.play();
+        // }, 1000);
       });
     } else if (app.globalData.musicPlayer.listPlayType == RECYCLE_ONE_PLAY) {
       // 单曲循环
@@ -340,6 +341,7 @@ Page({
       app.globalData.musicData.index = index;
       app.globalData.audioContext.src = playList[index].url;
       app.globalData.audioContext.title = playList[index].songName;
+      app.globalData.audioContext.play();
       this.musicTimeUpdateHandler();
       this.musicEndHandler();
       this.setData({
@@ -350,9 +352,9 @@ Page({
         currentTime: "00:00",
         toViewId: "L0"
       }, function() {
-        setTimeout(() => {
-          app.globalData.audioContext.play();
-        }, 1000);
+        // setTimeout(() => {
+        //   app.globalData.audioContext.play();
+        // }, 1000);
       });
     } else {
       // 随机播放
@@ -365,6 +367,7 @@ Page({
       app.globalData.musicData.index = index;
       app.globalData.audioContext.src = playList[index].url;
       app.globalData.audioContext.title = playList[index].songName;
+      app.globalData.audioContext.play();
       await this.getLyric(playList[index].id);
       await this.formatLyric();
       this.signLikeStatus(playList[index].id);
@@ -395,9 +398,9 @@ Page({
         ),
         toViewId: "L0"
       }, function() {
-        setTimeout(() => {
-          app.globalData.audioContext.play();
-        }, 1000);
+        // setTimeout(() => {
+        //   app.globalData.audioContext.play();
+        // }, 1000);
       });
     }
     app.globalData.musicPlayer.lyric = {

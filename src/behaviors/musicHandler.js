@@ -145,11 +145,14 @@ module.exports = Behavior({
         const idx = app.globalData.musicData.playList.findIndex(item => item.id == id);
         if (idx != -1) {
           wx.showToast({
-            title: "歌曲已存在",
+            title: "已添加到下一首播放",
             icon: "none",
             duration: 2000
           });
-          // app.globalData.musicData.playList.splice(idx, 1);
+          app.globalData.musicData.playList.splice(idx, 1);
+          const lastIndex = app.globalData.musicData.index;
+          // app.globalData.musicData.playList.unshift(musicInfo); // 添加到音乐播放列表队列的队头
+          app.globalData.musicData.playList.splice(lastIndex + 1, 0, musicInfo);
           // wx.showToast({
           //   title: "已移除",
           //   icon: "success",
@@ -162,8 +165,8 @@ module.exports = Behavior({
           app.globalData.musicData.playList.splice(lastIndex + 1, 0, musicInfo);
           // app.globalData.musicData.index = lastIndex + 1;
           wx.showToast({
-            title: "已添加",
-            icon: "success",
+            title: "已添加到下一首播放",
+            icon: "none",
             duration: 2000
           });
         }

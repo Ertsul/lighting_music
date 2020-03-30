@@ -68,7 +68,10 @@ module.exports = Behavior({
           if (idx != -1) {
             app.globalData.musicData.playList.splice(idx, 1);
           }
-          app.globalData.musicData.playList.unshift(musicInfo); // 添加到音乐播放列表队列的队头
+          const lastIndex = app.globalData.musicData.index;
+          // app.globalData.musicData.playList.unshift(musicInfo); // 添加到音乐播放列表队列的队头
+          app.globalData.musicData.playList.splice(lastIndex + 1, 0, musicInfo);
+          app.globalData.musicData.index = lastIndex + 1;
         }
         console.log(
           "========= 添加音乐 后 的播放列表 =========",
@@ -141,19 +144,23 @@ module.exports = Behavior({
         // 查找是否已存在于播放列表中
         const idx = app.globalData.musicData.playList.findIndex(item => item.id == id);
         if (idx != -1) {
-          // wx.showToast({
-          //   title: "歌曲已存在",
-          //   icon: "none",
-          //   duration: 2000
-          // });
-          app.globalData.musicData.playList.splice(idx, 1);
           wx.showToast({
-            title: "已移除",
-            icon: "success",
+            title: "歌曲已存在",
+            icon: "none",
             duration: 2000
           });
+          // app.globalData.musicData.playList.splice(idx, 1);
+          // wx.showToast({
+          //   title: "已移除",
+          //   icon: "success",
+          //   duration: 2000
+          // });
         } else {
-          url && app.globalData.musicData.playList.push(musicInfo); // 添加到音乐播放列表队列的队头
+          // url && app.globalData.musicData.playList.push(musicInfo); // 添加到音乐播放列表队列的队头
+          const lastIndex = app.globalData.musicData.index;
+          // app.globalData.musicData.playList.unshift(musicInfo); // 添加到音乐播放列表队列的队头
+          app.globalData.musicData.playList.splice(lastIndex + 1, 0, musicInfo);
+          // app.globalData.musicData.index = lastIndex + 1;
           wx.showToast({
             title: "已添加",
             icon: "success",

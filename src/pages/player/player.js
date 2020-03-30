@@ -88,6 +88,7 @@ Page({
   },
   async musicEndHandler() {
     app.globalData.audioContext.onEnded(async () => {
+      console.log("页面 onEnd 事件");
       this.changeSong();
     });
   },
@@ -264,11 +265,13 @@ Page({
    * @param {*} e
    */
   async changeSong(e) {
+    app.globalData.audioContext.stop();
     let type = "next";
     if (e) {
       type = e.currentTarget.dataset.type;
     }
     if (app.globalData.musicPlayer.listPlayType == RECYCLE_LIST_PLAY) {
+      console.log("changeSong 列表循环 start", app.globalData.audioContext);
       // 列表循环
       let { playList = [], index = 0 } = app.globalData.musicData;
       if (!playList.length) {
@@ -296,10 +299,12 @@ Page({
       app.globalData.musicData.index = index;
       app.globalData.audioContext.src = playList[index].url;
       app.globalData.audioContext.title = playList[index].songName;
-      app.globalData.audioContext.play();
+      // app.globalData.audioContext.play();
       await this.getLyric(playList[index].id);
       await this.formatLyric();
       this.signLikeStatus(playList[index].id);
+      this.musicTimeUpdateHandler();
+      this.musicEndHandler();
       app.globalData.musicPlayer = {
         ...app.globalData.musicPlayer,
         songName: playList[index].songName,
@@ -330,7 +335,9 @@ Page({
         //   app.globalData.audioContext.play();
         // }, 1000);
       });
+      console.log("changeSong 列表循环 end", app.globalData.audioContext);
     } else if (app.globalData.musicPlayer.listPlayType == RECYCLE_ONE_PLAY) {
+      console.log("changeSong 单曲循环 start", app.globalData.audioContext);
       // 单曲循环
       app.globalData.audioContext.stop();
       let { playList = [], index = 0 } = app.globalData.musicData;
@@ -353,10 +360,13 @@ Page({
         toViewId: "L0"
       }, function() {
         // setTimeout(() => {
-        //   app.globalData.audioContext.play();
-        // }, 1000);
-      });
-    } else {
+          //   app.globalData.audioContext.play();
+          // }, 1000);
+        });
+        console.log("changeSong 单曲循环 end", app.globalData.audioContext);
+      } else {
+      console.log("changeSong 随机播放 start", app.globalData.audioContext);
+
       // 随机播放
       let { playList = [] } = app.globalData.musicData;
       if (!playList.length) {
@@ -402,6 +412,7 @@ Page({
         //   app.globalData.audioContext.play();
         // }, 1000);
       });
+      console.log("changeSong 随机播放 end", app.globalData.audioContext);
     }
     app.globalData.musicPlayer.lyric = {
       currentIndex: 0,
@@ -415,6 +426,11 @@ Page({
   changeListPlayType(e) {
     this.setData({
       listPlayType: e.currentTarget.dataset.type
+    });
+    wx.showToast({
+      title: e.currentTarget.dataset.type == 1 ? "单曲循环" : (e.currentTarget.dataset.type == 2 ? "随机循环" : "列表循环"),
+      icon: "none",
+      duration: 2000
     });
     app.globalData.musicPlayer.listPlayType = e.currentTarget.dataset.type;
   },

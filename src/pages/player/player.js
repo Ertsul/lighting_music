@@ -1,4 +1,4 @@
-import { getLyricApi } from "../../api/api.js";
+import { getLyricApi, getSongUrlApi } from "../../api/api.js";
 
 const app = getApp();
 
@@ -297,9 +297,11 @@ Page({
 
       app.globalData.audioContext.stop();
       app.globalData.musicData.index = index;
-      app.globalData.audioContext.src = playList[index].url;
+      const { url } = await this.getSongUrl(playList[index].id); // 获取歌曲播放的 url
+      app.globalData.audioContext.src = url;
       app.globalData.audioContext.title = playList[index].songName;
-      // app.globalData.audioContext.play();
+      console.log("============ playList[index].url", playList[index].url);
+      app.globalData.audioContext.play();
       await this.getLyric(playList[index].id);
       await this.formatLyric();
       this.signLikeStatus(playList[index].id);
@@ -312,6 +314,8 @@ Page({
         id: playList[index].id,
         coverImgUrl: playList[index].coverImgUrl
       };
+      console.log("app.globalData.audioContext.duration", app.globalData.audioContext.duration);
+      
       this.setData({
         musicInfo: {
           songName: app.globalData.musicPlayer.songName,
@@ -331,6 +335,19 @@ Page({
         currentTime: "00:00",
         toViewId: "L0"
       }, function() {
+        console.log("this.data.duration", this.data.duration);
+        if (this.data.duration == 'NaN:N' || this.data.duration == '00:00') {
+          setTimeout(() => {
+            this.setData({
+              duration: this.formatTime(app.globalData.audioContext.duration).slice(
+                0,
+                5
+              ),
+            }, function() {
+              console.log("this.data.duration2222", this.data.duration);
+            })
+          }, 500)
+        }
         // setTimeout(() => {
         //   app.globalData.audioContext.play();
         // }, 1000);
@@ -375,7 +392,8 @@ Page({
       const index = this.getRangeNum(0, playList.length - 1);
       app.globalData.audioContext.stop();
       app.globalData.musicData.index = index;
-      app.globalData.audioContext.src = playList[index].url;
+      const { url } = await this.getSongUrl(playList[index].id); // 获取歌曲播放的 url
+      app.globalData.audioContext.src = url;
       app.globalData.audioContext.title = playList[index].songName;
       app.globalData.audioContext.play();
       await this.getLyric(playList[index].id);
@@ -408,9 +426,19 @@ Page({
         ),
         toViewId: "L0"
       }, function() {
-        // setTimeout(() => {
-        //   app.globalData.audioContext.play();
-        // }, 1000);
+        console.log("this.data.duration", this.data.duration);
+        if (this.data.duration == 'NaN:N' || this.data.duration == '00:00') {
+          setTimeout(() => {
+            this.setData({
+              duration: this.formatTime(app.globalData.audioContext.duration).slice(
+                0,
+                5
+              ),
+            }, function() {
+              console.log("this.data.duration2222", this.data.duration);
+            })
+          }, 500)
+        }
       });
       console.log("changeSong 随机播放 end", app.globalData.audioContext);
     }
@@ -475,5 +503,19 @@ Page({
     this.setData({
       ifLike: idx == -1
     })
-  }
+  },
+  /**
+     * 获取音乐 URL
+     */
+    async getSongUrl(id) {
+      if (!id) return "";
+      try {
+        const res = await getSongUrlApi({
+          id
+        });
+        return res.data.data[0];
+      } catch (error) {
+        console.error(error);
+      }
+    },
 });
